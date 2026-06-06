@@ -1,0 +1,124 @@
+<h2>Customer reservation flow (mobile, self-service)</h2>
+<p class="subtitle">What an ONLINE customer sees on their phone. Three steps: choose pickup day → choose items (sold-out greyed, no counts shown) → pickup time + details → confirm. Touch-first: big tap targets, + / − steppers, no typing where avoidable.</p>
+
+<style>
+  .cf-row { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; background:#f4efe7; padding:22px; border-radius:14px; }
+  .phone { width:300px; background:#fff; border-radius:26px; border:10px solid #2b2b2b; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,.18); }
+  .ph-top { background:#7a4f2b; color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .ph-top .brand { font-weight:800; font-size:15px; letter-spacing:.3px; }
+  .ph-lang { font-size:12px; font-weight:700; background:rgba(255,255,255,.18); padding:4px 8px; border-radius:6px; }
+  .ph-body { padding:16px; }
+  .ph-step { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#b08c5e; }
+  .ph-h { font-size:20px; font-weight:800; color:#2b2b2b; margin:4px 0 14px; }
+
+  .day-opt { display:flex; align-items:center; justify-content:space-between; padding:15px 16px; border:2px solid #e3d9c8; border-radius:12px; margin-bottom:10px; font-size:16px; font-weight:600; color:#3a3a3a; }
+  .day-opt.sel { border-color:#7a4f2b; background:#faf3e9; }
+  .day-opt small { color:#999; font-weight:500; }
+  .day-opt.closed { opacity:.45; }
+
+  .item { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid #f0e9dd; }
+  .item .thumb { width:46px; height:46px; border-radius:10px; background:#efe2cd; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .item .nm { flex:1; }
+  .item .nm b { font-size:16px; color:#2b2b2b; display:block; }
+  .item .nm span { font-size:13px; color:#9a8a6e; }
+  .stepper { display:flex; align-items:center; gap:10px; }
+  .stepper button { width:34px; height:34px; border-radius:9px; border:none; background:#7a4f2b; color:#fff; font-size:20px; font-weight:700; line-height:1; }
+  .stepper .q { min-width:18px; text-align:center; font-size:17px; font-weight:700; }
+  .item.out { opacity:.45; }
+  .item.out .badge { font-size:12px; font-weight:700; color:#c62828; }
+  .addbtn { width:34px; height:34px; border-radius:9px; border:2px solid #7a4f2b; background:#fff; color:#7a4f2b; font-size:20px; font-weight:700; line-height:1; }
+
+  .slots { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .slot { padding:10px 14px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; color:#6b5d45; font-size:15px; }
+  .slot.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .fld { margin-bottom:12px; }
+  .fld label { font-size:13px; font-weight:700; color:#7a4f2b; display:block; margin-bottom:4px; }
+  .fld .inp { border:2px solid #e3d9c8; border-radius:10px; padding:12px; font-size:15px; color:#555; background:#fdfbf7; }
+  .summary { background:#faf3e9; border-radius:10px; padding:10px 12px; font-size:14px; color:#5a4a32; margin-bottom:12px; }
+  .cta { background:#2e7d32; color:#fff; text-align:center; padding:15px; border-radius:12px; font-size:17px; font-weight:800; }
+  .cta.sec { background:#7a4f2b; }
+  .ok { text-align:center; padding:10px 0; }
+  .ok .big { font-size:46px; }
+</style>
+
+<div class="cf-row">
+
+  <!-- Screen 1: choose day -->
+  <div class="phone">
+    <div class="ph-top"><span class="brand">🥖 Massa Mater</span><span class="ph-lang">PT ▾</span></div>
+    <div class="ph-body">
+      <div class="ph-step">Passo 1 de 3</div>
+      <div class="ph-h">Quando quer levantar?</div>
+      <div class="day-opt sel">Sábado, 6 jun <small>Aberto</small></div>
+      <div class="day-opt">Domingo, 7 jun <small>Aberto</small></div>
+      <div class="day-opt closed">Segunda, 8 jun <small>Fechado</small></div>
+      <div class="day-opt">Terça, 9 jun <small>Aberto</small></div>
+      <div class="cta" style="margin-top:14px;">Continuar →</div>
+    </div>
+  </div>
+
+  <!-- Screen 2: choose items -->
+  <div class="phone">
+    <div class="ph-top"><span class="brand">🥖 Massa Mater</span><span class="ph-lang">PT ▾</span></div>
+    <div class="ph-body">
+      <div class="ph-step">Passo 2 de 3 · Sábado 6 jun</div>
+      <div class="ph-h">O que deseja?</div>
+
+      <div class="item">
+        <div class="thumb">🥖</div>
+        <div class="nm"><b>Baguete</b><span>1,80 €</span></div>
+        <div class="stepper"><button>−</button><span class="q">2</span><button>+</button></div>
+      </div>
+      <div class="item">
+        <div class="thumb">🍞</div>
+        <div class="nm"><b>Broa de milho</b><span>3,50 €</span></div>
+        <button class="addbtn">+</button>
+      </div>
+      <div class="item out">
+        <div class="thumb">🍞</div>
+        <div class="nm"><b>Borodinsky</b><span class="badge">Esgotado</span></div>
+        <button class="addbtn" disabled>+</button>
+      </div>
+      <div class="item">
+        <div class="thumb">🥐</div>
+        <div class="nm"><b>Rolos de canela</b><span>2,20 €</span></div>
+        <div class="stepper"><button>−</button><span class="q">1</span><button>+</button></div>
+      </div>
+      <div class="item">
+        <div class="thumb">🍪</div>
+        <div class="nm"><b>Cookies</b><span>1,20 €</span></div>
+        <button class="addbtn">+</button>
+      </div>
+
+      <div class="cta" style="margin-top:14px;">3 artigos · Continuar →</div>
+    </div>
+  </div>
+
+  <!-- Screen 3: time + details + confirm -->
+  <div class="phone">
+    <div class="ph-top"><span class="brand">🥖 Massa Mater</span><span class="ph-lang">PT ▾</span></div>
+    <div class="ph-body">
+      <div class="ph-step">Passo 3 de 3</div>
+      <div class="ph-h">Hora e contacto</div>
+
+      <div class="fld"><label>A que horas passa?</label>
+        <div class="slots">
+          <span class="slot">09:00</span>
+          <span class="slot sel">09:30</span>
+          <span class="slot">10:00</span>
+          <span class="slot">10:30</span>
+          <span class="slot">11:00</span>
+        </div>
+      </div>
+      <div class="fld"><label>Nome</label><div class="inp">Filipa Santos</div></div>
+      <div class="fld"><label>Telemóvel</label><div class="inp">912 345 678</div></div>
+      <div class="fld"><label>Nota (opcional)</label><div class="inp" style="color:#b3a78a;">ex: sem glúten, troco para 20 €…</div></div>
+
+      <div class="summary">2× Baguete · 1× Rolos de canela<br><b>Total a pagar no balcão: 5,80 €</b></div>
+      <div class="cta">Confirmar reserva</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Notes: items show <b>available / Esgotado</b> only (never counts). I've included <b>prices</b> and a <b>total to pay at the counter</b> — tell me if they want prices shown publicly. The optional note field appears for the customer too.</p>
