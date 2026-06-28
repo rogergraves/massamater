@@ -1,0 +1,43 @@
+pt:
+  auth:
+    sign_in: "Entrar"
+    sign_in_button: "Entrar"
+    phone: "Número de telemóvel"
+    password: "Palavra-passe"
+    login_required: "Por favor inicia sessão para continuar."
+    invalid_credentials: "Número ou palavra-passe incorretos."
+    sign_out: "Sair"
+  staff:
+    nav:
+      today: "Hoje"
+      inventory: "Inventário"
+      products: "Produtos"
+      settings: "Definições"
+    dashboard:
+      placeholder: "Painel de controlo"
+  customer:
+    new_reservation: "Nova reserva"
+    manage_orders: "As minhas encomendas"
+    continue: "Continuar"
+    find_orders: "Continuar"
+    phone_number: "Número de telemóvel"
+    name: "Nome"
+    note: "Nota (opcional)"
+    pickup_date: "Data de levantamento"
+    pickup_time: "Hora de levantamento"
+    confirm_reservation: "Confirmar reserva"
+    cancel: "Cancelar"
+    edit: "Editar"
+    repeat_order: "Repetir esta encomenda"
+    upcoming: "Próxima"
+    collected: "Levantada"
+  products:
+    available_from: "Disponível a partir das %{time}"
+    sold_out: "Esgotado"
+    fully_reserved: "Totalmente reservado"
+    remaining: "%{count} restante(s)"
+  store:
+    closed: "Fechado"
+  date:
+    formats:
+      short_with_day: "%A, %d %b"

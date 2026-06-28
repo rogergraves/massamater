@@ -1,0 +1,19 @@
+<h1><%= t("auth.sign_in") %></h1>
+
+<%= form_tag login_path do %>
+  <% if flash[:alert] %>
+    <p><%= flash[:alert] %></p>
+  <% end %>
+
+  <div>
+    <label><%= t("auth.phone") %></label>
+    <%= telephone_field_tag :phone, nil, autocomplete: "tel" %>
+  </div>
+
+  <div>
+    <label><%= t("auth.password") %></label>
+    <%= password_field_tag :password, nil, autocomplete: "current-password" %>
+  </div>
+
+  <%= submit_tag t("auth.sign_in_button") %>
+<% end %>
