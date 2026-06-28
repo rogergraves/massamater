@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff — Store Hours · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    .wrap { background: #f4efe7; border-radius: 14px; padding: 16px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .pg-title { font-size: 20px; font-weight: 700; color: #2b2b2b; }
+    .pg-sub { font-size: 13px; color: #9b8a6e; margin-top: 2px; }
+    .save-btn { background: #7a4f2b; color: #fff; border: none; padding: 11px 22px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    .info-strip { display: flex; align-items: center; gap: 8px; background: #faf3e9; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #7a4f2b; margin-bottom: 14px; }
+
+    .section-card { background: #fff; border-radius: 12px; border: 1px solid #e3d9c8; margin-bottom: 14px; overflow: hidden; }
+    .section-head { padding: 13px 16px; border-bottom: 1px solid #ede5d8; }
+    .section-head-title { font-size: 14px; font-weight: 700; color: #2b2b2b; }
+    .section-head-sub { font-size: 12px; color: #9b8a6e; margin-top: 2px; }
+
+    .day-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: 1px solid #f0e9dd; }
+    .day-row:last-child { border-bottom: none; }
+    .day-row.closed-row { background: #fafaf8; }
+    .day-name { font-size: 14px; font-weight: 700; color: #2b2b2b; width: 96px; flex: 0 0 auto; }
+    .day-row.closed-row .day-name { color: #b0a898; }
+
+    .toggle { width: 40px; height: 22px; border-radius: 11px; background: #7a4f2b; position: relative; cursor: pointer; flex: 0 0 auto; }
+    .toggle .knob { width: 16px; height: 16px; border-radius: 50%; background: #fff; position: absolute; top: 3px; right: 3px; }
+    .toggle.off { background: #d0c8bc; }
+    .toggle.off .knob { left: 3px; right: auto; }
+
+    .time-range { display: flex; align-items: center; gap: 8px; }
+    .time-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 7px 9px; font-size: 13px; font-weight: 700; color: #2b2b2b; background: #fdfbf7; width: 78px; text-align: center; }
+    .time-in:disabled { color: #c0b8ae; background: #f5f2ee; cursor: not-allowed; }
+    .sep { font-size: 12px; color: #b08c5e; font-weight: 700; }
+    .closed-pill { font-size: 12px; font-weight: 700; color: #9b8a6e; background: #f0ede8; padding: 5px 12px; border-radius: 20px; }
+
+    .exc-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0e9dd; }
+    .exc-row:last-child { border-bottom: none; }
+    .exc-date { font-size: 14px; font-weight: 700; color: #2b2b2b; width: 140px; flex: 0 0 auto; }
+    .exc-weekday { font-size: 11px; color: #9b8a6e; font-weight: 500; display: block; margin-top: 1px; }
+    .exc-reason { flex: 1; font-size: 13px; color: #555; font-style: italic; }
+    .closed-tag { font-size: 12px; font-weight: 700; color: #c62828; background: #fdecea; padding: 4px 10px; border-radius: 6px; }
+    .hours-tag { font-size: 12px; font-weight: 700; color: #7a4f2b; background: #faf3e9; padding: 4px 10px; border-radius: 6px; }
+    .del-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid #e3d9c8; background: #fff; color: #c62828; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+
+    .add-exc-row { display: flex; align-items: center; gap: 10px; padding: 12px 16px; flex-wrap: wrap; background: #fdfbf7; border-top: 1px solid #ede5d8; }
+    .date-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 8px 10px; font-size: 13px; color: #2b2b2b; background: #fff; }
+    .reason-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 8px 10px; font-size: 13px; color: #2b2b2b; background: #fff; flex: 1; min-width: 140px; }
+    .type-sel { display: flex; gap: 6px; }
+    .type-opt { padding: 7px 12px; border: 2px solid #e3d9c8; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b5d45; }
+    .type-opt.sel { border-color: #c62828; background: #fdecea; color: #c62828; }
+    .add-btn-sm { background: #7a4f2b; color: #fff; border: none; padding: 8px 14px; border-radius: 7px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<h1>Staff — Store Hours</h1>
+
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="pg-title">Store hours</div>
+      <div class="pg-sub">Weekly schedule and one-off exceptions</div>
+    </div>
+    <button class="save-btn">Save</button>
+  </div>
+
+  <div class="info-strip">
+    📅 Reservations accepted up to <strong style="margin: 0 4px">7 days</strong> ahead. Closed days don't appear in the reservation form.
+  </div>
+
+  <!-- Weekly schedule -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title">Weekly schedule</div>
+      <div class="section-head-sub">Repeats automatically every week</div>
+    </div>
+    <div class="day-row closed-row">
+      <div class="day-name">Monday</div>
+      <div class="toggle off"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="08:00" disabled />
+        <span class="sep" style="color:#d0c8bc">to</span>
+        <input class="time-in" type="time" value="18:00" disabled />
+        <span class="closed-pill">Closed</span>
+      </div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">Tuesday</div>
+      <div class="toggle"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="08:00" />
+        <span class="sep">to</span>
+        <input class="time-in" type="time" value="18:00" />
+      </div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">Wednesday</div>
+      <div class="toggle"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="08:00" />
+        <span class="sep">to</span>
+        <input class="time-in" type="time" value="18:00" />
+      </div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">Thursday</div>
+      <div class="toggle"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="08:00" />
+        <span class="sep">to</span>
+        <input class="time-in" type="time" value="18:00" />
+      </div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">Friday</div>
+      <div class="toggle"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="08:00" />
+        <span class="sep">to</span>
+        <input class="time-in" type="time" value="18:00" />
+      </div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">Saturday</div>
+      <div class="toggle"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="09:00" />
+        <span class="sep">to</span>
+        <input class="time-in" type="time" value="15:00" />
+      </div>
+    </div>
+    <div class="day-row closed-row">
+      <div class="day-name">Sunday</div>
+      <div class="toggle off"><div class="knob"></div></div>
+      <div class="time-range">
+        <input class="time-in" type="time" value="09:00" disabled />
+        <span class="sep" style="color:#d0c8bc">to</span>
+        <input class="time-in" type="time" value="15:00" disabled />
+        <span class="closed-pill">Closed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exceptions -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title">One-off exceptions</div>
+      <div class="section-head-sub">Holidays, emergencies, or different hours on a specific date</div>
+    </div>
+    <div class="exc-row">
+      <div class="exc-date">Jun 24, 2026 <span class="exc-weekday">Wednesday</span></div>
+      <div class="exc-reason">Public holiday — Lisbon Day</div>
+      <span class="closed-tag">Closed</span>
+      <button class="del-btn">🗑</button>
+    </div>
+    <div class="exc-row">
+      <div class="exc-date">Jun 28, 2026 <span class="exc-weekday">Sunday</span></div>
+      <div class="exc-reason">Special market</div>
+      <span class="hours-tag">09:00 – 13:00</span>
+      <button class="del-btn">🗑</button>
+    </div>
+    <div class="add-exc-row">
+      <input class="date-in" type="date" value="2026-07-04" />
+      <input class="reason-in" type="text" placeholder="Reason (e.g. family emergency…)" />
+      <div class="type-sel">
+        <div class="type-opt sel">Closed</div>
+        <div class="type-opt">Different hours</div>
+      </div>
+      <button class="add-btn-sm">+ Add</button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

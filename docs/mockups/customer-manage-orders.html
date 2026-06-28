@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer — Manage Orders · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    /* Phone frames */
+    .scene { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+    .col { display: flex; flex-direction: column; align-items: center; }
+    .col-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #b08c5e; margin-bottom: 10px; }
+    .phone { width: 300px; background: #fff; border-radius: 26px; border: 10px solid #2b2b2b; overflow: hidden; }
+    .ph-top { background: #7a4f2b; color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-weight: 800; font-size: 15px; }
+    .ph-lang { font-size: 11px; font-weight: 700; background: rgba(255,255,255,.18); padding: 4px 8px; border-radius: 6px; }
+    .ph-body { padding: 16px; }
+    .ph-h { font-size: 18px; font-weight: 800; color: #2b2b2b; margin: 4px 0 12px; }
+    .ph-sub { font-size: 13px; color: #9b8a6e; margin-bottom: 14px; }
+
+    .fld { margin-bottom: 12px; }
+    .fld label { font-size: 11px; font-weight: 700; color: #7a4f2b; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .4px; }
+    .inp { border: 2px solid #e3d9c8; border-radius: 8px; padding: 11px 12px; font-size: 14px; color: #2b2b2b; background: #fdfbf7; width: 100%; box-sizing: border-box; }
+    .cta { background: #7a4f2b; color: #fff; text-align: center; padding: 13px; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer; margin-top: 4px; }
+    .cta-secondary { background: #f0ede8; color: #6b5d45; text-align: center; padding: 11px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+
+    /* Order cards */
+    .order-card { background: #fff; border-radius: 12px; border: 1px solid #e3d9c8; padding: 13px; margin-bottom: 10px; }
+    .order-card.collected .order-date,
+    .order-card.collected .order-items,
+    .order-card.collected .order-time,
+    .order-card.collected .order-status { opacity: .55; }
+    .order-date { font-size: 12px; font-weight: 700; color: #b08c5e; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+    .order-items { font-size: 14px; font-weight: 700; color: #2b2b2b; margin-bottom: 4px; }
+    .order-time { font-size: 13px; color: #6b5d45; }
+    .order-status { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px; margin-top: 6px; }
+    .status-upcoming { background: #e7f7ec; color: #1b873f; }
+    .status-collected { background: #f0ede8; color: #9b8a6e; }
+    .card-actions { display: flex; gap: 8px; margin-top: 10px; border-top: 1px solid #f0e9dd; padding-top: 10px; }
+    .card-btn { flex: 1; padding: 8px; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; }
+    .btn-edit { border: 2px solid #7a4f2b; color: #7a4f2b; background: #fff; }
+    .btn-cancel { border: 2px solid #fca08a; color: #c62828; background: #fff; }
+    .btn-repeat { border: 2px solid #7a4f2b; color: #7a4f2b; background: #fff; }
+  </style>
+</head>
+<body>
+
+<h1>Customer — Manage Orders</h1>
+
+<div class="scene">
+
+  <!-- Step 1: enter phone number -->
+  <div class="col">
+    <div class="col-label">Enter phone number</div>
+    <div class="phone">
+      <div class="ph-top"><span class="brand">Massa Mater</span><span class="ph-lang">EN ▾</span></div>
+      <div class="ph-body">
+        <div class="ph-h">What's your phone number?</div>
+        <div class="ph-sub">We'll look up your reservations.</div>
+        <div class="fld">
+          <label>Phone number</label>
+          <input class="inp" type="tel" value="912 345 678" />
+        </div>
+        <div class="cta">Continue</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: order list (upcoming + collected) -->
+  <div class="col">
+    <div class="col-label">Orders found</div>
+    <div class="phone">
+      <div class="ph-top"><span class="brand">Massa Mater</span><span class="ph-lang">EN ▾</span></div>
+      <div class="ph-body">
+        <div class="ph-h">Hi, Filipa 👋</div>
+        <div class="ph-sub">912 345 678 · 2 upcoming</div>
+
+        <div class="order-card">
+          <div class="order-date">Saturday, Jun 6</div>
+          <div class="order-items">2× Baguette · 1× Cinnamon roll</div>
+          <div class="order-time">Pickup from 10:30</div>
+          <span class="order-status status-upcoming">Upcoming</span>
+          <div class="card-actions">
+            <div class="card-btn btn-edit">Edit</div>
+            <div class="card-btn btn-cancel">Cancel</div>
+          </div>
+        </div>
+
+        <div class="order-card">
+          <div class="order-date">Tuesday, Jun 9</div>
+          <div class="order-items">1× Corn bread · 2× Cookies</div>
+          <div class="order-time">Pickup from 09:00</div>
+          <span class="order-status status-upcoming">Upcoming</span>
+          <div class="card-actions">
+            <div class="card-btn btn-edit">Edit</div>
+            <div class="card-btn btn-cancel">Cancel</div>
+          </div>
+        </div>
+
+        <div class="order-card collected">
+          <div class="order-date">Saturday, May 30</div>
+          <div class="order-items">3× Baguette</div>
+          <div class="order-time">Pickup from 09:30</div>
+          <span class="order-status status-collected">Collected</span>
+          <div class="card-actions">
+            <div class="card-btn btn-repeat">Repeat this order</div>
+          </div>
+        </div>
+
+        <div class="cta">+ New reservation</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

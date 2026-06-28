@@ -1,0 +1,96 @@
+<h2>Entry channels — one example card per source</h2>
+<p class="subtitle">How each order looks on the day-view depending on how it came in. In the MVP: ONLINE is self-entered by the customer; SMS / WhatsApp / TELEFONE are entered by staff via "+ Nova encomenda", with the source recorded.</p>
+
+<style>
+  .ch-wrap { background:#f4efe7; border-radius:14px; padding:18px; }
+  .ch-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; }
+  .ch-cell { display:flex; flex-direction:column; gap:8px; }
+  .ch-howto { font-size:13px; color:#6b5d45; background:#fff8ef; border:1px dashed #d8c7a8; border-radius:8px; padding:8px 10px; }
+  .ch-howto b { color:#7a4f2b; }
+  .bk-card { background:#fff; border-radius:12px; padding:14px; border:1px solid #e3d9c8; box-shadow:0 1px 2px rgba(0,0,0,.04); position:relative; }
+  .bk-card .name { font-size:19px; font-weight:700; color:#2b2b2b; }
+  .bk-card .phone { font-size:14px; color:#888; margin-top:2px; }
+  .bk-items { margin:10px 0; }
+  .bk-item { font-size:16px; color:#333; padding:2px 0; }
+  .bk-item b { color:#7a4f2b; }
+  .bk-note { font-size:14px; color:#555; font-style:italic; margin-top:6px; }
+  .bk-time { display:inline-block; background:#f0e6d6; color:#7a4f2b; font-weight:700; padding:6px 12px; border-radius:20px; font-size:15px; margin-top:8px; }
+  .bk-src { position:absolute; top:12px; right:12px; font-size:11px; padding:4px 9px; border-radius:6px; font-weight:800; letter-spacing:.3px; }
+  .src-online { background:#e3f2fd; color:#1565c0; }
+  .src-sms    { background:#ede7f6; color:#5e35b1; }
+  .src-wa     { background:#e7f7ec; color:#1b873f; }
+  .src-tel    { background:#fff3e0; color:#e65100; }
+  .ch-entry { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:#999; }
+</style>
+
+<div class="mockup">
+  <div class="mockup-header">Origem da encomenda — exemplos</div>
+  <div class="mockup-body ch-wrap">
+    <div class="ch-grid">
+
+      <div class="ch-cell">
+        <div class="ch-entry">Self-service</div>
+        <div class="bk-card">
+          <span class="bk-src src-online">ONLINE</span>
+          <div class="name">Filipa Santos</div>
+          <div class="phone">912 345 678</div>
+          <div class="bk-items">
+            <div class="bk-item"><b>2×</b> Baguete</div>
+            <div class="bk-item"><b>1×</b> Rolos de canela</div>
+          </div>
+          <span class="bk-time">09:30</span>
+        </div>
+        <div class="ch-howto"><b>How it enters:</b> customer fills the web form on their phone. Name, contact, items and pickup time all captured automatically. Card appears instantly. Zero staff effort.</div>
+      </div>
+
+      <div class="ch-cell">
+        <div class="ch-entry">Staff-logged</div>
+        <div class="bk-card">
+          <span class="bk-src src-sms">SMS</span>
+          <div class="name">João Pereira</div>
+          <div class="phone">936 112 998</div>
+          <div class="bk-items">
+            <div class="bk-item"><b>1×</b> Borodinsky</div>
+            <div class="bk-item"><b>3×</b> Broa de milho</div>
+          </div>
+          <div class="bk-note">"Passo às 10h" — texted</div>
+          <span class="bk-time">10:00</span>
+        </div>
+        <div class="ch-howto"><b>How it enters:</b> customer texts the bakery. Staff read it, tap <b>+ Nova encomenda</b>, enter items + time, tag source = SMS. Phone auto-fills from the text. (Later: could auto-ingest.)</div>
+      </div>
+
+      <div class="ch-cell">
+        <div class="ch-entry">Staff-logged</div>
+        <div class="bk-card">
+          <span class="bk-src src-wa">WHATSAPP</span>
+          <div class="name">Sofia Brandão</div>
+          <div class="phone">962 004 117</div>
+          <div class="bk-items">
+            <div class="bk-item"><b>1×</b> Trigo</div>
+            <div class="bk-item"><b>1×</b> Granola</div>
+          </div>
+          <div class="bk-note">"Levanto à tarde 🙂"</div>
+          <span class="bk-time">17:30</span>
+        </div>
+        <div class="ch-howto"><b>How it enters:</b> customer messages on WhatsApp. Staff enter the order the same way, tag source = WhatsApp. (Later: WhatsApp Business API could turn this into self-service too.)</div>
+      </div>
+
+      <div class="ch-cell">
+        <div class="ch-entry">Staff-logged</div>
+        <div class="bk-card">
+          <span class="bk-src src-tel">TELEFONE</span>
+          <div class="name">Lúcia Ferreira</div>
+          <div class="phone">913 556 901</div>
+          <div class="bk-items">
+            <div class="bk-item"><b>2×</b> Broa de milho</div>
+          </div>
+          <span class="bk-time">17:00</span>
+        </div>
+        <div class="ch-howto"><b>How it enters:</b> customer calls. Staff take the order on the phone and enter it live, tag source = Telefone. Same fast 2–3 tap flow as today's paper square.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Also possible: <b>BALCÃO</b> (walk-in / in person). The source tag is just one field on the reservation — adding/auto-ingesting channels later won't change the day-view.</p>

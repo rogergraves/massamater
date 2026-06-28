@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff — Daily Inventory · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    .wrap { background: #f4efe7; border-radius: 14px; padding: 16px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .pg-title { font-size: 20px; font-weight: 700; color: #2b2b2b; }
+    .pg-sub { font-size: 13px; color: #9b8a6e; margin-top: 2px; }
+    .save-btn { background: #7a4f2b; color: #fff; border: none; padding: 11px 22px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    .alert-box { background: #fff8f3; border: 1.5px solid #ffd7c0; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 13px; color: #a04000; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+
+    .inv-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .inv-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #9b8a6e; padding: 8px 12px; text-align: left; border-bottom: 2px solid #e3d9c8; background: #fff; }
+    .inv-table th:first-child { border-top-left-radius: 10px; }
+    .inv-table th:last-child { border-top-right-radius: 10px; }
+    .inv-table td { padding: 10px 12px; border-bottom: 1px solid #ede5d8; vertical-align: middle; background: #fff; }
+    .inv-table tr:last-child td { border-bottom: none; }
+    .inv-table tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+    .inv-table tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+    .default-col { border-left: 2px solid #ede5d8; }
+    .today-col { border-left: 2px solid #ffd7c0; }
+
+    .photo-cell { width: 44px; height: 44px; border-radius: 8px; background: #efe2cd; display: flex; align-items: center; justify-content: center; font-size: 20px; flex: 0 0 auto; position: relative; cursor: pointer; }
+    .photo-cell.no-photo { border: 2px dashed #c8b89a; font-size: 11px; color: #c8b89a; text-align: center; line-height: 1.2; }
+    .photo-cell .badge { position: absolute; bottom: -1px; right: -1px; background: #7a4f2b; color: #fff; border-radius: 3px; font-size: 9px; padding: 1px 3px; font-weight: 700; }
+
+    .item-name { font-size: 14px; font-weight: 700; color: #2b2b2b; }
+    .item-sub { font-size: 11px; color: #9b8a6e; margin-top: 2px; }
+    .item-sub.added { color: #1b873f; }
+    .item-sub.skipped { color: #c62828; }
+
+    .time-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 7px 9px; font-size: 13px; font-weight: 700; color: #2b2b2b; background: #fdfbf7; width: 80px; text-align: center; }
+    .time-in:disabled { color: #c0b8ae; background: #f5f2ee; cursor: not-allowed; }
+    .time-in.override { border-color: #e65100; background: #fff8f3; color: #e65100; }
+
+    .stock-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 7px 9px; font-size: 13px; font-weight: 700; color: #2b2b2b; background: #fdfbf7; width: 54px; text-align: center; }
+    .stock-in:disabled { color: #c0b8ae; background: #f5f2ee; cursor: not-allowed; }
+
+    .status-pill { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 5px; white-space: nowrap; }
+    .pill-normal  { background: #f0ede8; color: #9b8a6e; }
+    .pill-added   { background: #e7f7ec; color: #1b873f; }
+    .pill-skipped { background: #fdecea; color: #c62828; }
+    .pill-late    { background: #fff3e0; color: #e65100; }
+
+    .conflict-badge { display: inline-flex; align-items: center; gap: 4px; background: #fdecea; color: #c62828; border-radius: 6px; font-size: 11px; font-weight: 700; padding: 3px 8px; margin-top: 4px; cursor: pointer; }
+
+    .action-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid #e3d9c8; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .action-btn.skip  { color: #c62828; border-color: #fca08a; }
+    .action-btn.restore { color: #7a4f2b; }
+
+    .skipped-row td { background: #fafaf8; opacity: .6; }
+
+    .add-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .add-select { border: 2px solid #e3d9c8; border-radius: 8px; padding: 9px 12px; font-size: 13px; color: #2b2b2b; background: #fff; flex: 1; min-width: 160px; }
+    .add-btn-sm { background: #7a4f2b; color: #fff; border: none; padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .add-hint { font-size: 12px; color: #9b8a6e; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<h1>Staff — Daily Inventory</h1>
+
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="pg-title">Today's availability</div>
+      <div class="pg-sub">Scheduled products shown by default — add or skip for today only · Saturday, Jun 6</div>
+    </div>
+    <button class="save-btn">Save</button>
+  </div>
+
+  <div class="alert-box">
+    ⚠ <div><strong>2 orders affected</strong> — customers are arriving before their items will be ready. Click the warning on each product to view them.</div>
+  </div>
+
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th rowspan="2" style="vertical-align:bottom">Photo</th>
+        <th rowspan="2" style="vertical-align:bottom">Product</th>
+        <th class="default-col" style="color:#b08c5e">Default ready</th>
+        <th class="today-col" style="color:#e65100">Today (override)</th>
+        <th rowspan="2" style="vertical-align:bottom">Batch</th>
+        <th rowspan="2" style="vertical-align:bottom">Status</th>
+        <th rowspan="2"></th>
+      </tr>
+      <tr>
+        <th class="default-col" style="font-size:10px;color:#c8b89a;padding-top:0">resets tomorrow</th>
+        <th class="today-col" style="font-size:10px;color:#c8b89a;padding-top:0">today only</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td><div class="photo-cell">🥖<span class="badge">✓</span></div></td>
+        <td>
+          <div class="item-name">Baguette</div>
+          <div class="item-sub">Scheduled Tue–Sat</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="09:00" /></td>
+        <td class="today-col"><input class="time-in" type="time" placeholder="—" style="color:#b3a78a" /></td>
+        <td><input class="stock-in" type="number" value="20" min="0" /></td>
+        <td><span class="status-pill pill-normal">Scheduled</span></td>
+        <td><button class="action-btn skip" title="Skip today">✕</button></td>
+      </tr>
+
+      <tr>
+        <td><div class="photo-cell">🥐</div></td>
+        <td>
+          <div class="item-name">Cinnamon rolls</div>
+          <div class="item-sub">Scheduled Fri–Sat</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="10:00" /></td>
+        <td class="today-col">
+          <input class="time-in override" type="time" value="11:30" />
+          <div><span class="conflict-badge">⚠ 2 orders</span></div>
+        </td>
+        <td><input class="stock-in" type="number" value="10" min="0" /></td>
+        <td><span class="status-pill pill-late">Ready late</span></td>
+        <td><button class="action-btn skip" title="Skip today">✕</button></td>
+      </tr>
+
+      <tr>
+        <td><div class="photo-cell">🍞<span class="badge">✓</span></div></td>
+        <td>
+          <div class="item-name">Borodinsky</div>
+          <div class="item-sub added">Added for today only (normally Tue–Wed)</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="09:00" /></td>
+        <td class="today-col"><input class="time-in" type="time" placeholder="—" style="color:#b3a78a" /></td>
+        <td><input class="stock-in" type="number" value="8" min="0" /></td>
+        <td><span class="status-pill pill-added">Added</span></td>
+        <td><button class="action-btn skip" title="Remove from today">✕</button></td>
+      </tr>
+
+      <tr class="skipped-row">
+        <td><div class="photo-cell">🍞</div></td>
+        <td>
+          <div class="item-name">Corn bread</div>
+          <div class="item-sub skipped">Skipped today (normally Tue–Sat)</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="09:00" disabled /></td>
+        <td class="today-col"><input class="time-in" type="time" placeholder="—" style="color:#b3a78a" disabled /></td>
+        <td><input class="stock-in" type="number" value="0" min="0" disabled /></td>
+        <td><span class="status-pill pill-skipped">Skipped</span></td>
+        <td><button class="action-btn restore" title="Restore for today">↺</button></td>
+      </tr>
+
+      <tr>
+        <td><div class="photo-cell no-photo">+ photo</div></td>
+        <td>
+          <div class="item-name">Granola</div>
+          <div class="item-sub">Scheduled Thu–Sat</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="09:00" /></td>
+        <td class="today-col"><input class="time-in" type="time" placeholder="—" style="color:#b3a78a" /></td>
+        <td><input class="stock-in" type="number" value="12" min="0" /></td>
+        <td><span class="status-pill pill-normal">Scheduled</span></td>
+        <td><button class="action-btn skip" title="Skip today">✕</button></td>
+      </tr>
+
+      <tr>
+        <td><div class="photo-cell">🍪<span class="badge">✓</span></div></td>
+        <td>
+          <div class="item-name">Cookies</div>
+          <div class="item-sub">Scheduled Tue–Sat</div>
+        </td>
+        <td class="default-col"><input class="time-in" type="time" value="09:00" /></td>
+        <td class="today-col"><input class="time-in" type="time" placeholder="—" style="color:#b3a78a" /></td>
+        <td><input class="stock-in" type="number" value="40" min="0" /></td>
+        <td><span class="status-pill pill-normal">Scheduled</span></td>
+        <td><button class="action-btn skip" title="Skip today">✕</button></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="add-row">
+    <select class="add-select">
+      <option disabled selected>Add a product for today only…</option>
+      <option>Financiers (normally Mon–Wed)</option>
+      <option>Wheat loaf (normally Tue–Fri)</option>
+    </select>
+    <button class="add-btn-sm">+ Add for today</button>
+  </div>
+  <div class="add-hint">Only products not already on today's schedule appear in this list.</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<h2>Vista do Dia (staff) — the digital paper sheet, in European Portuguese</h2>
+<p class="subtitle">Saturday's real menu. Tap a card to mark it collected (it crosses out). The tally bar shows staff the real remaining counts. Note the PT | EN toggle top-right.</p>
+
+<style>
+  .bk-wrap { background:#f4efe7; border-radius:14px; padding:16px; }
+  .bk-topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .bk-dates { display:flex; gap:8px; flex-wrap:wrap; }
+  .bk-date { padding:10px 16px; border-radius:10px; background:#fff; border:2px solid #e3d9c8; font-weight:600; color:#6b5d45; }
+  .bk-date.active { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .bk-right { display:flex; align-items:center; gap:10px; }
+  .bk-lang { display:flex; border:2px solid #e3d9c8; border-radius:10px; overflow:hidden; font-weight:700; font-size:14px; }
+  .bk-lang span { padding:8px 12px; color:#9b8a6e; }
+  .bk-lang span.on { background:#7a4f2b; color:#fff; }
+  .bk-newbtn { background:#2e7d32; color:#fff; border:none; padding:14px 22px; border-radius:12px; font-size:17px; font-weight:700; }
+  .bk-tally { display:flex; gap:10px; flex-wrap:wrap; background:#fff; border-radius:12px; padding:12px 14px; margin-bottom:14px; border:1px solid #e3d9c8; }
+  .bk-tchip { display:flex; align-items:baseline; gap:6px; font-size:15px; color:#4a4a4a; }
+  .bk-tchip b { color:#7a4f2b; font-size:17px; }
+  .bk-tchip .rem { color:#999; font-size:13px; }
+  .bk-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
+  .bk-card { background:#fff; border-radius:12px; padding:14px; border:1px solid #e3d9c8; box-shadow:0 1px 2px rgba(0,0,0,.04); position:relative; }
+  .bk-card .name { font-size:19px; font-weight:700; color:#2b2b2b; }
+  .bk-card .phone { font-size:14px; color:#888; margin-top:2px; }
+  .bk-items { margin:10px 0; }
+  .bk-item { font-size:16px; color:#333; padding:2px 0; }
+  .bk-item b { color:#7a4f2b; }
+  .bk-time { display:inline-block; background:#f0e6d6; color:#7a4f2b; font-weight:700; padding:6px 12px; border-radius:20px; font-size:15px; }
+  .bk-src { position:absolute; top:12px; right:12px; font-size:11px; padding:3px 8px; border-radius:6px; font-weight:700; }
+  .bk-src.web { background:#e3f2fd; color:#1565c0; }
+  .bk-src.staff { background:#fff3e0; color:#e65100; }
+  .bk-card.done { opacity:.5; }
+  .bk-card.done .name, .bk-card.done .bk-item { text-decoration:line-through; }
+  .bk-check { position:absolute; bottom:12px; right:12px; font-size:13px; color:#2e7d32; font-weight:700; }
+</style>
+
+<div class="mockup">
+  <div class="mockup-header">Padaria Massa Mater — Sábado, 6 de junho</div>
+  <div class="mockup-body bk-wrap">
+
+    <div class="bk-topbar">
+      <div class="bk-dates">
+        <div class="bk-date active">Sáb 6</div>
+        <div class="bk-date">Dom 7</div>
+        <div class="bk-date">Ter 9</div>
+        <div class="bk-date">Qua 10</div>
+      </div>
+      <div class="bk-right">
+        <div class="bk-lang"><span class="on">PT</span><span>EN</span></div>
+        <button class="bk-newbtn">+ Nova encomenda</button>
+      </div>
+    </div>
+
+    <div class="bk-tally">
+      <span class="label" style="align-self:center;">Fornada de hoje:</span>
+      <span class="bk-tchip"><b>Baguete</b> 12/20 <span class="rem">(8 restantes)</span></span>
+      <span class="bk-tchip"><b>Broa de milho</b> 6/15 <span class="rem">(9 restantes)</span></span>
+      <span class="bk-tchip"><b>Borodinsky</b> 5/5 <span class="rem" style="color:#c62828;">(esgotado)</span></span>
+      <span class="bk-tchip"><b>Trigo</b> 8/30 <span class="rem">(22 restantes)</span></span>
+      <span class="bk-tchip"><b>Granola</b> 3/12 <span class="rem">(9 restantes)</span></span>
+      <span class="bk-tchip"><b>Cookies</b> 12/40 <span class="rem">(28 restantes)</span></span>
+      <span class="bk-tchip"><b>Rolos de canela</b> 9/10 <span class="rem">(1 restante)</span></span>
+      <span class="bk-tchip"><b>Financiers</b> 4/24 <span class="rem">(20 restantes)</span></span>
+    </div>
+
+    <div class="bk-grid">
+      <div class="bk-card">
+        <span class="bk-src web">ONLINE</span>
+        <div class="name">Filipa Santos</div>
+        <div class="phone">912 345 678</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Baguete</div>
+          <div class="bk-item"><b>1×</b> Rolos de canela</div>
+        </div>
+        <span class="bk-time">09:30</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">TELEFONE</span>
+        <div class="name">João Pereira</div>
+        <div class="phone">936 112 998</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>1×</b> Borodinsky</div>
+          <div class="bk-item"><b>3×</b> Broa de milho</div>
+        </div>
+        <span class="bk-time">10:00</span>
+      </div>
+
+      <div class="bk-card done">
+        <span class="bk-src web">ONLINE</span>
+        <div class="name">Ana Marques</div>
+        <div class="phone">915 778 220</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Baguete</div>
+          <div class="bk-item"><b>6×</b> Cookies</div>
+        </div>
+        <span class="bk-time">10:15</span>
+        <span class="bk-check">✓ Levantado</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">BALCÃO</span>
+        <div class="name">Tiago Costa</div>
+        <div class="phone">—</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>4×</b> Financiers</div>
+        </div>
+        <span class="bk-time">11:00</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src web">ONLINE</span>
+        <div class="name">Sofia Brandão</div>
+        <div class="phone">962 004 117</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>1×</b> Trigo</div>
+          <div class="bk-item"><b>1×</b> Granola</div>
+        </div>
+        <span class="bk-time">12:30</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">TELEFONE</span>
+        <div class="name">Lúcia Ferreira</div>
+        <div class="phone">913 556 901</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Broa de milho</div>
+        </div>
+        <span class="bk-time">17:00</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Origem da encomenda: ONLINE (web) · TELEFONE · BALCÃO (in person). "Levantado" = collected. "Fornada de hoje" = today's bake, with real remaining counts for staff only.</p>

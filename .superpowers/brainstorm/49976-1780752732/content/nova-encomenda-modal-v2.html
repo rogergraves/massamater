@@ -1,0 +1,126 @@
+<h2>"Nova encomenda" as a pop-up modal over the day-view</h2>
+<p class="subtitle">The day-view stays put underneath (dimmed). The modal pops up on top — no page change. Cancelar dismisses it and you're back exactly where you were. (In Rails this is a Hotwire Turbo Frame overlay.)</p>
+
+<style>
+  .stage { position:relative; border-radius:14px; overflow:hidden; }
+
+  /* ---- background day-view ---- */
+  .bg { background:#f4efe7; padding:16px; filter:saturate(.9); }
+  .bg-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .bg-dates { display:flex; gap:8px; }
+  .bg-date { padding:9px 14px; border-radius:10px; background:#fff; border:2px solid #e3d9c8; font-weight:600; color:#6b5d45; }
+  .bg-date.active { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .bg-newbtn { background:#2e7d32; color:#fff; border:none; padding:12px 18px; border-radius:11px; font-size:15px; font-weight:700; }
+  .bg-tally { display:flex; gap:10px; flex-wrap:wrap; background:#fff; border-radius:12px; padding:11px 13px; margin-bottom:13px; border:1px solid #e3d9c8; }
+  .bg-tchip { font-size:14px; color:#4a4a4a; } .bg-tchip b { color:#7a4f2b; }
+  .bg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; }
+  .bg-card { background:#fff; border-radius:12px; padding:13px; border:1px solid #e3d9c8; }
+  .bg-card .nm { font-size:17px; font-weight:700; color:#2b2b2b; }
+  .bg-card .it { font-size:14px; color:#444; } .bg-card .it b { color:#7a4f2b; }
+  .bg-card .tm { display:inline-block; background:#f0e6d6; color:#7a4f2b; font-weight:700; padding:4px 10px; border-radius:16px; font-size:13px; margin-top:6px; }
+
+  /* ---- scrim ---- */
+  .scrim { position:absolute; inset:0; background:rgba(30,22,12,.55); display:flex; align-items:center; justify-content:center; padding:18px; }
+
+  /* ---- modal ---- */
+  .nm-modal { background:#fff; border-radius:16px; width:100%; max-width:860px; box-shadow:0 24px 60px rgba(0,0,0,.45); overflow:hidden; }
+  .nm-head { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; background:#7a4f2b; color:#fff; }
+  .nm-head h3 { margin:0; font-size:19px; font-weight:800; }
+  .nm-day { background:rgba(255,255,255,.18); padding:7px 12px; border-radius:10px; font-weight:700; font-size:14px; }
+  .nm-x { font-size:20px; font-weight:700; opacity:.9; }
+  .nm-body { display:grid; grid-template-columns:1fr 1.1fr; }
+  .nm-col { padding:16px 18px; } .nm-col.left { border-right:1px solid #efe7d8; }
+  .nm-lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#b08c5e; margin:0 0 7px; }
+  .nm-sec { margin-bottom:15px; }
+  .chips { display:flex; gap:7px; flex-wrap:wrap; }
+  .chip { padding:9px 13px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; font-size:13px; color:#6b5d45; }
+  .chip.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .inp { border:2px solid #e3d9c8; border-radius:10px; padding:11px 13px; font-size:15px; color:#333; background:#fdfbf7; }
+  .inp.ph { color:#7a4f2b; font-weight:700; }
+  .slots { display:flex; flex-wrap:wrap; gap:7px; }
+  .slot { padding:8px 12px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; color:#6b5d45; font-size:14px; }
+  .slot.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .it2 { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #f2ece0; }
+  .it2 .n { flex:1; } .it2 .n b { font-size:15px; color:#2b2b2b; }
+  .it2 .rem { font-size:11px; color:#2e7d32; font-weight:700; display:block; }
+  .it2 .rem.low { color:#e65100; } .it2 .rem.out { color:#c62828; }
+  .stepper { display:flex; align-items:center; gap:8px; }
+  .stepper button { width:32px; height:32px; border-radius:8px; border:none; background:#7a4f2b; color:#fff; font-size:18px; font-weight:700; line-height:1; }
+  .stepper .q { min-width:14px; text-align:center; font-size:16px; font-weight:800; }
+  .addbtn { width:32px; height:32px; border-radius:8px; border:2px solid #7a4f2b; background:#fff; color:#7a4f2b; font-size:18px; font-weight:700; line-height:1; }
+  .it2.out { opacity:.6; }
+  .nm-foot { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; background:#faf3e9; border-top:1px solid #efe7d8; }
+  .nm-sum { font-size:14px; color:#5a4a32; } .nm-sum b { color:#2b2b2b; }
+  .btn { padding:13px 20px; border-radius:11px; font-size:15px; font-weight:800; border:none; }
+  .btn.cancel { background:#fff; border:2px solid #cdbfa6; color:#6b5d45; }
+  .btn.save { background:#2e7d32; color:#fff; }
+</style>
+
+<div class="mockup">
+  <div class="mockup-header">Padaria Massa Mater — Sábado, 6 de junho</div>
+  <div class="mockup-body" style="padding:0;">
+    <div class="stage">
+
+      <!-- the day-view, still there underneath -->
+      <div class="bg">
+        <div class="bg-top">
+          <div class="bg-dates">
+            <div class="bg-date active">Sáb 6</div><div class="bg-date">Dom 7</div><div class="bg-date">Ter 9</div>
+          </div>
+          <button class="bg-newbtn">+ Nova encomenda</button>
+        </div>
+        <div class="bg-tally">
+          <span class="bg-tchip"><b>Baguete</b> 12/20</span>
+          <span class="bg-tchip"><b>Broa de milho</b> 6/15</span>
+          <span class="bg-tchip"><b>Borodinsky</b> esgotado</span>
+          <span class="bg-tchip"><b>Cookies</b> 12/40</span>
+          <span class="bg-tchip"><b>Rolos de canela</b> 9/10</span>
+        </div>
+        <div class="bg-grid">
+          <div class="bg-card"><div class="nm">Filipa Santos</div><div class="it"><b>2×</b> Baguete</div><div class="it"><b>1×</b> Rolos de canela</div><span class="tm">09:30</span></div>
+          <div class="bg-card"><div class="nm">João Pereira</div><div class="it"><b>1×</b> Borodinsky</div><div class="it"><b>3×</b> Broa de milho</div><span class="tm">10:00</span></div>
+          <div class="bg-card"><div class="nm">Sofia Brandão</div><div class="it"><b>1×</b> Trigo</div><div class="it"><b>1×</b> Granola</div><span class="tm">17:30</span></div>
+        </div>
+      </div>
+
+      <!-- dim scrim + modal on top -->
+      <div class="scrim">
+        <div class="nm-modal">
+          <div class="nm-head">
+            <h3>Nova encomenda</h3>
+            <span class="nm-day">📅 Sábado, 6 jun ▾</span>
+            <span class="nm-x">✕</span>
+          </div>
+          <div class="nm-body">
+            <div class="nm-col left">
+              <div class="nm-sec"><p class="nm-lab">Origem</p>
+                <div class="chips"><span class="chip sel">Telefone</span><span class="chip">WhatsApp</span><span class="chip">SMS</span><span class="chip">Balcão</span></div>
+              </div>
+              <div class="nm-sec"><p class="nm-lab">Cliente</p><div class="inp">Maria Lopes</div></div>
+              <div class="nm-sec"><p class="nm-lab">Telemóvel</p><div class="inp ph">912 200 145</div></div>
+              <div class="nm-sec"><p class="nm-lab">Hora de levantamento</p>
+                <div class="slots"><span class="slot">09:30</span><span class="slot sel">10:00</span><span class="slot">10:30</span><span class="slot">11:00</span></div>
+              </div>
+              <div class="nm-sec" style="margin-bottom:0;"><p class="nm-lab">Nota (opcional)</p><div class="inp" style="color:#b3a78a;">ex: paga no levantamento…</div></div>
+            </div>
+            <div class="nm-col">
+              <p class="nm-lab">Artigos · contagem real para staff</p>
+              <div class="it2"><div class="n"><b>Baguete</b><span class="rem">8 disponíveis</span></div><div class="stepper"><button>−</button><span class="q">2</span><button>+</button></div></div>
+              <div class="it2"><div class="n"><b>Broa de milho</b><span class="rem">9 disponíveis</span></div><button class="addbtn">+</button></div>
+              <div class="it2"><div class="n"><b>Rolos de canela</b><span class="rem low">1 disponível</span></div><div class="stepper"><button>−</button><span class="q">1</span><button>+</button></div></div>
+              <div class="it2"><div class="n"><b>Trigo</b><span class="rem">22 disponíveis</span></div><button class="addbtn">+</button></div>
+              <div class="it2 out"><div class="n"><b>Borodinsky</b><span class="rem out">Esgotado · tocar para exceder</span></div><button class="addbtn">+</button></div>
+            </div>
+          </div>
+          <div class="nm-foot">
+            <div class="nm-sum"><b>2× Baguete · 1× Rolos de canela</b> · 10:00</div>
+            <div class="chips"><button class="btn cancel">Cancelar</button><button class="btn save">Guardar encomenda</button></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Now you can see it clearly: the day-view (cards, tally, dates) sits underneath, dimmed. The modal floats on top. <b>Cancelar</b> or tapping outside dismisses it with zero navigation — the day-view is exactly as the user left it. Saving adds the new card and closes the modal in place.</p>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff — Edit Order · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    .scene { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+    .col { display: flex; flex-direction: column; }
+    .col-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #b08c5e; margin-bottom: 10px; }
+
+    .form-card { background: #fff; border-radius: 14px; border: 1px solid #e3d9c8; padding: 20px; width: 400px; }
+    .form-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; }
+    .form-title { font-size: 18px; font-weight: 700; color: #2b2b2b; }
+    .form-meta { font-size: 12px; color: #9b8a6e; margin-top: 3px; }
+    .src-badge { font-size: 10px; font-weight: 800; padding: 4px 9px; border-radius: 5px; background: #fff3e0; color: #e65100; }
+
+    .fld { margin-bottom: 14px; }
+    .fld label { font-size: 11px; font-weight: 700; color: #7a4f2b; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px; }
+    .inp { border: 2px solid #e3d9c8; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #2b2b2b; background: #fdfbf7; width: 100%; box-sizing: border-box; }
+
+    .channel-row { display: flex; gap: 8px; }
+    .ch-opt { flex: 1; padding: 10px 0; border: 2px solid #e3d9c8; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; color: #6b5d45; }
+    .ch-opt.sel-wa { border-color: #1b873f; background: #e7f7ec; color: #1b873f; }
+
+    .divider { border: none; border-top: 1px solid #ede5d8; margin: 16px 0; }
+
+    .items-label { font-size: 11px; font-weight: 700; color: #7a4f2b; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
+    .item-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0e9dd; }
+    .item-row:last-of-type { border-bottom: none; }
+    .item-check { width: 20px; height: 20px; border-radius: 5px; border: 2px solid #e3d9c8; background: #fff; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .item-check.checked { background: #7a4f2b; border-color: #7a4f2b; color: #fff; font-size: 13px; }
+    .item-photo { width: 36px; height: 36px; border-radius: 7px; background: #efe2cd; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: 0 0 auto; }
+    .item-name { flex: 1; font-size: 14px; font-weight: 700; color: #2b2b2b; }
+    .qty-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 6px 8px; font-size: 13px; font-weight: 700; width: 52px; text-align: center; background: #fdfbf7; }
+    .qty-in:disabled { color: #c0b8ae; background: #f5f2ee; }
+
+    .actions { display: flex; gap: 10px; margin-top: 20px; }
+    .save-btn { flex: 1; background: #7a4f2b; color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .discard-btn { padding: 13px 20px; border: 2px solid #e3d9c8; border-radius: 10px; font-size: 15px; font-weight: 700; color: #6b5d45; background: #fff; cursor: pointer; }
+    .cancel-order-btn { width: 100%; margin-top: 10px; padding: 12px; border-radius: 10px; border: 2px solid #fca08a; background: #fff; color: #c62828; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    /* Customer search panel */
+    .search-card { background: #fff; border-radius: 14px; border: 1px solid #e3d9c8; padding: 20px; width: 340px; }
+    .search-title { font-size: 18px; font-weight: 700; color: #2b2b2b; margin-bottom: 14px; }
+    .search-inp { border: 2px solid #e3d9c8; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #2b2b2b; background: #fdfbf7; width: 100%; box-sizing: border-box; margin-bottom: 12px; }
+    .customer-row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 9px; cursor: pointer; border: 1px solid #e3d9c8; margin-bottom: 8px; }
+    .customer-row:hover { background: #faf3e9; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: #faf3e9; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #7a4f2b; flex: 0 0 auto; }
+    .cust-name { font-size: 14px; font-weight: 700; color: #2b2b2b; }
+    .cust-phone { font-size: 12px; color: #9b8a6e; }
+    .cust-orders { font-size: 11px; color: #b08c5e; margin-left: auto; }
+    .order-list-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; border: 1px solid #e3d9c8; margin-bottom: 8px; cursor: pointer; }
+    .order-list-item:hover { background: #faf3e9; }
+    .oli-date { font-size: 13px; font-weight: 700; color: #2b2b2b; }
+    .oli-items { font-size: 12px; color: #9b8a6e; margin-top: 1px; }
+    .oli-arrow { color: #b08c5e; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+<h1>Staff — Edit Order &amp; Customer Search</h1>
+
+<div class="scene">
+
+  <!-- Edit order form -->
+  <div class="col">
+    <div class="col-label">Edit order form</div>
+    <div class="form-card">
+      <div class="form-header">
+        <div>
+          <div class="form-title">Edit order</div>
+          <div class="form-meta">Saturday, Jun 6 · created online</div>
+        </div>
+        <span class="src-badge">PHONE</span>
+      </div>
+
+      <div class="fld">
+        <label>Phone number</label>
+        <input class="inp" type="tel" value="913 556 901" />
+      </div>
+
+      <div class="fld">
+        <label>Customer name</label>
+        <input class="inp" type="text" value="Lúcia Ferreira" />
+      </div>
+
+      <div class="fld">
+        <label>Preferred contact</label>
+        <div class="channel-row">
+          <div class="ch-opt">📱 SMS</div>
+          <div class="ch-opt sel-wa">💬 WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="fld">
+        <label>Pickup time</label>
+        <input class="inp" type="time" value="11:00" style="width:auto" />
+      </div>
+
+      <hr class="divider" />
+
+      <div class="items-label">Items</div>
+
+      <div class="item-row">
+        <div class="item-check checked">✓</div>
+        <div class="item-photo">🥐</div>
+        <div class="item-name">Cinnamon rolls</div>
+        <input class="qty-in" type="number" value="2" min="1" />
+      </div>
+      <div class="item-row">
+        <div class="item-check"></div>
+        <div class="item-photo">🥖</div>
+        <div class="item-name">Baguette</div>
+        <input class="qty-in" type="number" value="1" min="1" disabled />
+      </div>
+      <div class="item-row">
+        <div class="item-check"></div>
+        <div class="item-photo">🍞</div>
+        <div class="item-name">Corn bread</div>
+        <input class="qty-in" type="number" value="1" min="1" disabled />
+      </div>
+
+      <hr class="divider" />
+
+      <div class="fld">
+        <label>Note (optional)</label>
+        <input class="inp" type="text" placeholder="" />
+      </div>
+
+      <div class="actions">
+        <button class="discard-btn">Discard</button>
+        <button class="save-btn">Save changes</button>
+      </div>
+      <button class="cancel-order-btn">Cancel this order</button>
+    </div>
+  </div>
+
+  <!-- Customer search -->
+  <div class="col">
+    <div class="col-label">Customer search</div>
+    <div class="search-card">
+      <div class="search-title">Find customer</div>
+      <div style="font-size:12px;color:#9b8a6e;margin-bottom:10px">Search by phone number or name. Phone number is most common.</div>
+      <input class="search-inp" type="text" placeholder="Phone number or name…" value="Filipa" />
+
+      <div class="customer-row">
+        <div class="avatar">FS</div>
+        <div>
+          <div class="cust-name">Filipa Santos</div>
+          <div class="cust-phone">912 345 678</div>
+        </div>
+        <div class="cust-orders">3 orders</div>
+      </div>
+
+      <div class="customer-row">
+        <div class="avatar">FO</div>
+        <div>
+          <div class="cust-name">Filipe Oliveira</div>
+          <div class="cust-phone">961 002 345</div>
+        </div>
+        <div class="cust-orders">1 order</div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #ede5d8;margin:14px 0" />
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#b08c5e;margin-bottom:10px">Filipa Santos — orders</div>
+
+      <div class="order-list-item">
+        <div>
+          <div class="oli-date">Sat Jun 6 · 10:30</div>
+          <div class="oli-items">2× Baguette · 1× Cinnamon roll</div>
+        </div>
+        <div class="oli-arrow">›</div>
+      </div>
+      <div class="order-list-item">
+        <div>
+          <div class="oli-date">Tue Jun 9 · 09:00</div>
+          <div class="oli-items">1× Corn bread · 2× Cookies</div>
+        </div>
+        <div class="oli-arrow">›</div>
+      </div>
+      <div class="order-list-item" style="opacity:.5">
+        <div>
+          <div class="oli-date" style="text-decoration:line-through">Sat May 30 · 09:30</div>
+          <div class="oli-items">3× Baguette · collected</div>
+        </div>
+        <div class="oli-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

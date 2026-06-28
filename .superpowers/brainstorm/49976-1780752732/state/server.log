@@ -1,0 +1,14 @@
+{"type":"server-started","port":53462,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:53462","screen_dir":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content","state_dir":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/state"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/day-view-pt.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/entry-channels.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/entry-channels-v2.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/entry-channels-v3.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/day-view-full.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/customer-flow.html"}
+{"type":"screen-updated","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/customer-flow.html"}
+{"type":"screen-updated","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/customer-flow.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/nova-encomenda-modal.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/nova-encomenda-modal-v2.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/nova-encomenda-modal-v3.html"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/49976-1780752732/content/nova-encomenda-modal-v4.html"}
+{"type":"server-stopped","reason":"idle timeout"}

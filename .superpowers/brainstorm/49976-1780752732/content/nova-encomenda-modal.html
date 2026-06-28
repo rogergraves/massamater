@@ -1,0 +1,150 @@
+<h2>"Nova encomenda" — staff order-entry modal (landscape tablet)</h2>
+<p class="subtitle">Opens over the day-view when staff tap + Nova encomenda. Touch-first: source chips, name autocomplete (prefills phone for repeat customers), tappable item steppers with real remaining counts, time-slot chips. Goal: faster than writing a paper square.</p>
+
+<style>
+  .nm-stage { position:relative; background:#cdbfa6; border-radius:14px; padding:26px; }
+  .nm-modal { background:#fff; border-radius:16px; max-width:900px; margin:0 auto; box-shadow:0 18px 50px rgba(0,0,0,.3); overflow:hidden; }
+  .nm-head { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:#7a4f2b; color:#fff; }
+  .nm-head h3 { margin:0; font-size:20px; font-weight:800; }
+  .nm-day { background:rgba(255,255,255,.18); padding:8px 14px; border-radius:10px; font-weight:700; font-size:15px; }
+  .nm-x { font-size:22px; font-weight:700; opacity:.85; }
+  .nm-body { display:grid; grid-template-columns:1fr 1.15fr; gap:0; }
+  .nm-col { padding:18px 20px; }
+  .nm-col.left { border-right:1px solid #efe7d8; }
+  .nm-lab { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#b08c5e; margin:0 0 8px; }
+  .nm-sec { margin-bottom:18px; }
+
+  .chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { padding:10px 14px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; font-size:14px; color:#6b5d45; background:#fff; }
+  .chip.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+
+  .inp { border:2px solid #e3d9c8; border-radius:10px; padding:12px 14px; font-size:16px; color:#333; background:#fdfbf7; }
+  .inp.ph { color:#7a4f2b; font-weight:700; }
+  .ac { border:2px solid #7a4f2b; border-top:none; border-radius:0 0 10px 10px; background:#fff; }
+  .ac .row { padding:11px 14px; border-bottom:1px solid #f2ece0; font-size:15px; display:flex; justify-content:space-between; }
+  .ac .row b { color:#2b2b2b; }
+  .ac .row span { color:#999; }
+  .ac .row:last-child { border-bottom:none; }
+
+  .slots { display:flex; flex-wrap:wrap; gap:8px; }
+  .slot { padding:9px 13px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; color:#6b5d45; font-size:15px; }
+  .slot.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+
+  .it { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid #f2ece0; }
+  .it .nm2 { flex:1; }
+  .it .nm2 b { font-size:16px; color:#2b2b2b; }
+  .it .rem { font-size:12px; color:#2e7d32; font-weight:700; display:block; margin-top:1px; }
+  .it .rem.low { color:#e65100; }
+  .it .rem.out { color:#c62828; }
+  .stepper { display:flex; align-items:center; gap:9px; }
+  .stepper button { width:34px; height:34px; border-radius:9px; border:none; background:#7a4f2b; color:#fff; font-size:20px; font-weight:700; line-height:1; }
+  .stepper .q { min-width:16px; text-align:center; font-size:17px; font-weight:800; }
+  .addbtn { width:34px; height:34px; border-radius:9px; border:2px solid #7a4f2b; background:#fff; color:#7a4f2b; font-size:20px; font-weight:700; line-height:1; }
+  .it.out { opacity:.6; }
+  .it.out .addbtn { border-color:#c0b39a; color:#c0b39a; }
+
+  .nm-foot { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 20px; background:#faf3e9; border-top:1px solid #efe7d8; }
+  .nm-sum { font-size:15px; color:#5a4a32; }
+  .nm-sum b { color:#2b2b2b; }
+  .nm-actions { display:flex; gap:12px; }
+  .btn { padding:14px 22px; border-radius:12px; font-size:16px; font-weight:800; border:none; }
+  .btn.cancel { background:#fff; border:2px solid #e3d9c8; color:#6b5d45; }
+  .btn.save { background:#2e7d32; color:#fff; }
+</style>
+
+<div class="nm-stage">
+  <div class="nm-modal">
+    <div class="nm-head">
+      <h3>Nova encomenda</h3>
+      <span class="nm-day">📅 Sábado, 6 jun ▾</span>
+      <span class="nm-x">✕</span>
+    </div>
+
+    <div class="nm-body">
+      <!-- LEFT: who + when + how -->
+      <div class="nm-col left">
+        <div class="nm-sec">
+          <p class="nm-lab">Origem</p>
+          <div class="chips">
+            <span class="chip sel">Telefone</span>
+            <span class="chip">WhatsApp</span>
+            <span class="chip">SMS</span>
+            <span class="chip">Balcão</span>
+          </div>
+        </div>
+
+        <div class="nm-sec">
+          <p class="nm-lab">Cliente</p>
+          <div class="inp">Mar|</div>
+          <div class="ac">
+            <div class="row"><b>Maria Lopes</b><span>912 200 145</span></div>
+            <div class="row"><b>Mariana Dias</b><span>936 781 002</span></div>
+            <div class="row" style="color:#7a4f2b;font-weight:700;">+ Novo cliente “Mar”</div>
+          </div>
+        </div>
+
+        <div class="nm-sec">
+          <p class="nm-lab">Telemóvel</p>
+          <div class="inp ph">— (preenche ao escolher cliente)</div>
+        </div>
+
+        <div class="nm-sec">
+          <p class="nm-lab">Hora de levantamento</p>
+          <div class="slots">
+            <span class="slot">09:00</span>
+            <span class="slot">09:30</span>
+            <span class="slot sel">10:00</span>
+            <span class="slot">10:30</span>
+            <span class="slot">11:00</span>
+            <span class="slot">17:00</span>
+          </div>
+        </div>
+
+        <div class="nm-sec" style="margin-bottom:0;">
+          <p class="nm-lab">Nota (opcional)</p>
+          <div class="inp" style="color:#b3a78a;">ex: paga no levantamento…</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: items -->
+      <div class="nm-col">
+        <p class="nm-lab">Artigos · contagem real para staff</p>
+
+        <div class="it">
+          <div class="nm2"><b>Baguete</b><span class="rem">8 disponíveis</span></div>
+          <div class="stepper"><button>−</button><span class="q">2</span><button>+</button></div>
+        </div>
+        <div class="it">
+          <div class="nm2"><b>Broa de milho</b><span class="rem">9 disponíveis</span></div>
+          <button class="addbtn">+</button>
+        </div>
+        <div class="it">
+          <div class="nm2"><b>Rolos de canela</b><span class="rem low">1 disponível</span></div>
+          <div class="stepper"><button>−</button><span class="q">1</span><button>+</button></div>
+        </div>
+        <div class="it">
+          <div class="nm2"><b>Trigo</b><span class="rem">22 disponíveis</span></div>
+          <button class="addbtn">+</button>
+        </div>
+        <div class="it">
+          <div class="nm2"><b>Cookies</b><span class="rem">28 disponíveis</span></div>
+          <button class="addbtn">+</button>
+        </div>
+        <div class="it out">
+          <div class="nm2"><b>Borodinsky</b><span class="rem out">Esgotado · tocar para exceder</span></div>
+          <button class="addbtn">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nm-foot">
+      <div class="nm-sum"><b>2× Baguete · 1× Rolos de canela</b> · levantamento 10:00</div>
+      <div class="nm-actions">
+        <button class="btn cancel">Cancelar</button>
+        <button class="btn save">Guardar encomenda</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Notes baked in: <b>Origem</b> excludes "Online" (staff-only sources). <b>Name autocomplete</b> suggests repeat customers and prefills the phone, or creates a new one. <b>Items show real remaining counts</b> (green / orange when low / red when sold-out) and a sold-out item can be <b>overbooked</b> ("tocar para exceder") since bakers may make extra. Day defaults to the day being viewed but is changeable.</p>

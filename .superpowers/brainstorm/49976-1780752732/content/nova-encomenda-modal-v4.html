@@ -1,0 +1,144 @@
+<h2>"Nova encomenda" — phone-first fast path</h2>
+<p class="subtitle">Identity-first: numeric "Telemóvel ou NIF" field (auto-focused, numeric keypad). Live match resolves the customer and auto-fills the name. A name is typed only for a genuinely new number. NIF accepted if no phone.</p>
+
+<style>
+  .stage { position:relative; border-radius:14px; overflow:hidden; min-height:900px; }
+  .bg { background:#f4efe7; padding:16px; min-height:900px; box-sizing:border-box; }
+  .bg-top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .bg-dates { display:flex; gap:8px; }
+  .bg-date { padding:9px 14px; border-radius:10px; background:#fff; border:2px solid #e3d9c8; font-weight:600; color:#6b5d45; }
+  .bg-date.active { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .bg-newbtn { background:#2e7d32; color:#fff; border:none; padding:12px 18px; border-radius:11px; font-size:15px; font-weight:700; }
+  .bg-tally { display:flex; gap:10px; flex-wrap:wrap; background:#fff; border-radius:12px; padding:11px 13px; margin-bottom:13px; border:1px solid #e3d9c8; }
+  .bg-tchip { font-size:14px; color:#4a4a4a; } .bg-tchip b { color:#7a4f2b; }
+  .bg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; }
+  .bg-card { background:#fff; border-radius:12px; padding:13px; border:1px solid #e3d9c8; }
+  .bg-card .nm { font-size:17px; font-weight:700; color:#2b2b2b; }
+  .bg-card .it { font-size:14px; color:#444; } .bg-card .it b { color:#7a4f2b; }
+  .bg-card .tm { display:inline-block; background:#f0e6d6; color:#7a4f2b; font-weight:700; padding:4px 10px; border-radius:16px; font-size:13px; margin-top:6px; }
+
+  .scrim { position:absolute; inset:0; background:rgba(30,22,12,.55); display:flex; align-items:flex-start; justify-content:center; padding:26px 18px; }
+  .nm-modal { background:#fff; border-radius:16px; width:100%; max-width:900px; box-shadow:0 24px 60px rgba(0,0,0,.45); overflow:hidden; }
+  .nm-head { display:flex; align-items:center; justify-content:space-between; padding:15px 18px; background:#7a4f2b; color:#fff; }
+  .nm-head h3 { margin:0; font-size:20px; font-weight:800; }
+  .nm-day { background:rgba(255,255,255,.18); padding:8px 13px; border-radius:10px; font-weight:700; font-size:14px; }
+  .nm-x { font-size:21px; font-weight:700; opacity:.9; }
+  .nm-body { display:grid; grid-template-columns:1fr 1.1fr; }
+  .nm-col { padding:18px 20px; } .nm-col.left { border-right:1px solid #efe7d8; }
+  .nm-lab { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#b08c5e; margin:0 0 8px; }
+  .nm-sec { margin-bottom:16px; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { padding:10px 14px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; font-size:14px; color:#6b5d45; }
+  .chip.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+
+  .inp { border:2px solid #e3d9c8; border-radius:10px; padding:12px 14px; font-size:16px; color:#333; background:#fdfbf7; }
+  .inp.focus { border-color:#2e7d32; box-shadow:0 0 0 3px rgba(46,125,50,.18); color:#1b5e20; font-weight:800; letter-spacing:1px; }
+  .kbd-hint { font-size:11px; color:#2e7d32; font-weight:700; margin-top:5px; }
+  /* live match dropdown */
+  .ac { border:2px solid #2e7d32; border-top:none; border-radius:0 0 10px 10px; background:#fff; margin-top:-2px; }
+  .ac .row { padding:11px 14px; border-bottom:1px solid #f2ece0; display:flex; justify-content:space-between; align-items:center; }
+  .ac .row:last-child { border-bottom:none; }
+  .ac .row b { color:#2b2b2b; font-size:15px; }
+  .ac .row .last { color:#999; font-size:12px; }
+  .ac .row.match { background:#eef7ef; }
+  .ac .row.newc { color:#7a4f2b; font-weight:700; }
+
+  .name-filled { display:flex; align-items:center; gap:8px; border:2px solid #e3d9c8; border-radius:10px; padding:12px 14px; background:#f3f8f3; }
+  .name-filled b { font-size:16px; color:#1b5e20; }
+  .name-filled .auto { margin-left:auto; font-size:11px; font-weight:800; color:#2e7d32; text-transform:uppercase; }
+
+  .slots { display:flex; flex-wrap:wrap; gap:8px; }
+  .slot { padding:9px 13px; border:2px solid #e3d9c8; border-radius:10px; font-weight:700; color:#6b5d45; font-size:15px; }
+  .slot.sel { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .it2 { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid #f2ece0; }
+  .it2 .n { flex:1; } .it2 .n b { font-size:16px; color:#2b2b2b; }
+  .it2 .rem { font-size:12px; color:#2e7d32; font-weight:700; display:block; }
+  .it2 .rem.low { color:#e65100; } .it2 .rem.out { color:#c62828; }
+  .stepper { display:flex; align-items:center; gap:9px; }
+  .stepper button { width:34px; height:34px; border-radius:9px; border:none; background:#7a4f2b; color:#fff; font-size:20px; font-weight:700; line-height:1; }
+  .stepper .q { min-width:16px; text-align:center; font-size:17px; font-weight:800; }
+  .addbtn { width:34px; height:34px; border-radius:9px; border:2px solid #7a4f2b; background:#fff; color:#7a4f2b; font-size:20px; font-weight:700; line-height:1; }
+  .it2.out { opacity:.6; }
+  .nm-foot { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; background:#faf3e9; border-top:1px solid #efe7d8; }
+  .nm-sum { font-size:15px; color:#5a4a32; } .nm-sum b { color:#2b2b2b; }
+  .btn { padding:14px 22px; border-radius:12px; font-size:16px; font-weight:800; border:none; }
+  .btn.cancel { background:#fff; border:2px solid #cdbfa6; color:#6b5d45; }
+  .btn.save { background:#2e7d32; color:#fff; }
+</style>
+
+<div class="mockup">
+  <div class="mockup-header">Padaria Massa Mater — Sábado, 6 de junho</div>
+  <div class="mockup-body" style="padding:0;">
+    <div class="stage">
+      <div class="bg">
+        <div class="bg-top">
+          <div class="bg-dates"><div class="bg-date active">Sáb 6</div><div class="bg-date">Dom 7</div><div class="bg-date">Ter 9</div><div class="bg-date">Qua 10</div></div>
+          <button class="bg-newbtn">+ Nova encomenda</button>
+        </div>
+        <div class="bg-tally">
+          <span class="bg-tchip"><b>Baguete</b> 12/20</span><span class="bg-tchip"><b>Broa de milho</b> 6/15</span>
+          <span class="bg-tchip"><b>Borodinsky</b> esgotado</span><span class="bg-tchip"><b>Trigo</b> 8/30</span>
+          <span class="bg-tchip"><b>Cookies</b> 12/40</span><span class="bg-tchip"><b>Rolos de canela</b> 9/10</span>
+        </div>
+        <div class="bg-grid">
+          <div class="bg-card"><div class="nm">Filipa Santos</div><div class="it"><b>2×</b> Baguete</div><div class="it"><b>1×</b> Rolos de canela</div><span class="tm">09:30</span></div>
+          <div class="bg-card"><div class="nm">João Pereira</div><div class="it"><b>1×</b> Borodinsky</div><div class="it"><b>3×</b> Broa de milho</div><span class="tm">10:00</span></div>
+          <div class="bg-card"><div class="nm">Sofia Brandão</div><div class="it"><b>1×</b> Trigo</div><div class="it"><b>1×</b> Granola</div><span class="tm">17:30</span></div>
+        </div>
+      </div>
+
+      <div class="scrim">
+        <div class="nm-modal">
+          <div class="nm-head">
+            <h3>Nova encomenda</h3>
+            <span class="nm-day">📅 Sábado, 6 jun ▾</span>
+            <span class="nm-x">✕</span>
+          </div>
+          <div class="nm-body">
+            <div class="nm-col left">
+              <div class="nm-sec"><p class="nm-lab">Origem</p>
+                <div class="chips"><span class="chip sel">Telefone</span><span class="chip">WhatsApp</span><span class="chip">SMS</span><span class="chip">Balcão</span></div>
+              </div>
+
+              <div class="nm-sec"><p class="nm-lab">1 · Telemóvel ou NIF</p>
+                <div class="inp focus">912 200&nbsp;|</div>
+                <div class="kbd-hint">⌨ teclado numérico · escreva e toque no cliente</div>
+                <div class="ac">
+                  <div class="row match"><b>Maria Lopes</b><span class="last">última: 2× Baguete · 1× Cookies</span></div>
+                  <div class="row"><b>Mário Pinto</b><span class="last">912 200 980</span></div>
+                  <div class="row newc">+ Novo cliente com este número</div>
+                </div>
+              </div>
+
+              <div class="nm-sec"><p class="nm-lab">2 · Nome</p>
+                <div class="name-filled"><b>Maria Lopes</b><span class="auto">✓ preenchido</span></div>
+              </div>
+
+              <div class="nm-sec"><p class="nm-lab">3 · Hora de levantamento</p>
+                <div class="slots"><span class="slot">09:30</span><span class="slot sel">10:00</span><span class="slot">10:30</span><span class="slot">11:00</span><span class="slot">17:00</span></div>
+              </div>
+
+              <div class="nm-sec" style="margin-bottom:0;"><p class="nm-lab">Nota (opcional)</p><div class="inp" style="color:#b3a78a;">ex: fatura com NIF…</div></div>
+            </div>
+
+            <div class="nm-col">
+              <p class="nm-lab">4 · Artigos · contagem real para staff</p>
+              <div class="it2"><div class="n"><b>Baguete</b><span class="rem">8 disponíveis</span></div><div class="stepper"><button>−</button><span class="q">2</span><button>+</button></div></div>
+              <div class="it2"><div class="n"><b>Broa de milho</b><span class="rem">9 disponíveis</span></div><button class="addbtn">+</button></div>
+              <div class="it2"><div class="n"><b>Rolos de canela</b><span class="rem low">1 disponível</span></div><div class="stepper"><button>−</button><span class="q">1</span><button>+</button></div></div>
+              <div class="it2"><div class="n"><b>Trigo</b><span class="rem">22 disponíveis</span></div><button class="addbtn">+</button></div>
+              <div class="it2"><div class="n"><b>Cookies</b><span class="rem">28 disponíveis</span></div><button class="addbtn">+</button></div>
+              <div class="it2 out"><div class="n"><b>Borodinsky</b><span class="rem out">Esgotado · tocar para exceder</span></div><button class="addbtn">+</button></div>
+            </div>
+          </div>
+          <div class="nm-foot">
+            <div class="nm-sum"><b>2× Baguete · 1× Rolos de canela</b> · Maria Lopes · 10:00</div>
+            <div class="chips"><button class="btn cancel">Cancelar</button><button class="btn save">Guardar encomenda</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">Fast path: tap source → type a few digits → tap the matched customer (name auto-fills, "✓ preenchido") → tap items → tap time → Guardar. A new number shows "+ Novo cliente", which is the only time a name is typed. NIF can be entered in the same field when there's no phone.</p>

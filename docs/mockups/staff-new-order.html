@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff — New Order · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    .form-card { background: #fff; border-radius: 14px; border: 1px solid #e3d9c8; padding: 20px; max-width: 560px; }
+    .form-title { font-size: 20px; font-weight: 700; color: #2b2b2b; margin-bottom: 18px; }
+
+    .fld { margin-bottom: 14px; }
+    .fld label { font-size: 11px; font-weight: 700; color: #7a4f2b; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px; }
+    .inp { border: 2px solid #e3d9c8; border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #2b2b2b; background: #fdfbf7; width: 100%; box-sizing: border-box; }
+    .inp:focus { outline: none; border-color: #7a4f2b; }
+
+    .channel-row { display: flex; gap: 8px; }
+    .ch-opt { flex: 1; padding: 10px 0; border: 2px solid #e3d9c8; border-radius: 8px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; color: #6b5d45; }
+    .ch-opt.sel-wa { border-color: #1b873f; background: #e7f7ec; color: #1b873f; }
+
+    .source-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .src-opt { padding: 8px 14px; border: 2px solid #e3d9c8; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b5d45; }
+    .src-opt.sel { border-color: #7a4f2b; background: #faf3e9; color: #7a4f2b; }
+
+    .divider { border: none; border-top: 1px solid #ede5d8; margin: 16px 0; }
+
+    .items-label { font-size: 11px; font-weight: 700; color: #7a4f2b; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 10px; }
+    .item-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0e9dd; }
+    .item-row:last-of-type { border-bottom: none; }
+    .item-check { width: 20px; height: 20px; border-radius: 5px; border: 2px solid #e3d9c8; background: #fff; flex: 0 0 auto; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .item-check.checked { background: #7a4f2b; border-color: #7a4f2b; color: #fff; font-size: 13px; }
+    .item-photo { width: 36px; height: 36px; border-radius: 7px; background: #efe2cd; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: 0 0 auto; }
+    .item-name { flex: 1; font-size: 14px; font-weight: 700; color: #2b2b2b; }
+    .item-name .avail { font-size: 11px; color: #b08c5e; font-weight: 400; display: block; margin-top: 1px; }
+    .qty-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 6px 8px; font-size: 13px; font-weight: 700; width: 52px; text-align: center; background: #fdfbf7; }
+    .qty-in:disabled { color: #c0b8ae; background: #f5f2ee; }
+
+    .actions { display: flex; gap: 10px; margin-top: 20px; }
+    .save-btn { flex: 1; background: #7a4f2b; color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .cancel-btn { padding: 13px 20px; border: 2px solid #e3d9c8; border-radius: 10px; font-size: 15px; font-weight: 700; color: #6b5d45; background: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h1>Staff — New Order</h1>
+
+<div class="form-card">
+  <div class="form-title">New order</div>
+
+  <div class="fld">
+    <label>Phone number</label>
+    <input class="inp" type="tel" placeholder="+351 9XX XXX XXX" />
+    <div style="font-size:11px;color:#b08c5e;margin-top:5px">Customer name and contact preference auto-filled if number is on record.</div>
+  </div>
+
+  <div class="fld">
+    <label>Customer name</label>
+    <input class="inp" type="text" placeholder="Full name" />
+  </div>
+
+  <div class="fld">
+    <label>Preferred contact</label>
+    <div class="channel-row">
+      <div class="ch-opt">📱 SMS</div>
+      <div class="ch-opt sel-wa">💬 WhatsApp</div>
+    </div>
+  </div>
+
+  <div class="fld">
+    <label>Pickup date &amp; time</label>
+    <div style="display:flex;gap:10px;align-items:center">
+      <input class="inp" type="date" value="2026-06-28" style="width:auto" />
+      <input class="inp" type="time" style="width:auto" placeholder="optional" />
+    </div>
+  </div>
+
+  <div class="fld">
+    <label>Order source</label>
+    <div class="source-row">
+      <div class="src-opt">📱 SMS</div>
+      <div class="src-opt">💬 WhatsApp</div>
+      <div class="src-opt sel">📞 Phone</div>
+      <div class="src-opt">🏪 Counter</div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="items-label">Items available today — Saturday, Jun 6</div>
+
+  <div class="item-row">
+    <div class="item-check checked">✓</div>
+    <div class="item-photo">🥖</div>
+    <div class="item-name">Baguette <span class="avail">8 of 12 remaining</span></div>
+    <input class="qty-in" type="number" value="2" min="1" />
+  </div>
+  <div class="item-row">
+    <div class="item-check"></div>
+    <div class="item-photo">🍞</div>
+    <div class="item-name">Corn bread <span class="avail">6 of 8 remaining</span></div>
+    <input class="qty-in" type="number" value="1" min="1" disabled />
+  </div>
+  <div class="item-row">
+    <div class="item-check checked">✓</div>
+    <div class="item-photo">🥐</div>
+    <div class="item-name">Cinnamon rolls <span class="avail">Ready from 11:00 · 2 of 10 remaining</span></div>
+    <input class="qty-in" type="number" value="3" min="1" />
+  </div>
+  <div class="item-row" style="opacity:.6">
+    <div class="item-check"></div>
+    <div class="item-photo" style="font-size:11px;color:#c8b89a;text-align:center;line-height:1.2">no photo</div>
+    <div class="item-name">Granola <span class="avail" style="color:#c0392b">Fully reserved · 0 remaining</span></div>
+    <input class="qty-in" type="number" value="1" min="1" disabled />
+  </div>
+  <div class="item-row">
+    <div class="item-check"></div>
+    <div class="item-photo">🍪</div>
+    <div class="item-name">Cookies <span class="avail">12 of 12 remaining</span></div>
+    <input class="qty-in" type="number" value="1" min="1" disabled />
+  </div>
+  <div style="font-size:11px;color:#9b8a6e;margin-top:10px;padding:8px 0;border-top:1px solid #f0e9dd">
+    Quantities can exceed remaining stock — staff can adjust batch size in Daily Inventory.
+  </div>
+
+  <hr class="divider" />
+
+  <div class="fld">
+    <label>Note (optional)</label>
+    <input class="inp" type="text" placeholder="" />
+  </div>
+
+  <div class="actions">
+    <button class="cancel-btn">Cancel</button>
+    <button class="save-btn">Save order</button>
+  </div>
+</div>
+
+</body>
+</html>

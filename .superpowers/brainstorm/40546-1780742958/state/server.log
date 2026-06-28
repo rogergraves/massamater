@@ -1,0 +1,3 @@
+{"type":"server-started","port":60964,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:60964","screen_dir":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/40546-1780742958/content","state_dir":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/40546-1780742958/state"}
+{"type":"screen-added","file":"/Users/rogergraves/workspace/massamater/.superpowers/brainstorm/40546-1780742958/content/day-view.html"}
+{"type":"server-stopped","reason":"owner process exited"}

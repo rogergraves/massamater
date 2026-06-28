@@ -1,0 +1,124 @@
+<h2>Staff Day View — the digital paper sheet</h2>
+<p class="subtitle">Tablet layout. Each card is a customer (like a square on your sheet). Tap a card to mark it picked up — it crosses out. Tallies along the top mirror the right margin of the paper.</p>
+
+<style>
+  .bk-wrap { background:#f4efe7; border-radius:14px; padding:16px; }
+  .bk-topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .bk-dates { display:flex; gap:8px; flex-wrap:wrap; }
+  .bk-date { padding:10px 16px; border-radius:10px; background:#fff; border:2px solid #e3d9c8; font-weight:600; color:#6b5d45; }
+  .bk-date.active { background:#7a4f2b; color:#fff; border-color:#7a4f2b; }
+  .bk-newbtn { background:#2e7d32; color:#fff; border:none; padding:14px 22px; border-radius:12px; font-size:17px; font-weight:700; }
+  .bk-tally { display:flex; gap:10px; flex-wrap:wrap; background:#fff; border-radius:12px; padding:12px 14px; margin-bottom:14px; border:1px solid #e3d9c8; }
+  .bk-tchip { display:flex; align-items:baseline; gap:6px; font-size:15px; color:#4a4a4a; }
+  .bk-tchip b { color:#7a4f2b; font-size:18px; }
+  .bk-tchip .rem { color:#999; font-size:13px; }
+  .bk-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
+  .bk-card { background:#fff; border-radius:12px; padding:14px; border:1px solid #e3d9c8; box-shadow:0 1px 2px rgba(0,0,0,.04); position:relative; }
+  .bk-card .name { font-size:19px; font-weight:700; color:#2b2b2b; }
+  .bk-card .phone { font-size:14px; color:#888; margin-top:2px; }
+  .bk-items { margin:10px 0; }
+  .bk-item { font-size:16px; color:#333; padding:2px 0; }
+  .bk-item b { color:#7a4f2b; }
+  .bk-time { display:inline-block; background:#f0e6d6; color:#7a4f2b; font-weight:700; padding:6px 12px; border-radius:20px; font-size:15px; }
+  .bk-src { position:absolute; top:12px; right:12px; font-size:11px; padding:3px 8px; border-radius:6px; font-weight:700; }
+  .bk-src.web { background:#e3f2fd; color:#1565c0; }
+  .bk-src.staff { background:#fff3e0; color:#e65100; }
+  .bk-card.done { opacity:.5; }
+  .bk-card.done .name, .bk-card.done .bk-item { text-decoration:line-through; }
+  .bk-check { position:absolute; bottom:12px; right:12px; font-size:13px; color:#2e7d32; font-weight:700; }
+</style>
+
+<div class="mockup">
+  <div class="mockup-header">Padaria Massa Mater — Saturday, June 6</div>
+  <div class="mockup-body bk-wrap">
+
+    <div class="bk-topbar">
+      <div class="bk-dates">
+        <div class="bk-date active">Sat 6</div>
+        <div class="bk-date">Sun 7</div>
+        <div class="bk-date">Tue 9</div>
+        <div class="bk-date">Wed 10</div>
+      </div>
+      <button class="bk-newbtn">+ New order</button>
+    </div>
+
+    <div class="bk-tally">
+      <span class="label" style="align-self:center;">Today's bake:</span>
+      <span class="bk-tchip"><b>Sourdough</b> 18/32 <span class="rem">(14 left)</span></span>
+      <span class="bk-tchip"><b>Cinnamon rolls</b> 9/10 <span class="rem">(1 left)</span></span>
+      <span class="bk-tchip"><b>Focaccia</b> 6/10 <span class="rem">(4 left)</span></span>
+      <span class="bk-tchip"><b>Baguete</b> 5/5 <span class="rem" style="color:#c62828;">(sold out)</span></span>
+      <span class="bk-tchip"><b>Cookies</b> 12/40 <span class="rem">(28 left)</span></span>
+    </div>
+
+    <div class="bk-grid">
+      <div class="bk-card">
+        <span class="bk-src web">WEB</span>
+        <div class="name">Filipa Santos</div>
+        <div class="phone">912 345 678</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Sourdough</div>
+          <div class="bk-item"><b>1×</b> Cinnamon roll</div>
+        </div>
+        <span class="bk-time">9:30</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">PHONE</span>
+        <div class="name">João Pereira</div>
+        <div class="phone">936 112 998</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>1×</b> Sourdough</div>
+          <div class="bk-item"><b>3×</b> Focaccia</div>
+        </div>
+        <span class="bk-time">10:00</span>
+      </div>
+
+      <div class="bk-card done">
+        <span class="bk-src web">WEB</span>
+        <div class="name">Ana Marques</div>
+        <div class="phone">915 778 220</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Baguete</div>
+          <div class="bk-item"><b>6×</b> Cookies</div>
+        </div>
+        <span class="bk-time">10:15</span>
+        <span class="bk-check">✓ Picked up</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">IN&nbsp;PERSON</span>
+        <div class="name">Tiago Costa</div>
+        <div class="phone">—</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>1×</b> Cinnamon roll</div>
+        </div>
+        <span class="bk-time">11:00</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src web">WEB</span>
+        <div class="name">Sofia Brandão</div>
+        <div class="phone">962 004 117</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>1×</b> Sourdough</div>
+          <div class="bk-item"><b>4×</b> Cookies</div>
+        </div>
+        <span class="bk-time">12:30</span>
+      </div>
+
+      <div class="bk-card">
+        <span class="bk-src staff">PHONE</span>
+        <div class="name">Lúcia Ferreira</div>
+        <div class="phone">913 556 901</div>
+        <div class="bk-items">
+          <div class="bk-item"><b>2×</b> Focaccia</div>
+        </div>
+        <span class="bk-time">17:00</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">A few things I baked in (we can change any of them): a colored tag shows where each order came from (web / phone / in-person), the tally bar shows staff the real remaining counts, and "+ New order" is the big button staff tap to enter a verbal order.</p>

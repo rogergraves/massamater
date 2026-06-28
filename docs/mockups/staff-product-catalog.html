@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff — Product Catalog · Massa Mater</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f6f1; margin: 0; padding: 24px; color: #2b2b2b; }
+    h1 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a4f2b; margin: 0 0 16px; }
+
+    .wrap { background: #f4efe7; border-radius: 14px; padding: 16px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .pg-title { font-size: 20px; font-weight: 700; color: #2b2b2b; }
+    .pg-sub { font-size: 13px; color: #9b8a6e; margin-top: 2px; }
+    .add-btn { background: #7a4f2b; color: #fff; border: none; padding: 11px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
+
+    .col-headers { display: flex; align-items: center; gap: 14px; padding: 6px 16px 10px; }
+    .col-headers span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #b08c5e; }
+
+    .prod-list { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e3d9c8; }
+    .prod-row { border-bottom: 1px solid #ede5d8; }
+    .prod-row:last-child { border-bottom: none; }
+
+    .prod-main { display: flex; align-items: center; gap: 14px; padding: 13px 16px; cursor: pointer; }
+    .prod-main:hover { background: #fdfaf7; }
+
+    .photo-cell { width: 52px; height: 52px; border-radius: 9px; background: #efe2cd; display: flex; align-items: center; justify-content: center; font-size: 24px; flex: 0 0 auto; position: relative; cursor: pointer; border: 2px dashed transparent; }
+    .photo-cell.empty { border-color: #c8b89a; font-size: 13px; color: #c8b89a; text-align: center; line-height: 1.2; }
+    .photo-cell .edit-badge { position: absolute; bottom: -3px; right: -3px; background: #7a4f2b; color: #fff; border-radius: 4px; font-size: 9px; padding: 2px 4px; font-weight: 700; }
+
+    .prod-name { flex: 1; font-size: 15px; font-weight: 700; color: #2b2b2b; }
+    .prod-name input { border: 2px solid #7a4f2b; border-radius: 7px; padding: 7px 10px; font-size: 15px; font-weight: 700; color: #2b2b2b; background: #fff; width: 180px; }
+
+    .day-pills { display: flex; gap: 4px; }
+    .dp { width: 26px; height: 26px; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; background: #f0ede8; color: #b0a898; }
+    .dp.on { background: #7a4f2b; color: #fff; }
+
+    .chevron { font-size: 16px; color: #b08c5e; }
+
+    .row-actions { display: flex; gap: 6px; flex: 0 0 auto; }
+    .icon-btn { width: 34px; height: 34px; border-radius: 7px; border: 1px solid #e3d9c8; background: #fff; color: #6b5d45; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .icon-btn.danger { color: #c62828; border-color: #fca08a; }
+    .icon-btn.confirm { background: #7a4f2b; color: #fff; border-color: #7a4f2b; }
+
+    /* Expanded detail */
+    .prod-detail { background: #faf3e9; border-top: 1px solid #e8ddd0; padding: 14px 16px 16px; }
+    .detail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: #b08c5e; margin-bottom: 10px; }
+    .day-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .day-toggle { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+    .day-toggle .day-label { font-size: 11px; font-weight: 700; color: #9b8a6e; }
+    .day-box { width: 38px; height: 38px; border-radius: 9px; border: 2px solid #e3d9c8; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #9b8a6e; }
+    .day-box.checked { background: #7a4f2b; border-color: #7a4f2b; color: #fff; }
+    .day-box.closed-day { background: #f0ede8; border-color: #e3d9c8; color: #ccc; cursor: not-allowed; }
+
+    .detail-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 12px; }
+    .detail-field { display: flex; flex-direction: column; gap: 5px; }
+    .time-in { border: 2px solid #e3d9c8; border-radius: 7px; padding: 7px 9px; font-size: 13px; font-weight: 700; color: #2b2b2b; background: #fdfbf7; width: 82px; text-align: center; }
+    .toggle { width: 40px; height: 22px; border-radius: 11px; background: #7a4f2b; position: relative; cursor: pointer; }
+    .toggle .knob { width: 16px; height: 16px; border-radius: 50%; background: #fff; position: absolute; top: 3px; right: 3px; }
+    .toggle.off { background: #d0c8bc; }
+    .toggle.off .knob { left: 3px; right: auto; }
+    .upload-area { border: 2px dashed #c8b89a; border-radius: 8px; padding: 10px 16px; font-size: 13px; color: #9b8a6e; cursor: pointer; }
+    .upload-area:hover { border-color: #7a4f2b; color: #7a4f2b; }
+  </style>
+</head>
+<body>
+
+<h1>Staff — Product Catalog</h1>
+
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="pg-title">Product catalog</div>
+      <div class="pg-sub">Permanent settings — photo, default ready time, day schedule, and status</div>
+    </div>
+    <button class="add-btn">+ New product</button>
+  </div>
+
+  <div class="col-headers">
+    <span style="width:52px">Photo</span>
+    <span style="flex:1">Name</span>
+    <span style="width:190px">Schedule</span>
+    <span style="width:34px">Active</span>
+    <span style="width:78px"></span>
+  </div>
+
+  <div class="prod-list">
+
+    <!-- Baguette — collapsed -->
+    <div class="prod-row">
+      <div class="prod-main">
+        <div class="photo-cell">🥖<span class="edit-badge">edit</span></div>
+        <div class="prod-name">Baguette</div>
+        <div class="day-pills">
+          <div class="dp" title="Monday">M</div>
+          <div class="dp on" title="Tuesday">T</div>
+          <div class="dp on" title="Wednesday">W</div>
+          <div class="dp on" title="Thursday">T</div>
+          <div class="dp on" title="Friday">F</div>
+          <div class="dp on" title="Saturday">S</div>
+          <div class="dp" title="Sunday">S</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn">✏</button>
+          <button class="icon-btn danger">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cinnamon rolls — expanded -->
+    <div class="prod-row">
+      <div class="prod-main">
+        <div class="photo-cell">🥐<span class="edit-badge">swap</span></div>
+        <div class="prod-name"><input type="text" value="Cinnamon rolls" /></div>
+        <div class="day-pills">
+          <div class="dp" title="Monday">M</div>
+          <div class="dp" title="Tuesday">T</div>
+          <div class="dp" title="Wednesday">W</div>
+          <div class="dp" title="Thursday">T</div>
+          <div class="dp on" title="Friday">F</div>
+          <div class="dp on" title="Saturday">S</div>
+          <div class="dp" title="Sunday">S</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn confirm">✓</button>
+          <button class="icon-btn">✕</button>
+        </div>
+      </div>
+      <div class="prod-detail">
+        <div class="detail-label">Available on these days</div>
+        <div class="day-grid">
+          <div class="day-toggle"><div class="day-label">Mon</div><div class="day-box closed-day">M</div></div>
+          <div class="day-toggle"><div class="day-label">Tue</div><div class="day-box">T</div></div>
+          <div class="day-toggle"><div class="day-label">Wed</div><div class="day-box">W</div></div>
+          <div class="day-toggle"><div class="day-label">Thu</div><div class="day-box">T</div></div>
+          <div class="day-toggle"><div class="day-label">Fri</div><div class="day-box checked">F</div></div>
+          <div class="day-toggle"><div class="day-label">Sat</div><div class="day-box checked">S</div></div>
+          <div class="day-toggle"><div class="day-label">Sun</div><div class="day-box closed-day">S</div></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:0">Default ready time</div>
+            <input class="time-in" type="time" value="10:00" />
+          </div>
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:0">Default batch size</div>
+            <input style="border:2px solid #e3d9c8;border-radius:7px;padding:7px 9px;font-size:13px;font-weight:700;width:60px;text-align:center;background:#fdfbf7" type="number" value="12" min="0" />
+          </div>
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:0">Max per customer</div>
+            <input style="border:2px solid #e3d9c8;border-radius:7px;padding:7px 9px;font-size:13px;font-weight:700;width:60px;text-align:center;background:#fdfbf7" type="number" value="4" min="1" />
+          </div>
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:6px">Active</div>
+            <div class="toggle"><div class="knob"></div></div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:0">Photo</div>
+            <div class="upload-area">+ Upload photo</div>
+          </div>
+          <div class="detail-field">
+            <div class="detail-label" style="margin-bottom:0">Icon</div>
+            <div class="upload-area">+ Select icon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Borodinsky — collapsed, Tue/Wed only -->
+    <div class="prod-row">
+      <div class="prod-main">
+        <div class="photo-cell">🍞<span class="edit-badge">edit</span></div>
+        <div class="prod-name">Borodinsky</div>
+        <div class="day-pills">
+          <div class="dp" title="Monday">M</div>
+          <div class="dp on" title="Tuesday">T</div>
+          <div class="dp on" title="Wednesday">W</div>
+          <div class="dp" title="Thursday">T</div>
+          <div class="dp" title="Friday">F</div>
+          <div class="dp" title="Saturday">S</div>
+          <div class="dp" title="Sunday">S</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn">✏</button>
+          <button class="icon-btn danger">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Granola — collapsed, Thu/Fri/Sat, no photo -->
+    <div class="prod-row">
+      <div class="prod-main">
+        <div class="photo-cell empty">+ photo</div>
+        <div class="prod-name">Granola</div>
+        <div class="day-pills">
+          <div class="dp" title="Monday">M</div>
+          <div class="dp" title="Tuesday">T</div>
+          <div class="dp" title="Wednesday">W</div>
+          <div class="dp on" title="Thursday">T</div>
+          <div class="dp on" title="Friday">F</div>
+          <div class="dp on" title="Saturday">S</div>
+          <div class="dp" title="Sunday">S</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn">✏</button>
+          <button class="icon-btn danger">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookies — collapsed, inactive -->
+    <div class="prod-row">
+      <div class="prod-main">
+        <div class="photo-cell">🍪<span class="edit-badge">edit</span></div>
+        <div class="prod-name" style="color:#9b8a6e">Cookies <span style="font-size:11px;font-weight:400">(inactive)</span></div>
+        <div class="day-pills">
+          <div class="dp" title="Monday">M</div>
+          <div class="dp on" title="Tuesday">T</div>
+          <div class="dp on" title="Wednesday">W</div>
+          <div class="dp on" title="Thursday">T</div>
+          <div class="dp on" title="Friday">F</div>
+          <div class="dp" title="Saturday">S</div>
+          <div class="dp" title="Sunday">S</div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn">✏</button>
+          <button class="icon-btn danger">🗑</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
