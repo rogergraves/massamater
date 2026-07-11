@@ -42,13 +42,18 @@
              class="prod-main"
              style="<%= 'display:none' if editing %>">
 
-          <div class="photo-cell <%= 'empty' unless product.photo.attached? %>">
-            <% if product.photo.attached? %>
-              <%= image_tag product.photo, class: "prod-photo" %>
-            <% else %>
-              + photo
-            <% end %>
-          </div>
+          <%= form_with url: staff_product_path(product), method: :patch, multipart: true,
+                        class: "photo-upload-form",
+                        data: { action: "change->product-catalog#uploadPhoto" } do |f| %>
+            <label class="photo-cell <%= 'empty' unless product.photo.attached? %>" title="<%= t('staff.products.photo_label') %>">
+              <% if product.photo.attached? %>
+                <%= image_tag product.photo, class: "prod-photo" %>
+              <% else %>
+                + photo
+              <% end %>
+              <%= f.file_field :photo, accept: "image/*", class: "sr-only" %>
+            </label>
+          <% end %>
 
           <div class="prod-name <%= 'inactive' unless product.active? %>">
             <%= product.display_name %>

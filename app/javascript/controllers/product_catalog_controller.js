@@ -36,6 +36,10 @@ export default class extends Controller {
     event.currentTarget.closest(".toggle").classList.toggle("off", !event.currentTarget.checked)
   }
 
+  uploadPhoto(event) {
+    event.currentTarget.closest("form").requestSubmit()
+  }
+
   openProduct(id) {
     document.getElementById(`product-summary-${id}`).style.display = "none"
     document.getElementById(`product-form-${id}`).style.display    = ""
