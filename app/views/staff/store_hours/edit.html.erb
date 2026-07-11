@@ -1,0 +1,3 @@
+<% @store_hours.each do |sh| %>
+  <div><%= Date::DAYNAMES[sh.day_of_week_before_type_cast] %></div>
+<% end %>
