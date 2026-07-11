@@ -1,3 +1,122 @@
-<% @store_hours.each do |sh| %>
-  <div><%= Date::DAYNAMES[sh.day_of_week_before_type_cast] %></div>
-<% end %>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <div class="pg-title"><%= t("store_hours.title") %></div>
+      <div class="pg-sub"><%= t("store_hours.subtitle") %></div>
+    </div>
+  </div>
+
+  <div class="info-strip">
+    📅 <%= t("store_hours.reservation_window_note").html_safe %>
+  </div>
+
+  <%# Weekly schedule — one form for all 7 days %>
+  <%= form_with url: staff_store_hours_path, method: :patch do |f| %>
+    <div class="section-card" data-controller="store-hours">
+      <div class="section-head">
+        <div class="section-head-title"><%= t("store_hours.weekly.title") %></div>
+        <div class="section-head-sub"><%= t("store_hours.weekly.subtitle") %></div>
+      </div>
+
+      <% @store_hours.each do |sh| %>
+        <% day_name = Date::DAYNAMES[sh.day_of_week_before_type_cast] %>
+        <div class="day-row <%= 'closed-row' unless sh.open? %>">
+          <div class="day-name"><%= day_name %></div>
+
+          <label class="toggle <%= 'off' unless sh.open? %>">
+            <%= check_box_tag "store_hours[#{sh.id}][open]", "1", sh.open?,
+                              id: "open_#{sh.id}", class: "sr-only",
+                              data: { action: "change->store-hours#toggle" } %>
+            <div class="knob"></div>
+          </label>
+
+          <div class="time-range">
+            <%= time_field_tag "store_hours[#{sh.id}][opens_at]",
+                               sh.opens_at&.strftime("%H:%M"),
+                               class: "time-in",
+                               disabled: !sh.open? %>
+            <span class="sep"><%= t("store_hours.weekly.to") %></span>
+            <%= time_field_tag "store_hours[#{sh.id}][closes_at]",
+                               sh.closes_at&.strftime("%H:%M"),
+                               class: "time-in",
+                               disabled: !sh.open? %>
+            <% unless sh.open? %>
+              <span class="closed-pill"><%= t("store_hours.weekly.closed_pill") %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div style="text-align:right;margin-bottom:14px">
+      <%= f.submit t("store_hours.save"), class: "save-btn" %>
+    </div>
+  <% end %>
+
+  <%# Exceptions %>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title"><%= t("store_hours.exceptions.title") %></div>
+      <div class="section-head-sub"><%= t("store_hours.exceptions.subtitle") %></div>
+    </div>
+
+    <% @exceptions.each do |exc| %>
+      <div class="exc-row">
+        <div class="exc-date">
+          <%= exc.date.strftime("%b %-d, %Y") %>
+          <span class="exc-weekday"><%= Date::DAYNAMES[exc.date.wday] %></span>
+        </div>
+        <div class="exc-reason"><%= exc.reason %></div>
+        <% if exc.closed? %>
+          <span class="closed-tag"><%= t("store_hours.exceptions.closed_tag") %></span>
+        <% else %>
+          <span class="hours-tag">
+            <%= exc.opens_at.strftime("%H:%M") %> – <%= exc.closes_at.strftime("%H:%M") %>
+          </span>
+        <% end %>
+        <%= button_to t("store_hours.exceptions.delete_button"),
+                      staff_store_exception_path(exc),
+                      method: :delete,
+                      class: "del-btn",
+                      form: { data: { turbo_confirm: "Delete this exception?" } } %>
+      </div>
+    <% end %>
+
+    <%# Add exception form %>
+    <%= form_with model: @new_exception,
+                  url: staff_store_exceptions_path,
+                  data: { controller: "exception-form",
+                          action: "change->exception-form#typeChanged" } do |f| %>
+      <div class="add-exc-row">
+        <%= f.date_field :date, class: "date-in" %>
+        <%= f.text_field :reason,
+                         placeholder: t("store_hours.exceptions.add_placeholder_reason"),
+                         class: "reason-in" %>
+        <div class="type-sel">
+          <label class="type-opt sel">
+            <%= f.radio_button :closed, "1", checked: true %>
+            <%= t("store_hours.exceptions.type_closed") %>
+          </label>
+          <label class="type-opt">
+            <%= f.radio_button :closed, "0" %>
+            <%= t("store_hours.exceptions.type_different_hours") %>
+          </label>
+        </div>
+        <div class="different-hours-fields"
+             data-exception-form-target="differentHoursFields"
+             style="display:none">
+          <%= f.label :opens_at,  t("store_hours.exceptions.opens_at_label") %>
+          <%= f.time_field :opens_at,  class: "time-in" %>
+          <%= f.label :closes_at, t("store_hours.exceptions.closes_at_label") %>
+          <%= f.time_field :closes_at, class: "time-in" %>
+        </div>
+        <%= f.submit t("store_hours.exceptions.add_button"), class: "add-btn-sm" %>
+      </div>
+      <% if @new_exception.errors.any? %>
+        <div class="form-errors">
+          <%= @new_exception.errors.full_messages.to_sentence %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

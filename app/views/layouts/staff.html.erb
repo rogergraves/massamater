@@ -13,7 +13,7 @@
     <%= link_to t("staff.nav.today"),     staff_root_path %>
     <%= link_to t("staff.nav.inventory"), "#" %>
     <%= link_to t("staff.nav.products"),  "#" %>
-    <%= link_to t("staff.nav.settings"),  "#" %>
+    <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path %>
 
     <span>
       <%= button_to "PT", locale_path(locale: :pt), method: :patch %>
