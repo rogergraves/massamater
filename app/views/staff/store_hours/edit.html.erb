@@ -77,8 +77,7 @@
         <%= button_to t("store_hours.exceptions.delete_button"),
                       staff_store_exception_path(exc),
                       method: :delete,
-                      class: "del-btn",
-                      form: { data: { turbo_confirm: "Delete this exception?" } } %>
+                      class: "del-btn" %>
       </div>
     <% end %>
 
