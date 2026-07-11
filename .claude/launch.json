@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "rails",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "source ~/.rvm/scripts/rvm && rvm use ruby-4.0.1@massamater --create && bin/rails server -p 3000"],
+      "port": 3000
+    },
+    {
       "name": "mockups",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4321", "--directory", "docs/mockups"],

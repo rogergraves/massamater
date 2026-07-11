@@ -9,6 +9,19 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+/* ── Staff Nav ───────────────────────────────────── */
+.staff-nav          { display:flex;align-items:center;justify-content:space-between;background:#7a4f2b;padding:0 20px;height:52px;gap:12px }
+.staff-nav-links    { display:flex;align-items:center;gap:4px }
+.nav-link           { color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:600;padding:7px 12px;border-radius:8px;transition:background .15s,color .15s }
+.nav-link:hover     { color:#fff;background:rgba(255,255,255,.12) }
+.staff-nav-right    { display:flex;align-items:center;gap:10px }
+.locale-toggle      { display:flex;border:1.5px solid rgba(255,255,255,.3);border-radius:8px;overflow:hidden }
+.locale-btn         { background:transparent;color:rgba(255,255,255,.7);border:none;padding:5px 11px;font-size:13px;font-weight:700;cursor:pointer;line-height:1 }
+.locale-btn:hover   { background:rgba(255,255,255,.12);color:#fff }
+.locale-btn-active  { background:rgba(255,255,255,.22);color:#fff }
+.signout-btn        { background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.25);padding:6px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer }
+.signout-btn:hover  { background:rgba(255,255,255,.2);color:#fff }
+
 /* ── Store Hours ─────────────────────────────────── */
 .wrap           { background:#f4efe7;border-radius:14px;padding:16px }
 .topbar         { display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px }

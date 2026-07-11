@@ -10,18 +10,20 @@
   <%= javascript_importmap_tags %>
 </head>
 <body>
-  <nav>
-    <%= link_to t("staff.nav.today"),     staff_root_path %>
-    <%= link_to t("staff.nav.inventory"), "#" %>
-    <%= link_to t("staff.nav.products"),  "#" %>
-    <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path %>
-
-    <span>
-      <%= button_to "PT", locale_path(locale: :pt), method: :patch %>
-      <%= button_to "EN", locale_path(locale: :en), method: :patch %>
-    </span>
-
-    <%= button_to t("auth.sign_out"), logout_path, method: :delete %>
+  <nav class="staff-nav">
+    <div class="staff-nav-links">
+      <%= link_to t("staff.nav.today"),     staff_root_path,              class: "nav-link" %>
+      <%= link_to t("staff.nav.inventory"), "#",                          class: "nav-link" %>
+      <%= link_to t("staff.nav.products"),  "#",                          class: "nav-link" %>
+      <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path,  class: "nav-link" %>
+    </div>
+    <div class="staff-nav-right">
+      <div class="locale-toggle">
+        <%= button_to "PT", locale_path(locale: :pt), method: :patch, class: "locale-btn #{'locale-btn-active' if I18n.locale == :pt}" %>
+        <%= button_to "EN", locale_path(locale: :en), method: :patch, class: "locale-btn #{'locale-btn-active' if I18n.locale == :en}" %>
+      </div>
+      <%= button_to t("auth.sign_out"), logout_path, method: :delete, class: "signout-btn" %>
+    </div>
   </nav>
 
   <main>
