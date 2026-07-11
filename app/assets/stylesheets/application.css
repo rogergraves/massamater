@@ -52,3 +52,5 @@
 .type-opt input { display:none }
 .add-btn-sm     { background:#7a4f2b;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap }
 .form-errors    { padding:8px 16px;color:#c62828;font-size:13px }
+.flash-notice   { background:#e8f5e9;color:#2e7d32;padding:10px 16px;border-radius:8px;margin:8px 0;font-size:14px }
+.flash-alert    { background:#fdecea;color:#c62828;padding:10px 16px;border-radius:8px;margin:8px 0;font-size:14px }

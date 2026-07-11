@@ -14,5 +14,9 @@ export default class extends Controller {
   updateFields() {
     const isDifferentHours = this.element.querySelector('input[name*="closed"][value="0"]')?.checked
     this.differentHoursFieldsTarget.style.display = isDifferentHours ? "" : "none"
+    this.element.querySelectorAll(".type-opt").forEach(label => {
+      const radio = label.querySelector("input[type=radio]")
+      label.classList.toggle("sel", radio?.checked)
+    })
   }
 }
