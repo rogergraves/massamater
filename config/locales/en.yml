@@ -63,5 +63,13 @@ en:
       added: "Exception added."
       removed: "Exception removed."
   date:
+    day_names:
+      - Sunday
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
     formats:
       short_with_day: "%A, %b %-d"

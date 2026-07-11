@@ -19,7 +19,7 @@
       </div>
 
       <% @store_hours.each do |sh| %>
-        <% day_name = Date::DAYNAMES[sh.day_of_week_before_type_cast] %>
+        <% day_name = I18n.t("date.day_names")[sh.day_of_week_before_type_cast] %>
         <div class="day-row <%= 'closed-row' unless sh.open? %>">
           <div class="day-name"><%= day_name %></div>
 
@@ -64,7 +64,7 @@
       <div class="exc-row">
         <div class="exc-date">
           <%= exc.date.strftime("%b %-d, %Y") %>
-          <span class="exc-weekday"><%= Date::DAYNAMES[exc.date.wday] %></span>
+          <span class="exc-weekday"><%= I18n.t("date.day_names")[exc.date.wday] %></span>
         </div>
         <div class="exc-reason"><%= exc.reason %></div>
         <% if exc.closed? %>
