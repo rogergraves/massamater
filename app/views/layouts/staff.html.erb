@@ -14,7 +14,7 @@
     <div class="staff-nav-links">
       <%= link_to t("staff.nav.today"),     staff_root_path,              class: "nav-link" %>
       <%= link_to t("staff.nav.inventory"), "#",                          class: "nav-link" %>
-      <%= link_to t("staff.nav.products"),  "#",                          class: "nav-link" %>
+      <%= link_to t("staff.nav.products"),  staff_products_path,          class: "nav-link" %>
       <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path,  class: "nav-link" %>
     </div>
     <div class="staff-nav-right">

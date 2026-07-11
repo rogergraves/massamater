@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     root "dashboard#index"
     resource  :store_hours,      only: [:edit, :update]
     resources :store_exceptions, only: [:create, :destroy]
+    resources :products,         only: [:index, :create, :update, :destroy]
   end
 end
