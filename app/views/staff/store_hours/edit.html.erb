@@ -87,7 +87,12 @@
                   data: { controller: "exception-form",
                           action: "change->exception-form#typeChanged" } do |f| %>
       <div class="add-exc-row">
-        <%= f.date_field :date, class: "date-in" %>
+        <%= f.date_select :date,
+                          order: [:day, :month, :year],
+                          start_year: Date.current.year,
+                          end_year: Date.current.year + 2,
+                          prompt: { day: "DD", month: "MM", year: "YYYY" },
+                          class: "date-sel" %>
         <%= f.text_field :reason,
                          placeholder: t("store_hours.exceptions.add_placeholder_reason"),
                          class: "reason-in" %>

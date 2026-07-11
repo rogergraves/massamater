@@ -45,6 +45,7 @@
 .del-btn        { width:30px;height:30px;border-radius:6px;border:1px solid #e3d9c8;background:#fff;color:#c62828;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 auto }
 .add-exc-row    { display:flex;align-items:center;gap:10px;padding:12px 16px;flex-wrap:wrap;background:#fdfbf7;border-top:1px solid #ede5d8 }
 .date-in        { border:2px solid #e3d9c8;border-radius:7px;padding:8px 10px;font-size:13px;color:#2b2b2b;background:#fff }
+.date-sel select { border:2px solid #e3d9c8;border-radius:7px;padding:7px 6px;font-size:13px;color:#2b2b2b;background:#fff;margin-right:3px }
 .reason-in      { border:2px solid #e3d9c8;border-radius:7px;padding:8px 10px;font-size:13px;color:#2b2b2b;background:#fff;flex:1;min-width:140px }
 .type-sel       { display:flex;gap:6px }
 .type-opt       { padding:7px 12px;border:2px solid #e3d9c8;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;color:#6b5d45 }
