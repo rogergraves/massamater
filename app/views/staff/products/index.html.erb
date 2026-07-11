@@ -42,7 +42,7 @@
              class="prod-main"
              style="<%= 'display:none' if editing %>">
 
-          <%= form_with url: staff_product_path(product), method: :patch, multipart: true,
+          <%= form_with model: [:staff, product], multipart: true,
                         class: "photo-upload-form",
                         data: { action: "change->product-catalog#uploadPhoto" } do |f| %>
             <label class="photo-cell <%= 'empty' unless product.photo.attached? %>" title="<%= t('staff.products.photo_label') %>">
