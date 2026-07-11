@@ -74,7 +74,7 @@
             <%= exc.opens_at.strftime("%H:%M") %> – <%= exc.closes_at.strftime("%H:%M") %>
           </span>
         <% end %>
-        <%= button_to t("store_hours.exceptions.delete_button"),
+        <%= button_to "×",
                       staff_store_exception_path(exc),
                       method: :delete,
                       class: "del-btn" %>
