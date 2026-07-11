@@ -9,7 +9,7 @@ class Staff::StoreHoursController < Staff::BaseController
     hours_params = params[:store_hours] || {}
     StoreHour.order(:day_of_week).each do |hour|
       attrs = hours_params[hour.id.to_s] || {}
-      hour.update!(
+      hour.update(
         open:      attrs[:open] == "1",
         opens_at:  attrs[:opens_at].presence || hour.opens_at,
         closes_at: attrs[:closes_at].presence || hour.closes_at
