@@ -8,8 +8,8 @@ class User < ApplicationRecord
   validates :phone, presence: true,
                     uniqueness: true,
                     format: {
-                      with: /\A\+[1-9]\d{6,14}\z/,
-                      message: "must be in E.164 format (+country code)"
+                      with: /\A(\+[1-9]\d{6,14}|\d{7,15})\z/,
+                      message: "must be a valid phone number"
                     }
   validates :name, presence: true
 
