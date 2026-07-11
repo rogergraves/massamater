@@ -43,7 +43,7 @@ class Staff::ProductsController < Staff::BaseController
   end
 
   def load_index_data
-    @products    = Product.ordered.includes(:product_schedule_days)
+    @products    = Product.ordered.with_attached_photo.includes(:product_schedule_days)
     @open_days   = StoreHour.where(open: true).pluck(:day_of_week)
     @new_product = Product.new
   end

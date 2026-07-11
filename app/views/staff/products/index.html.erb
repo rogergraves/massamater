@@ -16,7 +16,9 @@
   </div>
 
   <%# New product form (hidden by default) %>
-  <div data-product-catalog-target="newForm" style="display:none" class="section-card">
+  <div data-product-catalog-target="newForm"
+     style="<%= 'display:none' unless @show_new_form %>"
+     class="section-card">
     <div class="section-head">
       <div class="section-head-title"><%= t("staff.products.new_title") %></div>
     </div>

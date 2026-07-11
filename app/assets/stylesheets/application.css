@@ -106,3 +106,4 @@
 .cancel-btn       { background:transparent;border:1.5px solid #c8b89a;color:#6b5d45;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer }
 .cancel-btn:hover { background:#f0ede8 }
 .row-actions form { display:inline }
+.mt-14            { margin-top:14px }

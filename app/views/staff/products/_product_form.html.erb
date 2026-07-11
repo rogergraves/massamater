@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div class="detail-label" style="margin-top:14px"><%= t("staff.products.schedule_label") %></div>
+  <div class="detail-label mt-14"><%= t("staff.products.schedule_label") %></div>
   <div class="day-grid">
     <% (0..6).each do |day_num| %>
       <% closed   = !open_days.include?(day_num) %>
@@ -33,7 +33,7 @@
     <% end %>
   </div>
 
-  <div class="detail-row" style="margin-top:14px">
+  <div class="detail-row mt-14">
     <div class="detail-field">
       <%= f.label :default_ready_time, t("staff.products.ready_time_label"), class: "detail-label" %>
       <%= f.time_field :default_ready_time, class: "time-in" %>
