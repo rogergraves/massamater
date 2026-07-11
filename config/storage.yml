@@ -10,9 +10,9 @@ tigris:
   service: S3
   access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
   secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
-  region: <%= ENV["AWS_REGION"] %>
-  bucket: <%= ENV["BUCKET_NAME"] %>
-  endpoint: <%= ENV["AWS_ENDPOINT_URL_S3"] %>
+  region: auto
+  bucket: <%= ENV.fetch("BUCKET_NAME", "massamater") %>
+  endpoint: https://fly.storage.tigris.dev
   force_path_style: false
 
 # Remember not to checkin your GCS keyfile to a repository
