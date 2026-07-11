@@ -38,6 +38,30 @@ pt:
     remaining: "%{count} restante(s)"
   store:
     closed: "Fechado"
+  store_hours:
+    title: "Horário da loja"
+    subtitle: "Horário semanal e exceções pontuais"
+    save: "Guardar"
+    saved: "Guardado."
+    reservation_window_note: "Reservas aceites até <strong>7 dias</strong> de antecedência. Os dias fechados não aparecem no formulário de reserva."
+    weekly:
+      title: "Horário semanal"
+      subtitle: "Repete automaticamente todas as semanas"
+      to: "às"
+      closed_pill: "Fechado"
+    exceptions:
+      title: "Exceções pontuais"
+      subtitle: "Feriados, emergências ou horário diferente numa data específica"
+      closed_tag: "Fechado"
+      add_placeholder_reason: "Motivo (ex: emergência familiar…)"
+      type_closed: "Fechado"
+      type_different_hours: "Horário diferente"
+      add_button: "+ Adicionar"
+      delete_button: "Eliminar"
+      opens_at_label: "Abre às"
+      closes_at_label: "Fecha às"
+      added: "Exceção adicionada."
+      removed: "Exceção removida."
   date:
     formats:
       short_with_day: "%A, %d %b"

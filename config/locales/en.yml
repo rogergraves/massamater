@@ -38,6 +38,30 @@ en:
     remaining: "%{count} remaining"
   store:
     closed: "Closed"
+  store_hours:
+    title: "Store hours"
+    subtitle: "Weekly schedule and one-off exceptions"
+    save: "Save"
+    saved: "Saved."
+    reservation_window_note: "Reservations accepted up to <strong>7 days</strong> ahead. Closed days don't appear in the reservation form."
+    weekly:
+      title: "Weekly schedule"
+      subtitle: "Repeats automatically every week"
+      to: "to"
+      closed_pill: "Closed"
+    exceptions:
+      title: "One-off exceptions"
+      subtitle: "Holidays, emergencies, or different hours on a specific date"
+      closed_tag: "Closed"
+      add_placeholder_reason: "Reason (e.g. family emergency…)"
+      type_closed: "Closed"
+      type_different_hours: "Different hours"
+      add_button: "+ Add"
+      delete_button: "Delete"
+      opens_at_label: "Opens at"
+      closes_at_label: "Closes at"
+      added: "Exception added."
+      removed: "Exception removed."
   date:
     formats:
       short_with_day: "%A, %b %-d"
