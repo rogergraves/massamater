@@ -9,5 +9,7 @@ Rails.application.routes.draw do
 
   namespace :staff do
     root "dashboard#index"
+    resource  :store_hours,      only: [:edit, :update]
+    resources :store_exceptions, only: [:create, :destroy]
   end
 end
