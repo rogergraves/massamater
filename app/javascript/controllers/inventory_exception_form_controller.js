@@ -1,10 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["qtyFields", "timeFields"]
+  static targets = ["qtyFields", "timeFields", "submitBtn"]
 
   connect() {
     this.updateFields()
+  }
+
+  submit() {
+    this.submitBtnTarget.disabled = true
+    this.submitBtnTarget.value = "Adding…"
   }
 
   typeChanged() {

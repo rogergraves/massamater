@@ -142,7 +142,8 @@
     <%# Add exception form %>
     <%= form_with model: @new_exception,
                   url: staff_inventory_exceptions_path,
-                  data: { controller: "inventory-exception-form" } do |f| %>
+                  data: { controller: "inventory-exception-form",
+                          action: "submit->inventory-exception-form#submit" } do |f| %>
       <div class="add-exc-row">
         <%= f.date_field :date,
                          value: @new_exception.date || Date.current,
@@ -189,7 +190,8 @@
                            value: @new_exception.ready_time_override&.strftime("%H:%M") %>
         </div>
 
-        <%= f.submit t("staff.inventory.exceptions.add_button"), class: "add-btn-sm" %>
+        <%= f.submit t("staff.inventory.exceptions.add_button"), class: "add-btn-sm",
+                     data: { "inventory-exception-form-target": "submitBtn" } %>
       </div>
 
       <% if @new_exception.errors.any? %>
