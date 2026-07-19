@@ -1,0 +1,29 @@
+<%# locals: (presenter:, product:) %>
+<% total    = presenter.effective_batch_size(product) %>
+<% reserved = presenter.reserved_count(product) %>
+<% pct      = total > 0 ? [(reserved * 100 / total), 100].min : 0 %>
+<% fill_class = pct >= 100 ? "prog-fill--full" : pct >= 75 ? "prog-fill--warn" : "" %>
+
+<div class="day-product-row">
+  <div class="day-prod-photo">
+    <% if product.photo.attached? %>
+      <%= image_tag product.photo, class: "day-prod-img" %>
+    <% else %>
+      <div class="day-prod-img-placeholder"></div>
+    <% end %>
+  </div>
+
+  <div class="day-prod-info">
+    <div class="day-prod-name"><%= product.display_name %></div>
+    <div class="day-prod-meta">
+      <%= t("staff.dashboard.ready_at", time: presenter.effective_ready_time(product)&.strftime("%H:%M") || "–") %>
+    </div>
+  </div>
+
+  <div class="day-prod-counts">
+    <span class="day-count"><%= reserved %> / <%= total %></span>
+    <div class="prog-bar">
+      <div class="prog-fill <%= fill_class %>" style="width:<%= pct %>%"></div>
+    </div>
+  </div>
+</div>

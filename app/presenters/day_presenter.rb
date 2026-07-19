@@ -1,4 +1,6 @@
 class DayPresenter
+  attr_reader :date
+
   def initialize(date)
     @date       = date
     @exceptions = ProductException.where(date: date).index_by(&:product_id)
@@ -54,6 +56,28 @@ class DayPresenter
 
   def total_items
     reservations.sum { |r| r.reservation_items.sum(&:quantity) }
+  end
+
+  def self.open_on?(date)
+    exc = StoreException.for_date(date)
+    return false if exc&.closed?
+    hour = StoreHour.for_date(date)
+    hour&.open? || false
+  end
+
+  def self.next_open_date(from:)
+    candidates = (1..14).map { |i| from + i }
+    exceptions = StoreException.where(date: candidates, closed: true).pluck(:date).to_set
+    open_wdays = StoreHour.where(open: true)
+                         .pluck(:day_of_week)
+                         .map { |d| d.is_a?(Integer) ? d : StoreHour.day_of_weeks[d] }
+                         .to_set
+
+    candidates.each do |date|
+      next if exceptions.include?(date)
+      return date if open_wdays.include?(date.wday)
+    end
+    nil
   end
 
   private

@@ -143,4 +143,53 @@ RSpec.describe DayPresenter do
       expect(presenter.reservations).to be_empty
     end
   end
+
+  describe ".open_on?(date)" do
+    let(:monday) { Date.new(2026, 7, 20) } # wday=1
+
+    before do
+      StoreHour.create!(day_of_week: :monday, open: true, opens_at: "09:00", closes_at: "17:00")
+    end
+
+    it "returns true when the store hour is open and no closed exception" do
+      expect(DayPresenter.open_on?(monday)).to be true
+    end
+
+    it "returns false when the store hour is closed" do
+      StoreHour.find_by(day_of_week: :monday).update!(open: false)
+      expect(DayPresenter.open_on?(monday)).to be false
+    end
+
+    it "returns false when a closed StoreException exists for that date" do
+      StoreException.create!(date: monday, reason: "Holiday", closed: true)
+      expect(DayPresenter.open_on?(monday)).to be false
+    end
+
+    it "returns false when no StoreHour row exists for that day" do
+      StoreHour.find_by(day_of_week: :monday).destroy
+      expect(DayPresenter.open_on?(monday)).to be false
+    end
+  end
+
+  describe ".next_open_date(from:)" do
+    it "returns nil when no open day is found within 14 days" do
+      expect(DayPresenter.next_open_date(from: Date.new(2026, 7, 20))).to be_nil
+    end
+
+    it "returns the next date that is open" do
+      wednesday = Date.new(2026, 7, 22) # wday=3
+      StoreHour.create!(day_of_week: :wednesday, open: true, opens_at: "09:00", closes_at: "17:00")
+      result = DayPresenter.next_open_date(from: Date.new(2026, 7, 20))
+      expect(result).to eq(wednesday)
+    end
+
+    it "skips dates with a closed StoreException even if the weekday is open" do
+      StoreHour.create!(day_of_week: :wednesday, open: true, opens_at: "09:00", closes_at: "17:00")
+      first_wednesday = Date.new(2026, 7, 22)
+      StoreException.create!(date: first_wednesday, reason: "Holiday", closed: true)
+      second_wednesday = Date.new(2026, 7, 29)
+      result = DayPresenter.next_open_date(from: Date.new(2026, 7, 20))
+      expect(result).to eq(second_wednesday)
+    end
+  end
 end

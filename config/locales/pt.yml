@@ -21,6 +21,9 @@ pt:
       new_reservation_btn: "+ Nova reserva"
       orders_summary: "%{orders} encomendas · %{items} itens"
       ready_at: "Pronto às %{time}"
+      closed_today: "A loja está fechada hoje."
+      next_open: "Próxima abertura: %{date}"
+      next_open_products_title: "A seguir"
     inventory:
       title: "Inventário"
       subtitle: "Produtos e exceções por data"

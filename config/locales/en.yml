@@ -21,6 +21,9 @@ en:
       new_reservation_btn: "+ New reservation"
       orders_summary: "%{orders} orders · %{items} items"
       ready_at: "Ready %{time}"
+      closed_today: "The store is closed today."
+      next_open: "Next open: %{date}"
+      next_open_products_title: "Coming up"
     inventory:
       title: "Inventory"
       subtitle: "Products and date-specific exceptions"
