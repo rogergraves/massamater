@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Product, type: :model do
   describe "associations" do
     it { is_expected.to have_many(:product_schedule_days).dependent(:destroy) }
-    it { is_expected.to have_many(:daily_inventories).dependent(:destroy) }
+    it { is_expected.to have_many(:product_exceptions).dependent(:destroy) }
     it { is_expected.to have_many(:reservation_items).dependent(:restrict_with_error) }
     it { is_expected.to have_one_attached(:photo) }
     it { is_expected.to have_one_attached(:icon) }
