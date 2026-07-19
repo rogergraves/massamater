@@ -61,8 +61,8 @@
 .date-in        { border:2px solid #e3d9c8;border-radius:7px;padding:8px 10px;font-size:13px;color:#2b2b2b;background:#fff }
 .reason-in      { border:2px solid #e3d9c8;border-radius:7px;padding:8px 10px;font-size:13px;color:#2b2b2b;background:#fff;flex:1;min-width:140px }
 .type-sel       { display:flex;gap:6px }
-.type-opt       { padding:7px 12px;border:2px solid #e3d9c8;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;color:#6b5d45 }
-.type-opt.sel   { border-color:#c62828;background:#fdecea;color:#c62828 }
+.type-opt       { padding:5px 12px;border:1.5px solid #d8cbbA;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;color:#a0917e;background:#faf8f5 }
+.type-opt.sel   { border-color:#7a4f2b;background:#7a4f2b;color:#fff }
 .type-opt input { display:none }
 .add-btn-sm     { background:#7a4f2b;color:#fff;border:none;padding:8px 14px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap }
 .form-errors    { padding:8px 16px;color:#c62828;font-size:13px }

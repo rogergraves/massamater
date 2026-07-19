@@ -48,7 +48,7 @@ pt:
         type_add: "Adicionar"
         qty_label: "Qtd"
         ready_time_label: "Pronto às"
-        add_button: "+ Adicionar"
+        add_button: "Guardar"
         added: "Exceção adicionada."
         removed: "Exceção removida."
         qty_summary: "Qtd: %{qty}"

@@ -48,7 +48,7 @@ en:
         type_add: "Add"
         qty_label: "Qty"
         ready_time_label: "Ready at"
-        add_button: "+ Add"
+        add_button: "Save"
         added: "Exception added."
         removed: "Exception removed."
         qty_summary: "Qty: %{qty}"
