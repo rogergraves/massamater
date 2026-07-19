@@ -1,1 +1,203 @@
-<div class="wrap"><p>Inventory</p></div>
+<%# app/views/staff/inventory/index.html.erb %>
+<div class="wrap"
+     data-controller="product-catalog"
+     data-product-catalog-open-id-value="<%= @editing_product_id %>">
+
+  <div class="topbar">
+    <div>
+      <div class="pg-title"><%= t("staff.inventory.title") %></div>
+      <div class="pg-sub"><%= t("staff.inventory.subtitle") %></div>
+    </div>
+    <button class="add-btn"
+            data-action="click->product-catalog#showNew"
+            data-product-catalog-target="newBtn">
+      <%= t("staff.inventory.new_btn") %>
+    </button>
+  </div>
+
+  <%# New product form (hidden by default) %>
+  <div data-product-catalog-target="newForm"
+       style="<%= 'display:none' unless @show_new_form %>"
+       class="section-card">
+    <div class="section-head">
+      <div class="section-head-title"><%= t("staff.inventory.new_title") %></div>
+    </div>
+    <%= form_with model: @new_product, url: staff_inventory_index_path, multipart: true do |f| %>
+      <%= render "staff/inventory/product_form", f: f, product: @new_product, open_days: @open_days, show_errors: @show_new_form %>
+      <div class="form-actions">
+        <%= f.submit t("staff.inventory.add_btn"), class: "save-btn" %>
+        <button type="button" class="cancel-btn" data-action="click->product-catalog#hideNew">
+          <%= t("staff.inventory.cancel_btn") %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Products section %>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title"><%= t("staff.inventory.products_title") %></div>
+      <div class="section-head-sub"><%= t("staff.inventory.products_subtitle") %></div>
+    </div>
+
+    <div class="prod-list">
+      <% @products.each do |product| %>
+        <% editing = @editing_product_id == product.id %>
+        <div class="prod-row" id="prod-row-<%= product.id %>">
+
+          <div id="product-summary-<%= product.id %>"
+               class="prod-main"
+               style="<%= 'display:none' if editing %>">
+
+            <%= form_with url: staff_inventory_path(product),
+                          method: :patch,
+                          multipart: true,
+                          class: "photo-upload-form",
+                          data: { action: "change->product-catalog#uploadPhoto" } do |f| %>
+              <label class="photo-cell <%= 'empty' unless product.photo.attached? %>" title="<%= t('staff.inventory.photo_label') %>">
+                <% if product.photo.attached? %>
+                  <%= image_tag product.photo, class: "prod-photo" %>
+                <% else %>
+                  + photo
+                <% end %>
+                <%= f.file_field :photo, accept: "image/*", class: "sr-only" %>
+              </label>
+            <% end %>
+
+            <div class="prod-name <%= 'inactive' unless product.active? %>">
+              <%= product.display_name %>
+              <% unless product.active? %>
+                <span class="inactive-badge"><%= t("staff.inventory.inactive_badge") %></span>
+              <% end %>
+            </div>
+
+            <div class="day-pills">
+              <% (0..6).each do |day_num| %>
+                <% on = product.product_schedule_days.any? { |d| d.day_of_week_before_type_cast == day_num } %>
+                <div class="dp <%= 'on' if on %>" title="<%= I18n.t('date.day_names')[day_num] %>">
+                  <%= I18n.t("date.day_names")[day_num].first %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="row-actions">
+              <button class="icon-btn"
+                      data-action="click->product-catalog#open"
+                      data-product-id="<%= product.id %>">✏</button>
+              <%= button_to "×",
+                            staff_inventory_path(product),
+                            method: :delete,
+                            class: "icon-btn danger" %>
+            </div>
+          </div>
+
+          <div id="product-form-<%= product.id %>"
+               style="<%= 'display:none' unless editing %>">
+            <%= form_with model: product,
+                          url: staff_inventory_path(product),
+                          method: :patch,
+                          multipart: true do |f| %>
+              <%= render "staff/inventory/product_form", f: f, product: product, open_days: @open_days, show_errors: editing %>
+              <div class="form-actions">
+                <%= f.submit t("staff.inventory.save_btn"), class: "save-btn" %>
+                <button type="button" class="cancel-btn"
+                        data-action="click->product-catalog#close"
+                        data-product-id="<%= product.id %>">
+                  <%= t("staff.inventory.cancel_btn") %>
+                </button>
+              </div>
+            <% end %>
+          </div>
+
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Exceptions section %>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title"><%= t("staff.inventory.exceptions_title") %></div>
+      <div class="section-head-sub"><%= t("staff.inventory.exceptions_subtitle") %></div>
+    </div>
+
+    <% @exceptions.each do |exc| %>
+      <div class="exc-row">
+        <div class="exc-date">
+          <% if exc.date == Date.current %>
+            Today, <%= exc.date.strftime("%b %-d") %>
+          <% else %>
+            <%= exc.date.strftime("%b %-d, %a") %>
+          <% end %>
+        </div>
+        <div class="exc-reason"><%= exc.product.display_name %></div>
+        <span class="hours-tag"><%= exc.exception_summary %></span>
+        <%= button_to "×",
+                      staff_inventory_exception_path(exc),
+                      method: :delete,
+                      class: "del-btn" %>
+      </div>
+    <% end %>
+
+    <%# Add exception form %>
+    <%= form_with model: @new_exception,
+                  url: staff_inventory_exceptions_path,
+                  data: { controller: "inventory-exception-form" } do |f| %>
+      <div class="add-exc-row">
+        <%= f.date_field :date,
+                         value: @new_exception.date || Date.current,
+                         min: Date.current,
+                         class: "date-in" %>
+
+        <select name="product_exception[product_id]" class="reason-in">
+          <option value=""><%= t("staff.inventory.exceptions.add_placeholder_product") %></option>
+          <% @products.each do |p| %>
+            <option value="<%= p.id %>" <%= "selected" if @new_exception.product_id == p.id %>>
+              <%= p.display_name %>
+            </option>
+          <% end %>
+        </select>
+
+        <div class="type-sel">
+          <label class="type-opt">
+            <input type="radio" name="product_exception[exception_type]" value="skip"
+                   checked
+                   data-action="change->inventory-exception-form#typeChanged" />
+            <%= t("staff.inventory.exceptions.type_skip") %>
+          </label>
+          <label class="type-opt">
+            <input type="radio" name="product_exception[exception_type]" value="override"
+                   data-action="change->inventory-exception-form#typeChanged" />
+            <%= t("staff.inventory.exceptions.type_override") %>
+          </label>
+          <label class="type-opt">
+            <input type="radio" name="product_exception[exception_type]" value="add"
+                   data-action="change->inventory-exception-form#typeChanged" />
+            <%= t("staff.inventory.exceptions.type_add") %>
+          </label>
+        </div>
+
+        <div data-inventory-exception-form-target="qtyFields" style="display:none">
+          <%= f.label :batch_size, t("staff.inventory.exceptions.qty_label"), class: "detail-label" %>
+          <%= f.number_field :batch_size, min: 1, class: "num-in",
+                             value: @new_exception.batch_size %>
+        </div>
+
+        <div data-inventory-exception-form-target="timeFields" style="display:none">
+          <%= f.label :ready_time_override, t("staff.inventory.exceptions.ready_time_label"), class: "detail-label" %>
+          <%= f.time_field :ready_time_override, class: "time-in",
+                           value: @new_exception.ready_time_override&.strftime("%H:%M") %>
+        </div>
+
+        <%= f.submit t("staff.inventory.exceptions.add_button"), class: "add-btn-sm" %>
+      </div>
+
+      <% if @new_exception.errors.any? %>
+        <div class="form-errors">
+          <%= @new_exception.errors.full_messages.to_sentence %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>
