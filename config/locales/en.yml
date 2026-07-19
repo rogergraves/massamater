@@ -11,13 +11,12 @@ en:
     nav:
       today: "Today"
       inventory: "Inventory"
-      products: "Products"
-      settings: "Settings"
+      settings: "Hours"
     dashboard:
       placeholder: "Dashboard"
-    products:
-      title: "Product catalog"
-      subtitle: "Photo, schedule, default ready time, and status"
+    inventory:
+      title: "Inventory"
+      subtitle: "Products and date-specific exceptions"
       new_btn: "+ New product"
       new_title: "New product"
       name_label: "Name (PT)"
@@ -37,6 +36,22 @@ en:
       created: "Product created."
       saved: "Product saved."
       deleted: "Product deleted."
+      products_title: "Products"
+      products_subtitle: "Default offerings — what you normally sell each day"
+      exceptions_title: "Exceptions"
+      exceptions_subtitle: "Override products on specific dates"
+      exceptions:
+        add_placeholder_date: "Date"
+        add_placeholder_product: "Product"
+        type_skip: "Skip"
+        type_override: "Override"
+        type_add: "Add"
+        qty_label: "Qty"
+        ready_time_label: "Ready at"
+        add_button: "+ Add"
+        added: "Exception added."
+        removed: "Exception removed."
+        qty_summary: "Qty: %{qty}"
   customer:
     new_reservation: "New reservation"
     manage_orders: "My orders"
