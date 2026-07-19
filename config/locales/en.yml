@@ -11,7 +11,7 @@ en:
     nav:
       today: "Today"
       inventory: "Inventory"
-      settings: "Hours"
+      settings: "Store Hours"
     dashboard:
       placeholder: "Dashboard"
     inventory:
@@ -93,7 +93,7 @@ en:
       add_placeholder_reason: "Reason (e.g. family emergency…)"
       type_closed: "Closed"
       type_different_hours: "Different hours"
-      add_button: "+ Add"
+      add_button: "Save"
       delete_button: "Delete"
       opens_at_label: "Opens at"
       closes_at_label: "Closes at"

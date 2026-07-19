@@ -93,7 +93,7 @@ pt:
       add_placeholder_reason: "Motivo (ex: emergência familiar…)"
       type_closed: "Fechado"
       type_different_hours: "Horário diferente"
-      add_button: "+ Adicionar"
+      add_button: "Guardar"
       delete_button: "Eliminar"
       opens_at_label: "Abre às"
       closes_at_label: "Fecha às"
