@@ -1,2 +1,92 @@
-<h1>Staff dashboard</h1>
-<p><%= t("staff.dashboard.placeholder") %></p>
+<%# app/views/staff/dashboard/index.html.erb %>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <div class="pg-title"><%= t("staff.dashboard.title") %></div>
+      <div class="pg-sub"><%= Date.current.strftime("%A, %b %-d") %></div>
+    </div>
+  </div>
+
+  <%# Products section %>
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-head-title"><%= t("staff.dashboard.products_title") %></div>
+    </div>
+
+    <% if @day.available_products.empty? %>
+      <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
+    <% else %>
+      <% @day.available_products.each do |product| %>
+        <% total    = @day.effective_batch_size(product) %>
+        <% reserved = @day.reserved_count(product) %>
+        <% pct      = total > 0 ? [(reserved * 100 / total), 100].min : 0 %>
+        <% fill_class = pct >= 100 ? "prog-fill--full" : pct >= 75 ? "prog-fill--warn" : "" %>
+
+        <div class="day-product-row">
+          <div class="day-prod-photo">
+            <% if product.photo.attached? %>
+              <%= image_tag product.photo, class: "day-prod-img" %>
+            <% else %>
+              <div class="day-prod-img-placeholder"></div>
+            <% end %>
+          </div>
+
+          <div class="day-prod-info">
+            <div class="day-prod-name"><%= product.display_name %></div>
+            <div class="day-prod-meta">
+              <%= t("staff.dashboard.ready_at", time: @day.effective_ready_time(product).strftime("%H:%M")) %>
+            </div>
+          </div>
+
+          <div class="day-prod-counts">
+            <span class="day-count"><%= reserved %> / <%= total %></span>
+            <div class="prog-bar">
+              <div class="prog-fill <%= fill_class %>" style="width:<%= pct %>%"></div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Reservations section %>
+  <div class="section-card">
+    <div class="section-head">
+      <div>
+        <div class="section-head-title"><%= t("staff.dashboard.reservations_title") %></div>
+        <% if @day.total_orders > 0 %>
+          <div class="section-head-sub">
+            <%= t("staff.dashboard.orders_summary",
+                  orders: @day.total_orders,
+                  items:  @day.total_items) %>
+          </div>
+        <% end %>
+      </div>
+      <a href="#" class="add-btn-sm"><%= t("staff.dashboard.new_reservation_btn") %></a>
+    </div>
+
+    <% if @day.reservations.empty? %>
+      <p class="empty-msg"><%= t("staff.dashboard.reservations_empty") %></p>
+    <% else %>
+      <% @day.reservations.each do |reservation| %>
+        <div class="day-res-row">
+          <div class="day-res-time">
+            <%= reservation.pickup_time ? reservation.pickup_time.strftime("%H:%M") : "–" %>
+          </div>
+          <div class="day-res-info">
+            <div class="day-res-name"><%= reservation.user.name %></div>
+            <div class="day-res-items">
+              <% reservation.reservation_items.each do |item| %>
+                <span class="day-res-item">
+                  <%= item.product.display_name %> ×<%= item.quantity %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+</div>

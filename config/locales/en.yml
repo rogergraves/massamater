@@ -13,7 +13,14 @@ en:
       inventory: "Inventory"
       settings: "Store Hours"
     dashboard:
-      placeholder: "Dashboard"
+      title: "Today"
+      products_title: "Products"
+      products_empty: "No products scheduled for today."
+      reservations_title: "Reservations"
+      reservations_empty: "No reservations for today."
+      new_reservation_btn: "+ New reservation"
+      orders_summary: "%{orders} orders · %{items} items"
+      ready_at: "Ready %{time}"
     inventory:
       title: "Inventory"
       subtitle: "Products and date-specific exceptions"

@@ -13,7 +13,14 @@ pt:
       inventory: "Inventário"
       settings: "Horário da Loja"
     dashboard:
-      placeholder: "Painel de controlo"
+      title: "Hoje"
+      products_title: "Produtos"
+      products_empty: "Sem produtos programados para hoje."
+      reservations_title: "Reservas"
+      reservations_empty: "Sem reservas para hoje."
+      new_reservation_btn: "+ Nova reserva"
+      orders_summary: "%{orders} encomendas · %{items} itens"
+      ready_at: "Pronto às %{time}"
     inventory:
       title: "Inventário"
       subtitle: "Produtos e exceções por data"
