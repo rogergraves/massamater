@@ -52,6 +52,7 @@
             <%= form_with url: staff_inventory_path(product),
                           method: :patch,
                           multipart: true,
+                          scope: :product,
                           class: "photo-upload-form",
                           data: { action: "change->product-catalog#uploadPhoto" } do |f| %>
               <label class="photo-cell <%= 'empty' unless product.photo.attached? %>" title="<%= t('staff.inventory.photo_label') %>">
