@@ -1,7 +1,7 @@
 <%# locals: (presenter:, product:) %>
 <% total    = presenter.effective_batch_size(product) %>
 <% reserved = presenter.reserved_count(product) %>
-<% pct      = total&. > 0 ? [(reserved * 100 / total), 100].min : 0 %>
+<% pct      = (total && total > 0) ? [(reserved * 100 / total), 100].min : 0 %>
 <% fill_class = pct >= 100 ? "prog-fill--full" : pct >= 75 ? "prog-fill--warn" : "" %>
 
 <div class="day-product-row">
