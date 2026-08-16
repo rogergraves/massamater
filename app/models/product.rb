@@ -11,7 +11,7 @@ class Product < ApplicationRecord
 
   validates :name,                     presence: true
   validates :default_ready_time,       presence: true
-  validates :default_daily_batch_size, numericality: { only_integer: true, greater_than: 0 }
+  validates :default_daily_batch_size, numericality: { only_integer: true, greater_than: 0, allow_nil: true }
   validates :max_reservable_quantity_per_client,
             numericality: { greater_than: 0, allow_nil: true }
 

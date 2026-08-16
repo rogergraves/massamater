@@ -150,3 +150,11 @@ pt:
       - Sábado
     formats:
       short_with_day: "%A, %d %b"
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "A validação falhou: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "Não é possível eliminar o registo porque existe um %{record} dependente"
+          has_many: "Não é possível eliminar o registo porque existem %{record} dependentes"
