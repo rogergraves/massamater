@@ -11,8 +11,6 @@ class User < ApplicationRecord
                       with: /\A(\+[1-9]\d{6,14}|\d{7,15})\z/,
                       message: "must be a valid phone number"
                     }
-  validates :name, presence: true
-
   def staff?
     password_digest.present?
   end

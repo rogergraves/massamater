@@ -58,6 +58,19 @@ class DayPresenter
     reservations.sum { |r| r.reservation_items.sum(&:quantity) }
   end
 
+  def sold_out_products
+    available_products.select do |product|
+      reserved_count(product) >= effective_batch_size(product)
+    end
+  end
+
+  def unscheduled_products
+    @unscheduled_products ||= begin
+      scheduled_ids = available_products.map(&:id).to_set
+      Product.active.ordered.where.not(id: scheduled_ids)
+    end
+  end
+
   def self.open_on?(date)
     exc = StoreException.for_date(date)
     return false if exc&.closed?

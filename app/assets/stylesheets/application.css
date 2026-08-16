@@ -136,3 +136,54 @@
 .day-res-name     { font-size:14px;font-weight:600;color:#2b2b2b }
 .day-res-items    { display:flex;flex-wrap:wrap;gap:6px;margin-top:3px }
 .day-res-item     { font-size:12px;color:#6b5d45;background:#f4efe7;border-radius:5px;padding:2px 7px }
+
+/* ── Shared button utilities ── */
+.btn              { display:inline-block;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;padding:10px 18px;text-decoration:none;text-align:center }
+.btn--primary     { background:#7a4f2b;color:#fff }
+.btn--primary:hover { background:#5c3a1f }
+.btn--primary:disabled { background:#c4a882;cursor:not-allowed }
+.btn--sm          { font-size:13px;padding:8px 14px;border-radius:7px }
+
+/* ── New Order Form ── */
+.section-body     { padding:12px 16px }
+.field-row        { margin-bottom:10px }
+.field-row--inline { display:flex;gap:12px }
+.field-col        { flex:1 }
+.field-label      { display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:#9b8a6e;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px }
+.field-input,
+.field-select     { width:100%;border:1px solid #e3d9c8;border-radius:7px;padding:8px 10px;font-size:13px;color:#2b2b2b;background:#faf8f5;box-sizing:border-box }
+.field-input:disabled { background:#f0ede8;color:#9b8a6e }
+.name-hint        { font-size:11px;color:#d97706;font-weight:600 }
+.name-hint.hidden { display:none }
+
+/* ── Collapsible product sections ── */
+.collapsible-head  { display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-top:1px solid #ede5d8;background:#faf8f5;cursor:pointer;user-select:none }
+.collapsible-label { font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9b8a6e }
+.collapsible-label--warn { color:#d97706 }
+.collapsible-toggle { font-size:11px;color:#9b8a6e }
+.collapsible-body  { border-top:1px solid #f0e8da }
+.collapsible-body.hidden { display:none }
+
+.override-row     { padding:7px 16px;background:#fdf8f2;border-bottom:1px solid #f0e8da }
+.override-label   { font-size:11px;color:#92400e;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer }
+.override-cb      { accent-color:#d97706 }
+
+/* ── Product rows in new order ── */
+.order-product-row { display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid #f0e8da }
+.order-product-row:last-child { border-bottom:none }
+.order-prod-name  { font-size:12px;font-weight:600;color:#2b2b2b }
+.order-prod-meta  { font-size:10px;color:#9b8a6e;margin-top:1px }
+.order-stepper    { display:flex;align-items:center;gap:7px }
+.stepper-btn      { width:26px;height:26px;border-radius:6px;border:none;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center }
+.stepper-btn--inc { background:#7a4f2b;color:#fff }
+.stepper-btn--dec { background:#f4efe7;color:#7a4f2b }
+.stepper-btn:disabled { background:#e5e5e5;color:#aaa;cursor:default }
+.stepper-val      { font-size:13px;font-weight:700;min-width:18px;text-align:center;color:#2b2b2b }
+
+/* ── Source radio buttons ── */
+.source-btn-group { display:flex;gap:0 }
+.source-btn       { display:flex;align-items:center;justify-content:center;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid #c4a882;background:#fdf8f2;color:#5c3d1e;transition:background 0.15s,color 0.15s;user-select:none }
+.source-btn:first-child { border-radius:6px 0 0 6px }
+.source-btn:last-child  { border-radius:0 6px 6px 0;border-left:none }
+.source-btn input[type="radio"] { display:none }
+.source-btn:has(input:checked) { background:#7a4f2b;color:#fff;border-color:#7a4f2b }

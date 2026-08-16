@@ -41,3 +41,4 @@
 *.ipr
 out/
 .idea_modules/
+.superpowers/

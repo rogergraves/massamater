@@ -1,0 +1,30 @@
+<%# locals: (presenter:, product:, group:, disabled: false) %>
+<% total    = presenter.effective_batch_size(product) %>
+<% reserved = presenter.reserved_count(product) %>
+<% ready    = presenter.effective_ready_time(product)&.strftime("%H:%M") || "–" %>
+
+<div class="order-product-row" data-group="<%= group %>">
+  <div class="order-prod-info">
+    <div class="order-prod-name"><%= product.name %></div>
+    <div class="order-prod-meta">
+      <%= t("staff.orders.reserved_of", reserved: reserved, total: total) %> ·
+      <%= t("staff.orders.ready_at", time: ready) %>
+    </div>
+  </div>
+  <div class="order-stepper">
+    <button type="button" class="stepper-btn stepper-btn--dec"
+            data-action="click->new-order#decrement"
+            data-product-id="<%= product.id %>"
+            <%= "disabled" if disabled %>>−</button>
+    <span class="stepper-val" data-new-order-target="stepperVal" data-product-id="<%= product.id %>">0</span>
+    <button type="button" class="stepper-btn stepper-btn--inc"
+            data-action="click->new-order#increment"
+            data-product-id="<%= product.id %>"
+            <%= "disabled" if disabled %>>+</button>
+    <input type="hidden"
+           name="reservation[items][<%= product.id %>]"
+           value="0"
+           data-new-order-target="quantity"
+           data-product-id="<%= product.id %>" />
+  </div>
+</div>

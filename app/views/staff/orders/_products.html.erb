@@ -1,0 +1,70 @@
+<%# locals: (presenter:, available:, sold_out:, unscheduled:, date:) %>
+<% hour = StoreHour.for_date(date) %>
+
+<div class="section-card"
+     data-opens-at="<%= hour&.opens_at&.strftime("%H:%M") %>"
+     data-closes-at="<%= hour&.closes_at&.strftime("%H:%M") %>">
+
+  <%# ── Available ── %>
+  <% if available.any? %>
+    <div class="section-head">
+      <span class="section-head-title"><%= t("staff.orders.available_header") %></span>
+    </div>
+    <% available.each do |product| %>
+      <%= render "product_row", presenter: presenter, product: product, group: "available", disabled: false %>
+    <% end %>
+  <% end %>
+
+  <%# ── Sold out ── %>
+  <% if sold_out.any? %>
+    <div class="collapsible-head"
+         data-new-order-target="collapsibleHead"
+         data-action="click->new-order#toggleSection">
+      <span class="collapsible-label collapsible-label--warn">
+        &#9888; <%= t("staff.orders.sold_out_header",
+              weekday: I18n.l(date, format: "%A"),
+              date:    I18n.l(date, format: "%b %-d")) %>
+        (<%= sold_out.size %>)
+      </span>
+      <span class="collapsible-toggle"><%= t("staff.orders.show_section") %></span>
+    </div>
+    <div class="collapsible-body hidden" data-new-order-target="collapsibleBody">
+      <div class="override-row">
+        <label class="override-label">
+          <input type="checkbox" class="override-cb"
+                 data-action="change->new-order#toggleOverride" />
+          <%= t("staff.orders.override_sold_out") %>
+        </label>
+      </div>
+      <% sold_out.each do |product| %>
+        <%= render "product_row", presenter: presenter, product: product, group: "sold_out", disabled: true %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# ── Not scheduled ── %>
+  <% if unscheduled.any? %>
+    <div class="collapsible-head"
+         data-new-order-target="collapsibleHead"
+         data-action="click->new-order#toggleSection">
+      <span class="collapsible-label">
+        <%= t("staff.orders.not_scheduled_header") %>
+        (<%= unscheduled.size %>)
+      </span>
+      <span class="collapsible-toggle"><%= t("staff.orders.show_section") %></span>
+    </div>
+    <div class="collapsible-body hidden" data-new-order-target="collapsibleBody">
+      <div class="override-row">
+        <label class="override-label">
+          <input type="checkbox" class="override-cb"
+                 data-action="change->new-order#toggleOverride" />
+          <%= t("staff.orders.override_unscheduled") %>
+        </label>
+      </div>
+      <% unscheduled.each do |product| %>
+        <%= render "product_row", presenter: presenter, product: product, group: "unscheduled", disabled: true %>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

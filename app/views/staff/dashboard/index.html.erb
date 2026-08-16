@@ -6,6 +6,7 @@
       <div class="pg-title"><%= t("staff.dashboard.title") %></div>
       <div class="pg-sub"><%= I18n.l(Date.current, format: :short_with_day) %></div>
     </div>
+    <%= link_to t("staff.dashboard.new_reservation_btn"), new_staff_order_path, class: "btn btn--primary btn--sm" %>
   </div>
 
   <% if @next_day %>
@@ -66,7 +67,6 @@
             </div>
           <% end %>
         </div>
-        <a href="#" class="add-btn-sm"><%= t("staff.dashboard.new_reservation_btn") %></a>
       </div>
 
       <% if @day.reservations.empty? %>

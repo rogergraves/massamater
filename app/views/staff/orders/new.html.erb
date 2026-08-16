@@ -1,0 +1,99 @@
+<div class="wrap">
+<div class="topbar">
+  <div class="pg-title"><%= t("staff.orders.new_title") %></div>
+</div>
+</div>
+
+<%= form_with url: staff_orders_path, method: :post,
+      data: { controller: "new-order", new_order_lookup_url_value: staff_customer_lookup_path } do |f| %>
+
+  <%# ── Customer ── %>
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-head-title"><%= t("staff.orders.customer_section") %></span>
+    </div>
+    <div class="section-body">
+      <div class="field-row">
+        <label class="field-label"><%= t("staff.orders.phone_label") %></label>
+        <input type="tel" name="reservation[phone]" class="field-input"
+               autocomplete="off"
+               data-new-order-target="phone"
+               data-action="blur->new-order#lookupPhone input->new-order#phoneChanged" />
+      </div>
+      <div class="field-row">
+        <label class="field-label">
+          <%= t("staff.orders.name_label") %>
+          <span class="name-hint hidden" data-new-order-target="nameHint">
+            <%= t("staff.orders.name_hint") %>
+          </span>
+        </label>
+        <input type="text" name="reservation[name]" class="field-input"
+               data-new-order-target="name"
+               data-action="input->new-order#nameTyped" />
+      </div>
+      <div class="field-row">
+        <label class="field-label"><%= t("staff.orders.source_label") %></label>
+        <div class="source-btn-group" data-new-order-target="source">
+          <label class="source-btn">
+            <input type="radio" name="reservation[source]" value="phone" checked />
+            <%= t("staff.orders.source_phone") %>
+          </label>
+          <label class="source-btn">
+            <input type="radio" name="reservation[source]" value="counter" />
+            <%= t("staff.orders.source_counter") %>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# ── Date & Time ── %>
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-head-title"><%= t("staff.orders.date_section") %></span>
+    </div>
+    <div class="section-body">
+      <div class="field-row field-row--inline">
+        <div class="field-col">
+          <label class="field-label"><%= t("staff.orders.date_label") %></label>
+          <input type="date" name="reservation[date]" class="field-input"
+                 min="<%= Date.current.iso8601 %>"
+                 value="<%= @default_date&.iso8601 %>"
+                 data-new-order-target="date"
+                 data-action="change->new-order#loadProducts" />
+        </div>
+        <div class="field-col">
+          <label class="field-label"><%= t("staff.orders.pickup_time_label") %></label>
+          <select name="reservation[pickup_time]" class="field-select"
+                  data-new-order-target="pickupTime">
+            <option value=""></option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# ── Products (loaded dynamically) ── %>
+  <div data-new-order-target="productsContainer"></div>
+
+  <%# ── Note ── %>
+  <div class="section-card">
+    <div class="section-body">
+      <div class="field-row">
+        <label class="field-label"><%= t("staff.orders.note_label") %></label>
+        <input type="text" name="reservation[note]" class="field-input"
+               data-new-order-target="note" />
+      </div>
+    </div>
+  </div>
+
+  <%# ── Submit ── %>
+  <div class="form-actions">
+    <button type="submit" class="btn btn--primary" data-new-order-target="submit"
+            data-confirm-label="<%= t("staff.orders.confirm") %>"
+            data-update-label="<%= t("staff.orders.update") %>">
+      <%= t("staff.orders.confirm") %>
+    </button>
+  </div>
+
+<% end %>

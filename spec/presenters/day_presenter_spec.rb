@@ -171,6 +171,39 @@ RSpec.describe DayPresenter do
     end
   end
 
+  describe "#sold_out_products" do
+    it "returns products where reserved count >= batch_size" do
+      user = User.create!(phone: "+351910000010")
+      res  = Reservation.create!(user: user, date: date, source: :online)
+      # fill all 20 slots of product_mon
+      ReservationItem.create!(reservation: res, product: product_mon, quantity: 20)
+
+      ids = presenter.sold_out_products.map(&:id)
+      expect(ids).to include(product_mon.id)
+      expect(ids).not_to include(product_wed.id)
+    end
+
+    it "returns empty when nothing is sold out" do
+      expect(presenter.sold_out_products).to be_empty
+    end
+  end
+
+  describe "#unscheduled_products" do
+    it "returns active products not scheduled for the date" do
+      ids = presenter.unscheduled_products.map(&:id)
+      expect(ids).to include(product_wed.id)       # scheduled Wednesday, not Monday
+      expect(ids).not_to include(product_mon.id)   # scheduled for Monday (our test date)
+      expect(ids).not_to include(inactive_product.id) # inactive
+    end
+
+    it "excludes products that were added via exception" do
+      ProductException.create!(product: product_wed, date: date, added: true, batch_size: 5)
+      # product_wed is now in available_products via exception → not unscheduled
+      ids = presenter.unscheduled_products.map(&:id)
+      expect(ids).not_to include(product_wed.id)
+    end
+  end
+
   describe ".next_open_date(from:)" do
     it "returns nil when no open day is found within 14 days" do
       expect(DayPresenter.next_open_date(from: Date.new(2026, 7, 20))).to be_nil

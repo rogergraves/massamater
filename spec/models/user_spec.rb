@@ -10,12 +10,16 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to validate_presence_of(:phone) }
     it { is_expected.to validate_uniqueness_of(:phone).ignoring_case_sensitivity }
-    it { is_expected.to validate_presence_of(:name) }
 
-    it "requires E.164 phone format" do
-      user = build(:user, phone: "912345678")
+    it "is valid with a nil name" do
+      user = build(:user, name: nil)
+      expect(user).to be_valid
+    end
+
+    it "rejects an invalid phone format" do
+      user = build(:user, phone: "abc")
       expect(user).not_to be_valid
-      expect(user.errors[:phone]).to include("must be in E.164 format (+country code)")
+      expect(user.errors[:phone]).to include("must be a valid phone number")
     end
 
     it "accepts valid E.164 phone" do
