@@ -196,7 +196,10 @@
 .splash-divider-line  { width:clamp(40px,8vw,90px);height:1px;background:#b08c5e }
 .splash-divider-leaf  { font-size:12px;color:#b08c5e;line-height:1 }
 .splash-tagline       { font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(14px,2.5vw,18px);font-weight:400;font-style:italic;letter-spacing:0.22em;color:#9b8a6e;margin:0 0 24px;text-transform:uppercase }
-.splash-soon          { font-family:'Jost','Helvetica Neue',sans-serif;font-size:clamp(10px,1.8vw,13px);font-weight:300;letter-spacing:0.4em;text-transform:uppercase;color:#b08c5e;margin:0 }
+.splash-soon          { font-family:'Jost','Helvetica Neue',sans-serif;font-size:clamp(10px,1.8vw,13px);font-weight:300;letter-spacing:0.4em;text-transform:uppercase;color:#b08c5e;margin:0 0 28px }
+.splash-instagram     { display:inline-flex;align-items:center;gap:8px;color:#9b8a6e;text-decoration:none;transition:color 0.2s }
+.splash-instagram:hover { color:#3d2408 }
+.splash-instagram span { font-family:'Jost','Helvetica Neue',sans-serif;font-size:12px;font-weight:300;letter-spacing:0.12em }
 
 /* Login page */
 .login-page           { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f4efe7;padding:40px 20px }
