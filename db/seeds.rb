@@ -23,37 +23,56 @@ end
   end
 end
 
-# Sample products
+# Products
+# Terça=Tuesday Quarta=Wednesday Quinta=Thursday Sexta=Friday Sábado=Saturday
 [
   {
+    name: "Trigo, aveia e linhaça", name_en: "Wheat, Oat & Flaxseed",
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 1,
+    days: %i[tuesday wednesday thursday friday saturday]
+  },
+  {
+    name: "Sementes", name_en: "Seed Bread",
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 2,
+    days: %i[tuesday wednesday thursday friday saturday]
+  },
+  {
     name: "Baguete", name_en: "Baguette",
-    default_ready_time: "08:00", default_daily_batch_size: 20,
-    max_reservable_quantity_per_client: 4, active: true, order: 1,
-    days: %i[tuesday wednesday thursday friday saturday]
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 3,
+    days: %i[wednesday thursday saturday]
   },
   {
-    name: "Broa de Milho", name_en: "Corn Bread",
-    default_ready_time: "09:00", default_daily_batch_size: 12,
-    max_reservable_quantity_per_client: 2, active: true, order: 2,
-    days: %i[tuesday wednesday thursday friday saturday]
-  },
-  {
-    name: "Cinnamon Rolls", name_en: "Cinnamon Rolls",
-    default_ready_time: "10:00", default_daily_batch_size: 10,
-    max_reservable_quantity_per_client: 4, active: true, order: 3,
-    days: %i[friday saturday]
-  },
-  {
-    name: "Granola", name_en: "Granola",
-    default_ready_time: "08:00", default_daily_batch_size: 15,
+    name: "Broa de milho", name_en: "Cornbread",
+    default_ready_time: "09:00", default_daily_batch_size: nil,
     max_reservable_quantity_per_client: nil, active: true, order: 4,
-    days: %i[thursday friday saturday]
+    days: %i[tuesday friday saturday]
   },
   {
-    name: "Bolachas", name_en: "Cookies",
-    default_ready_time: "09:00", default_daily_batch_size: 24,
-    max_reservable_quantity_per_client: 6, active: false, order: 5,
-    days: %i[tuesday wednesday thursday friday]
+    name: "Centeio", name_en: "Rye",
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 5,
+    days: %i[tuesday wednesday thursday]
+  },
+  {
+    name: "Barbela", name_en: "Barbela Wheat",
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 6,
+    days: %i[tuesday wednesday friday]
+  },
+  {
+    name: "Espelta", name_en: "Spelt",
+    default_ready_time: "08:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 7,
+    days: %i[wednesday thursday friday]
+  },
+  {
+    name: "Borodinsky", name_en: "Borodinsky",
+    default_ready_time: "09:00", default_daily_batch_size: nil,
+    max_reservable_quantity_per_client: nil, active: true, order: 8,
+    days: %i[saturday]
   },
 ].each do |attrs|
   days = attrs.delete(:days)
@@ -63,4 +82,4 @@ end
   days.each { |day| product.product_schedule_days.find_or_create_by!(day_of_week: day) }
 end
 
-puts "Seeded: 1 staff user, 7 store hours, #{Product.count} products"
+puts "Seeded: 1 admin user, 7 store hours, #{Product.count} products"
