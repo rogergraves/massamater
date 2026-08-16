@@ -71,6 +71,12 @@ class DayPresenter
     end
   end
 
+  def extra_reserved_products
+    available_ids = available_products.map(&:id).to_set
+    extra_ids = @counts.keys.reject { |id| available_ids.include?(id) }
+    Product.where(id: extra_ids).ordered
+  end
+
   def self.open_on?(date)
     exc = StoreException.for_date(date)
     return false if exc&.closed?

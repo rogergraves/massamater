@@ -28,10 +28,13 @@
         </div>
       </div>
 
-      <% if @next_day.available_products.empty? %>
+      <% if @next_day.available_products.empty? && @next_day.extra_reserved_products.empty? %>
         <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
       <% else %>
         <% @next_day.available_products.each do |product| %>
+          <%= render "product_row", presenter: @next_day, product: product %>
+        <% end %>
+        <% @next_day.extra_reserved_products.each do |product| %>
           <%= render "product_row", presenter: @next_day, product: product %>
         <% end %>
       <% end %>
@@ -45,10 +48,13 @@
         <div class="section-head-title"><%= t("staff.dashboard.products_title") %></div>
       </div>
 
-      <% if @day.available_products.empty? %>
+      <% if @day.available_products.empty? && @day.extra_reserved_products.empty? %>
         <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
       <% else %>
         <% @day.available_products.each do |product| %>
+          <%= render "product_row", presenter: @day, product: product %>
+        <% end %>
+        <% @day.extra_reserved_products.each do |product| %>
           <%= render "product_row", presenter: @day, product: product %>
         <% end %>
       <% end %>
