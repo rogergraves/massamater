@@ -1,6 +1,6 @@
 # Staff user — phone: +351912000001, password: password
-User.find_or_create_by!(phone: "+351912000001") do |u|
-  u.name            = "Staff"
+User.find_or_create_by!(phone: "912000809") do |u|
+  u.name            = "Admin"
   u.contact_channel = :sms
   u.password        = "password"
 end
