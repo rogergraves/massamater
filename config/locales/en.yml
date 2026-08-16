@@ -46,6 +46,8 @@ en:
       created: "Product created."
       saved: "Product saved."
       deleted: "Product deleted."
+      delete_confirm: "Delete \"%{name}\"? This cannot be undone."
+      delete_blocked: "\"%{name}\" cannot be deleted because it appears in existing reservations. Remove those reservations first."
       products_title: "Products"
       products_subtitle: "Default offerings — what you normally sell each day"
       exceptions_title: "Exceptions"

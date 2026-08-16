@@ -32,8 +32,12 @@ class Staff::InventoryController < Staff::BaseController
   end
 
   def destroy
-    @product.destroy
-    redirect_to staff_inventory_index_path, notice: t("staff.inventory.deleted")
+    if @product.reservation_items.exists?
+      redirect_to staff_inventory_index_path, alert: t("staff.inventory.delete_blocked", name: @product.display_name)
+    else
+      @product.destroy
+      redirect_to staff_inventory_index_path, notice: t("staff.inventory.deleted")
+    end
   end
 
   private

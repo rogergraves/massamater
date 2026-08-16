@@ -22,6 +22,17 @@ export default class extends Controller {
     this.openProduct(event.currentTarget.dataset.productId)
   }
 
+  openWithDay(event) {
+    const { productId, dayNum } = event.currentTarget.dataset
+    this.openProduct(productId)
+    const form = document.getElementById(`product-form-${productId}`)
+    const cb = form?.querySelector(`input[name="day_of_week[]"][value="${dayNum}"]`)
+    if (cb && !cb.disabled) {
+      cb.checked = !cb.checked
+      cb.dispatchEvent(new Event("change", { bubbles: true }))
+    }
+  }
+
   close(event) {
     const id = event.currentTarget.dataset.productId
     document.getElementById(`product-summary-${id}`).style.display = ""

@@ -74,20 +74,23 @@
             <div class="day-pills">
               <% (0..6).each do |day_num| %>
                 <% on = product.product_schedule_days.any? { |d| d.day_of_week_before_type_cast == day_num } %>
-                <div class="dp <%= 'on' if on %>" title="<%= I18n.t('date.day_names')[day_num] %>">
+                <div class="dp <%= 'on' if on %>"
+                     title="<%= I18n.t('date.day_names')[day_num] %>"
+                     style="cursor:pointer"
+                     data-action="click->product-catalog#openWithDay"
+                     data-product-id="<%= product.id %>"
+                     data-day-num="<%= day_num %>">
                   <%= I18n.t("date.day_names")[day_num].first %>
                 </div>
               <% end %>
             </div>
 
             <div class="row-actions">
-              <button class="icon-btn"
-                      data-action="click->product-catalog#open"
-                      data-product-id="<%= product.id %>">✏</button>
               <%= button_to "×",
                             staff_inventory_path(product),
                             method: :delete,
-                            class: "icon-btn danger" %>
+                            class: "icon-btn danger",
+                            form: { data: { turbo_confirm: t("staff.inventory.delete_confirm", name: product.display_name) } } %>
             </div>
           </div>
 

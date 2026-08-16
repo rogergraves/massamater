@@ -46,6 +46,8 @@ pt:
       created: "Produto criado."
       saved: "Produto guardado."
       deleted: "Produto eliminado."
+      delete_confirm: "Eliminar \"%{name}\"? Esta ação não pode ser desfeita."
+      delete_blocked: "\"%{name}\" não pode ser eliminado porque está presente em reservas existentes. Remove essas reservas primeiro."
       products_title: "Produtos"
       products_subtitle: "Oferta padrão — o que vendes normalmente cada dia"
       exceptions_title: "Exceções"
