@@ -130,6 +130,8 @@ pt:
       title: "Exceções pontuais"
       subtitle: "Feriados, emergências ou horário diferente numa data específica"
       closed_tag: "Fechado"
+      start_date_label: "De"
+      end_date_label: "Até (opcional)"
       add_placeholder_reason: "Motivo (ex: emergência familiar…)"
       type_closed: "Fechado"
       type_different_hours: "Horário diferente"

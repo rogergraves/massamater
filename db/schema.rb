@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_16_143745) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_23_100000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -64,7 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_143745) do
   create_table "products", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
-    t.integer "default_daily_batch_size", null: false
+    t.integer "default_daily_batch_size"
     t.time "default_ready_time", null: false
     t.integer "max_reservable_quantity_per_client"
     t.string "name", null: false
@@ -101,11 +101,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_143745) do
     t.boolean "closed", default: true, null: false
     t.time "closes_at"
     t.datetime "created_at", null: false
-    t.date "date", null: false
+    t.date "end_date"
     t.time "opens_at"
     t.string "reason", null: false
+    t.date "start_date", null: false
     t.datetime "updated_at", null: false
-    t.index ["date"], name: "index_store_exceptions_on_date", unique: true
+    t.index ["start_date", "end_date"], name: "index_store_exceptions_on_start_date_and_end_date", unique: true
   end
 
   create_table "store_hours", force: :cascade do |t|

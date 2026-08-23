@@ -5,7 +5,7 @@ class Staff::StoreExceptionsController < Staff::BaseController
       redirect_to edit_staff_store_hours_path, notice: t("store_hours.exceptions.added")
     else
       @store_hours   = StoreHour.order(:day_of_week)
-      @exceptions    = StoreException.where("date >= ?", Date.current).order(:date)
+      @exceptions    = StoreException.where("start_date >= ?", Date.current).order(:start_date)
       @new_exception = @exception
       render "staff/store_hours/edit", status: :unprocessable_entity
     end
@@ -19,6 +19,6 @@ class Staff::StoreExceptionsController < Staff::BaseController
   private
 
   def exception_params
-    params.require(:store_exception).permit(:date, :reason, :closed, :opens_at, :closes_at)
+    params.require(:store_exception).permit(:start_date, :end_date, :reason, :closed, :opens_at, :closes_at)
   end
 end

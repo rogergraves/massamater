@@ -130,6 +130,8 @@ en:
       title: "One-off exceptions"
       subtitle: "Holidays, emergencies, or different hours on a specific date"
       closed_tag: "Closed"
+      start_date_label: "From"
+      end_date_label: "To (optional)"
       add_placeholder_reason: "Reason (e.g. family emergency…)"
       type_closed: "Closed"
       type_different_hours: "Different hours"

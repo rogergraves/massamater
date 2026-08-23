@@ -1,7 +1,7 @@
 class Staff::StoreHoursController < Staff::BaseController
   def edit
     @store_hours   = StoreHour.order(:day_of_week)
-    @exceptions    = StoreException.where("date >= ?", Date.current).order(:date)
+    @exceptions    = StoreException.where("start_date >= ?", Date.current).order(:start_date)
     @new_exception = StoreException.new
   end
 

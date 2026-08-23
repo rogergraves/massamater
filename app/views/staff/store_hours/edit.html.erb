@@ -63,8 +63,10 @@
     <% @exceptions.each do |exc| %>
       <div class="exc-row">
         <div class="exc-date">
-          <%= exc.date.strftime("%b %-d, %Y") %>
-          <span class="exc-weekday"><%= I18n.t("date.day_names")[exc.date.wday] %></span>
+          <%= exc.display_date %>
+          <% if exc.single_day? %>
+            <span class="exc-weekday"><%= I18n.t("date.day_names")[exc.start_date.wday] %></span>
+          <% end %>
         </div>
         <div class="exc-reason"><%= exc.reason %></div>
         <% if exc.closed? %>
@@ -87,10 +89,16 @@
                   data: { controller: "exception-form",
                           action: "change->exception-form#typeChanged" } do |f| %>
       <div class="add-exc-row">
-        <%= f.date_field :date,
-                         value: @new_exception.date || Date.current,
+        <%= f.date_field :start_date,
+                         value: @new_exception.start_date || Date.current,
                          min: Date.current,
-                         class: "date-in" %>
+                         class: "date-in",
+                         placeholder: t("store_hours.exceptions.start_date_label") %>
+        <%= f.date_field :end_date,
+                         value: @new_exception.end_date,
+                         min: Date.current,
+                         class: "date-in",
+                         placeholder: t("store_hours.exceptions.end_date_label") %>
         <%= f.text_field :reason,
                          placeholder: t("store_hours.exceptions.add_placeholder_reason"),
                          class: "reason-in" %>

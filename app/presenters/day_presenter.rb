@@ -86,14 +86,13 @@ class DayPresenter
 
   def self.next_open_date(from:)
     candidates = (1..14).map { |i| from + i }
-    exceptions = StoreException.where(date: candidates, closed: true).pluck(:date).to_set
     open_wdays = StoreHour.where(open: true)
                          .pluck(:day_of_week)
                          .map { |d| d.is_a?(Integer) ? d : StoreHour.day_of_weeks[d] }
                          .to_set
 
     candidates.each do |date|
-      next if exceptions.include?(date)
+      next if StoreException.for_date(date)&.closed?
       return date if open_wdays.include?(date.wday)
     end
     nil
