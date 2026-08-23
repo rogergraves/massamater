@@ -86,6 +86,7 @@ pt:
       override_sold_out: "Ignorar inventário e adicionar na mesma"
       override_unscheduled: "Ignorar — adicionar item não agendado"
       note_label: "Nota (opcional)"
+      closed_day: "A loja está fechada nesse dia. Por favor selecione uma data em que esteja aberta."
       created: "Reserva criada."
       updated: "Reserva atualizada."
       show_section: "Mostrar"

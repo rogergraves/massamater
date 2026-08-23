@@ -8,6 +8,9 @@ module Staff
     def products
       return head(:bad_request) unless params[:date].present?
       date = Date.parse(params[:date])
+      unless DayPresenter.open_on?(date)
+        return render partial: "closed_day", locals: { date: date }
+      end
       presenter    = DayPresenter.new(date)
       sold_out_ids = presenter.sold_out_products.map(&:id).to_set
       available    = presenter.available_products.reject { |p| sold_out_ids.include?(p.id) }
@@ -25,6 +28,12 @@ module Staff
     end
 
     def create
+      date = Date.parse(reservation_params[:date]) rescue nil
+      unless date && DayPresenter.open_on?(date)
+        flash.now[:alert] = t("staff.orders.closed_day")
+        return render :new, status: :unprocessable_entity
+      end
+
       phone     = reservation_params[:phone].to_s.strip
       name      = reservation_params[:name].to_s.strip.presence
       is_update = false

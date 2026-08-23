@@ -5,7 +5,10 @@ class StoreException < ApplicationRecord
   validate  :end_date_not_before_start_date
 
   def self.for_date(date)
-    where("start_date <= ? AND (end_date IS NULL OR end_date >= ?)", date, date).first
+    where(
+      "(end_date IS NULL AND start_date = ?) OR (end_date IS NOT NULL AND start_date <= ? AND end_date >= ?)",
+      date, date, date
+    ).first
   end
 
   def single_day?

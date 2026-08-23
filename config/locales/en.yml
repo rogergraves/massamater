@@ -86,6 +86,7 @@ en:
       override_sold_out: "Override inventory to add items anyway"
       override_unscheduled: "Override — add unscheduled item"
       note_label: "Note (optional)"
+      closed_day: "The store is closed on that day. Please select an open date."
       created: "Reservation created."
       updated: "Reservation updated."
       show_section: "Show"

@@ -60,7 +60,8 @@ class DayPresenter
 
   def sold_out_products
     available_products.select do |product|
-      reserved_count(product) >= effective_batch_size(product)
+      batch = effective_batch_size(product)
+      batch && reserved_count(product) >= batch
     end
   end
 
