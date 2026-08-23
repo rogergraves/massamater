@@ -4,89 +4,47 @@
   <div class="topbar">
     <div>
       <div class="pg-title"><%= t("staff.dashboard.title") %></div>
-      <div class="pg-sub"><%= I18n.l(Date.current, format: :short_with_day) %></div>
+      <div class="pg-sub"><%= I18n.l(@selected_date, format: :short_with_day) %></div>
     </div>
     <%= link_to t("staff.dashboard.new_reservation_btn"), new_staff_order_path, class: "btn btn--primary btn--sm" %>
   </div>
 
-  <% if @next_day %>
-    <%# Closed today — show closed notice + next open day preview %>
-
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-head-title"><%= t("staff.dashboard.closed_today") %></div>
-      </div>
-      <% @week.each do |row| %>
-        <% exc  = row[:exception] %>
-        <% hour = row[:hour] %>
-        <% is_today = row[:date] == Date.current %>
-        <% open = exc ? !exc.closed? : hour&.open? %>
-        <div class="week-row <%= 'week-row--today' if is_today %> <%= 'week-row--closed' unless open %>">
-          <span class="week-day"><%= I18n.t("date.abbr_day_names")[row[:date].wday] %></span>
-          <span class="week-date-num"><%= row[:date].day %></span>
-          <% if exc %>
-            <% if exc.closed? %>
-              <span class="week-hours week-hours--closed"><%= t("store.closed") %></span>
-            <% else %>
-              <span class="week-hours"><%= exc.opens_at.strftime("%-H:%M") %> – <%= exc.closes_at.strftime("%-H:%M") %></span>
-            <% end %>
-            <span class="week-exc-reason"><%= exc.reason %></span>
-          <% elsif hour&.open? %>
-            <span class="week-hours"><%= hour.opens_at.strftime("%-H:%M") %> – <%= hour.closes_at.strftime("%-H:%M") %></span>
-          <% else %>
+  <%# Week navigation %>
+  <div class="section-card week-nav">
+    <% @week.each do |row| %>
+      <% exc       = row[:exception] %>
+      <% hour      = row[:hour] %>
+      <% is_today  = row[:date] == Date.current %>
+      <% is_sel    = row[:date] == @selected_date %>
+      <% open      = exc ? !exc.closed? : hour&.open? %>
+      <%= link_to staff_root_path(date: row[:date]),
+            class: "week-row #{'week-row--today' if is_today} #{'week-row--selected' if is_sel} #{'week-row--closed' unless open}" do %>
+        <span class="week-day"><%= I18n.t("date.abbr_day_names")[row[:date].wday] %></span>
+        <span class="week-date-num"><%= row[:date].day %></span>
+        <% if exc %>
+          <% if exc.closed? %>
             <span class="week-hours week-hours--closed"><%= t("store.closed") %></span>
+          <% else %>
+            <span class="week-hours"><%= exc.opens_at.strftime("%-H:%M") %> – <%= exc.closes_at.strftime("%-H:%M") %></span>
           <% end %>
-          <% if row[:reservations] > 0 %>
-            <span class="week-res-count"><%= row[:reservations] %></span>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="section-card">
-      <div class="section-head">
-        <div>
-          <div class="section-head-title"><%= t("staff.dashboard.next_open_products_title") %></div>
-          <div class="section-head-sub">
-            <%= t("staff.dashboard.next_open", date: I18n.l(@next_day.date, format: :short_with_day)) %>
-          </div>
-        </div>
-      </div>
-
-      <% if @next_day.available_products.empty? && @next_day.extra_reserved_products.empty? %>
-        <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
-      <% else %>
-        <% @next_day.available_products.each do |product| %>
-          <%= render "product_row", presenter: @next_day, product: product %>
+          <span class="week-exc-reason"><%= exc.reason %></span>
+        <% elsif hour&.open? %>
+          <span class="week-hours"><%= hour.opens_at.strftime("%-H:%M") %> – <%= hour.closes_at.strftime("%-H:%M") %></span>
+        <% else %>
+          <span class="week-hours week-hours--closed"><%= t("store.closed") %></span>
         <% end %>
-        <% @next_day.extra_reserved_products.each do |product| %>
-          <%= render "product_row", presenter: @next_day, product: product %>
+        <% if row[:reservations] > 0 %>
+          <span class="week-res-count"><%= row[:reservations] %></span>
         <% end %>
       <% end %>
-    </div>
+    <% end %>
+  </div>
 
-  <% else %>
-    <%# Normal open day — products + reservations %>
-
-    <div class="section-card">
-      <div class="section-head">
-        <div class="section-head-title"><%= t("staff.dashboard.products_title") %></div>
-      </div>
-
-      <% if @day.available_products.empty? && @day.extra_reserved_products.empty? %>
-        <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
-      <% else %>
-        <% @day.available_products.each do |product| %>
-          <%= render "product_row", presenter: @day, product: product %>
-        <% end %>
-        <% @day.extra_reserved_products.each do |product| %>
-          <%= render "product_row", presenter: @day, product: product %>
-        <% end %>
-      <% end %>
-    </div>
+  <% if @day_open %>
+    <%# Selected day is open — products + reservations %>
 
     <%# Reservations section %>
-    <div class="section-card">
+    <div class="section-card" data-controller="filter">
       <div class="section-head">
         <div>
           <div class="section-head-title"><%= t("staff.dashboard.reservations_title") %></div>
@@ -100,11 +58,22 @@
         </div>
       </div>
 
+      <% if @day.reservations.any? %>
+        <div class="res-search-wrap">
+          <input type="search" placeholder="<%= t('staff.dashboard.search_placeholder') %>"
+                 class="res-search-input"
+                 data-filter-target="input"
+                 data-action="input->filter#filter">
+        </div>
+      <% end %>
+
       <% if @day.reservations.empty? %>
         <p class="empty-msg"><%= t("staff.dashboard.reservations_empty") %></p>
       <% else %>
         <% @day.reservations.each do |reservation| %>
-          <div class="day-res-row">
+          <div class="day-res-row"
+               data-filter-target="row"
+               data-filter-text="<%= "#{reservation.user.name} #{reservation.user.phone}".downcase %>">
             <div class="day-res-time">
               <%= reservation.pickup_time ? reservation.pickup_time.strftime("%H:%M") : "–" %>
             </div>
@@ -119,6 +88,23 @@
               </div>
             </div>
           </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <div class="section-head-title"><%= t("staff.dashboard.products_title") %></div>
+      </div>
+
+      <% if @day.available_products.empty? && @day.extra_reserved_products.empty? %>
+        <p class="empty-msg"><%= t("staff.dashboard.products_empty") %></p>
+      <% else %>
+        <% @day.available_products.each do |product| %>
+          <%= render "product_row", presenter: @day, product: product %>
+        <% end %>
+        <% @day.extra_reserved_products.each do |product| %>
+          <%= render "product_row", presenter: @day, product: product %>
         <% end %>
       <% end %>
     </div>

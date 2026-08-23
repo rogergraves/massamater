@@ -18,6 +18,7 @@ pt:
       products_empty: "Sem produtos programados para hoje."
       reservations_title: "Reservas"
       reservations_empty: "Sem reservas para hoje."
+      search_placeholder: "Pesquisar por nome ou telefone…"
       new_reservation_btn: "+ Nova reserva"
       orders_summary: "%{orders} encomendas · %{items} itens"
       ready_at: "Pronto às %{time}"

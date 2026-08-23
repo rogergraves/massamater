@@ -18,6 +18,7 @@ en:
       products_empty: "No products scheduled for today."
       reservations_title: "Reservations"
       reservations_empty: "No reservations for today."
+      search_placeholder: "Search by name or phone…"
       new_reservation_btn: "+ New reservation"
       orders_summary: "%{orders} orders · %{items} items"
       ready_at: "Ready %{time}"
