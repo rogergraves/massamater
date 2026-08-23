@@ -6,7 +6,7 @@
       <div class="pg-title"><%= t("staff.dashboard.title") %></div>
       <div class="pg-sub"><%= I18n.l(@selected_date, format: :short_with_day) %></div>
     </div>
-    <%= link_to t("staff.dashboard.new_reservation_btn"), new_staff_order_path, class: "btn btn--primary btn--sm" %>
+    <%= link_to t("staff.dashboard.new_reservation_btn"), new_staff_order_path(date: @selected_date), class: "btn btn--primary btn--sm" %>
   </div>
 
   <%# Week navigation %>
@@ -44,7 +44,7 @@
     <%# Selected day is open — products + reservations %>
 
     <%# Reservations section %>
-    <div class="section-card" data-controller="filter">
+    <div class="section-card" data-controller="filter reservation-view">
       <div class="section-head">
         <div>
           <div class="section-head-title"><%= t("staff.dashboard.reservations_title") %></div>
@@ -55,6 +55,25 @@
                     items:  @day.total_items) %>
             </div>
           <% end %>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn" data-reservation-view-target="listBtn"
+                  data-action="click->reservation-view#showList" title="List view">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="0" y="2" width="16" height="2" rx="1"/>
+              <rect x="0" y="7" width="16" height="2" rx="1"/>
+              <rect x="0" y="12" width="16" height="2" rx="1"/>
+            </svg>
+          </button>
+          <button class="view-btn" data-reservation-view-target="gridBtn"
+                  data-action="click->reservation-view#showGrid" title="Grid view">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="0" y="0" width="7" height="7" rx="1"/>
+              <rect x="9" y="0" width="7" height="7" rx="1"/>
+              <rect x="0" y="9" width="7" height="7" rx="1"/>
+              <rect x="9" y="9" width="7" height="7" rx="1"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -70,25 +89,31 @@
       <% if @day.reservations.empty? %>
         <p class="empty-msg"><%= t("staff.dashboard.reservations_empty") %></p>
       <% else %>
-        <% @day.reservations.each do |reservation| %>
-          <div class="day-res-row"
-               data-filter-target="row"
-               data-filter-text="<%= "#{reservation.user.name} #{reservation.user.phone}".downcase %>">
-            <div class="day-res-time">
-              <%= reservation.pickup_time ? reservation.pickup_time.strftime("%H:%M") : "–" %>
-            </div>
-            <div class="day-res-info">
-              <div class="day-res-name"><%= reservation.user.name %></div>
-              <div class="day-res-items">
-                <% reservation.reservation_items.each do |item| %>
-                  <span class="day-res-item">
-                    <%= item.product.display_name %> ×<%= item.quantity %>
-                  </span>
-                <% end %>
+        <div data-reservation-view-target="container" class="res-list">
+          <% @day.reservations.each do |reservation| %>
+            <div class="day-res-row <%= 'day-res-row--collected' if reservation.collected? %>"
+                 data-filter-target="row"
+                 data-filter-text="<%= "#{reservation.user.name} #{reservation.user.phone}".downcase %>">
+              <div class="day-res-time">
+                <%= reservation.pickup_time ? reservation.pickup_time.strftime("%H:%M") : "–" %>
               </div>
+              <div class="day-res-info">
+                <div class="day-res-name"><%= reservation.user.name %></div>
+                <div class="day-res-phone"><%= reservation.user.phone %></div>
+                <div class="day-res-items">
+                  <% reservation.reservation_items.each do |item| %>
+                    <span class="day-res-item">
+                      <%= item.product.display_name %> ×<%= item.quantity %>
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+              <% if reservation.collected? %>
+                <span class="day-res-collected-mark">✓</span>
+              <% end %>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
     </div>
 

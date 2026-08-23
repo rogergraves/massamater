@@ -1,7 +1,10 @@
 module Staff
   class OrdersController < Staff::BaseController
     def new
-      today = Date.current
+      today     = Date.current
+      requested = params[:date].present? ? Date.parse(params[:date]) : today
+      @default_date = DayPresenter.open_on?(requested) ? requested : DayPresenter.next_open_date(from: today)
+    rescue ArgumentError
       @default_date = DayPresenter.open_on?(today) ? today : DayPresenter.next_open_date(from: today)
     end
 
