@@ -44,10 +44,10 @@ class DayPresenter
   def reservations
     @reservations ||= Reservation
       .active
-      .where(date: @date, collected_at: nil)
+      .where(date: @date)
       .includes(reservation_items: :product)
       .joins(:user)
-      .order(Arel.sql("pickup_time IS NULL, pickup_time ASC"))
+      .order(Arel.sql("collected_at IS NULL DESC, pickup_time IS NULL, pickup_time ASC"))
   end
 
   def total_orders

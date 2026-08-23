@@ -30,6 +30,59 @@ module Staff
       head :bad_request
     end
 
+    def edit
+      @reservation  = Reservation.find(params[:id])
+      @default_date = @reservation.date
+    end
+
+    def update
+      @reservation = Reservation.find(params[:id])
+
+      ActiveRecord::Base.transaction do
+        user = @reservation.user
+        name = reservation_params[:name].to_s.strip.presence
+        user.name = name if name.present?
+        user.save!
+
+        @reservation.assign_attributes(
+          pickup_time: reservation_params[:pickup_time].presence,
+          source:      reservation_params[:source],
+          note:        reservation_params[:note].presence
+        )
+        @reservation.save!
+
+        @reservation.reservation_items.destroy_all
+        (reservation_params[:items] || {}).each do |product_id, qty|
+          quantity = qty.to_i
+          next if quantity <= 0
+          @reservation.reservation_items.create!(product_id: product_id, quantity: quantity)
+        end
+      end
+
+      redirect_to staff_root_path(date: @reservation.date), notice: t("staff.orders.updated")
+    rescue ActiveRecord::RecordInvalid => e
+      flash.now[:error] = e.message
+      render :edit, status: :unprocessable_entity
+    end
+
+    def destroy
+      @reservation = Reservation.find(params[:id])
+      @reservation.update!(cancelled: true)
+      redirect_to staff_root_path(date: @reservation.date), notice: t("staff.orders.cancelled")
+    end
+
+    def collect
+      @reservation = Reservation.find(params[:id])
+      @reservation.update!(collected_at: Time.current)
+      redirect_to staff_root_path(date: @reservation.date), notice: t("staff.orders.collected")
+    end
+
+    def uncollect
+      @reservation = Reservation.find(params[:id])
+      @reservation.update!(collected_at: nil)
+      redirect_to staff_root_path(date: @reservation.date), notice: t("staff.orders.uncollected")
+    end
+
     def create
       date = Date.parse(reservation_params[:date]) rescue nil
       unless date && DayPresenter.open_on?(date)

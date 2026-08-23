@@ -108,9 +108,22 @@
                   <% end %>
                 </div>
               </div>
-              <% if reservation.collected? %>
-                <span class="day-res-collected-mark">✓</span>
-              <% end %>
+              <div class="day-res-actions">
+                <% if reservation.collected? %>
+                  <span class="day-res-collected-mark">✓</span>
+                  <%= button_to t("staff.orders.uncollect_btn"), uncollect_staff_order_path(reservation),
+                        method: :patch, class: "res-action-btn res-action-btn--undo" %>
+                <% else %>
+                  <%= button_to t("staff.orders.collect_btn"), collect_staff_order_path(reservation),
+                        method: :patch, class: "res-action-btn res-action-btn--collect" %>
+                  <%= link_to t("staff.orders.edit_btn"), edit_staff_order_path(reservation),
+                        class: "res-action-btn res-action-btn--edit" %>
+                  <%= button_to t("staff.orders.cancel_btn"), staff_order_path(reservation),
+                        method: :delete, class: "res-action-btn res-action-btn--cancel",
+                        form: { data: { turbo_confirm: t("staff.orders.cancel_confirm",
+                                          name: reservation.user.name) } } %>
+                <% end %>
+              </div>
             </div>
           <% end %>
         </div>

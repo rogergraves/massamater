@@ -9,12 +9,14 @@ export default class extends Controller {
     "stepperVal", "quantity",
     "note", "submit"
   ]
-  static values = { lookupUrl: String }
+  static values = { lookupUrl: String, reservation: Object }
 
   connect() {
     this._userFound = false
-    this._existingReservation = null
+    this._existingReservation = this.hasReservationValue ? this.reservationValue : null
+    if (this._existingReservation) this._userFound = true
     this.#updateSubmit()
+    this.#updateSubmitLabel()
     if (this.dateTarget.value) this.loadProducts()
   }
 

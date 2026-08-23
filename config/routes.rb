@@ -13,9 +13,11 @@ Rails.application.routes.draw do
     resources :inventory_exceptions, only: [:create, :destroy]
     resource  :store_hours,          only: [:edit, :update]
     resources :store_exceptions,     only: [:create, :destroy]
-    resources :orders,               only: [:new, :create] do
-      collection do
-        get :products
+    resources :orders, only: [:new, :create, :edit, :update, :destroy] do
+      collection { get :products }
+      member do
+        patch :collect
+        patch :uncollect
       end
     end
     get "customers/lookup", to: "customers#lookup", as: :customer_lookup

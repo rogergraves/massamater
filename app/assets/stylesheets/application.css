@@ -136,8 +136,8 @@
 .view-btn--active   { background:#ede3d6;color:#7a4f2b }
 
 /* ── Reservation grid layout ── */
-.res-grid           { display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:12px 12px 16px }
-@media (orientation:landscape) { .res-grid { grid-template-columns:repeat(10,1fr) } }
+.res-grid           { display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px 12px 16px }
+@media (orientation:landscape) { .res-grid { grid-template-columns:repeat(8,1fr) } }
 
 .res-grid .day-res-row:last-child { border-bottom:1px solid #e3d9c8 }
 .res-grid .day-res-row {
@@ -268,3 +268,21 @@
 .login-submit         { font-family:'Jost','Helvetica Neue',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:#f4efe7;background:#3d2408;border:none;border-radius:2px;padding:12px;cursor:pointer;margin-top:8px;transition:background 0.15s }
 .login-submit:hover   { background:#5a3510 }
 .login-alert          { font-family:'Jost','Helvetica Neue',sans-serif;font-size:13px;color:#a0341a;background:#fdf0ed;border:1px solid #e8c4bb;border-radius:2px;padding:10px 12px;margin:0 }
+
+/* ── Reservation action buttons ── */
+.day-res-actions       { display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0 }
+.res-action-btn        { font-family:"Jost","Helvetica Neue",sans-serif;font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:2px;border:1px solid;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;white-space:nowrap;background:transparent }
+.res-action-btn--collect { color:#2d6a2d;border-color:#2d6a2d }
+.res-action-btn--collect:hover { background:#2d6a2d;color:#fff }
+.res-action-btn--edit    { color:#7a4f2b;border-color:#7a4f2b }
+.res-action-btn--edit:hover { background:#7a4f2b;color:#fff }
+.res-action-btn--cancel  { color:#9b3a1a;border-color:#9b3a1a }
+.res-action-btn--cancel:hover { background:#9b3a1a;color:#fff }
+.day-res-collected-mark  { font-size:18px;color:#2d6a2d;font-weight:600;margin-left:auto;flex-shrink:0 }
+.day-res-row--collected  { opacity:0.55 }
+/* Grid mode — hide action buttons, show only collect mark */
+.res-grid .day-res-actions { justify-content:center;margin:4px 0 0;width:100% }
+.res-grid .res-action-btn  { font-size:9px;padding:2px 6px }
+
+.res-action-btn--undo    { color:#9b8a6e;border-color:#9b8a6e }
+.res-action-btn--undo:hover { background:#9b8a6e;color:#fff }
