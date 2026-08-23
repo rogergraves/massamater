@@ -137,6 +137,20 @@
 .day-res-items    { display:flex;flex-wrap:wrap;gap:6px;margin-top:3px }
 .day-res-item     { font-size:12px;color:#6b5d45;background:#f4efe7;border-radius:5px;padding:2px 7px }
 
+/* ── Weekly schedule (closed-today view) ── */
+.week-row           { display:flex;align-items:center;gap:10px;padding:8px 16px;border-bottom:1px solid #f0e8da;font-size:14px }
+.week-row:last-child { border-bottom:none }
+.week-row--today    { background:#fdf6ec }
+.week-row--closed   { color:#b0a090 }
+.week-day           { width:30px;font-weight:700;color:#7a4f2b;flex-shrink:0 }
+.week-row--closed .week-day { color:#b0a090 }
+.week-row--today .week-day  { color:#5a3010 }
+.week-date-num      { width:22px;font-size:13px;color:#9b8a6e;flex-shrink:0 }
+.week-hours         { min-width:110px;font-variant-numeric:tabular-nums }
+.week-hours--closed { color:#b0a090;font-style:italic }
+.week-exc-reason    { font-size:12px;color:#9b8a6e;flex:1 }
+.week-res-count     { margin-left:auto;font-size:12px;font-weight:700;color:#fff;background:#7a4f2b;border-radius:10px;padding:1px 7px;white-space:nowrap }
+
 /* ── Shared button utilities ── */
 .btn              { display:inline-block;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;padding:10px 18px;text-decoration:none;text-align:center }
 .btn--primary     { background:#7a4f2b;color:#fff }

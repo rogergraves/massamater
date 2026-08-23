@@ -16,6 +16,31 @@
       <div class="section-head">
         <div class="section-head-title"><%= t("staff.dashboard.closed_today") %></div>
       </div>
+      <% @week.each do |row| %>
+        <% exc  = row[:exception] %>
+        <% hour = row[:hour] %>
+        <% is_today = row[:date] == Date.current %>
+        <% open = exc ? !exc.closed? : hour&.open? %>
+        <div class="week-row <%= 'week-row--today' if is_today %> <%= 'week-row--closed' unless open %>">
+          <span class="week-day"><%= I18n.t("date.abbr_day_names")[row[:date].wday] %></span>
+          <span class="week-date-num"><%= row[:date].day %></span>
+          <% if exc %>
+            <% if exc.closed? %>
+              <span class="week-hours week-hours--closed"><%= t("store.closed") %></span>
+            <% else %>
+              <span class="week-hours"><%= exc.opens_at.strftime("%-H:%M") %> – <%= exc.closes_at.strftime("%-H:%M") %></span>
+            <% end %>
+            <span class="week-exc-reason"><%= exc.reason %></span>
+          <% elsif hour&.open? %>
+            <span class="week-hours"><%= hour.opens_at.strftime("%-H:%M") %> – <%= hour.closes_at.strftime("%-H:%M") %></span>
+          <% else %>
+            <span class="week-hours week-hours--closed"><%= t("store.closed") %></span>
+          <% end %>
+          <% if row[:reservations] > 0 %>
+            <span class="week-res-count"><%= row[:reservations] %></span>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <div class="section-card">
