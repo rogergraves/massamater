@@ -14,6 +14,7 @@
 .staff-nav-links    { display:flex;align-items:center;gap:4px }
 .nav-link           { color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:600;padding:7px 12px;border-radius:8px;transition:background .15s,color .15s }
 .nav-link:hover     { color:#fff;background:rgba(255,255,255,.12) }
+.nav-link--active   { color:#fff;background:rgba(255,255,255,.18) }
 .staff-nav-right    { display:flex;align-items:center;gap:10px }
 .locale-toggle      { display:flex;border:1.5px solid rgba(255,255,255,.3);border-radius:8px;overflow:hidden }
 .locale-btn         { background:transparent;color:rgba(255,255,255,.7);border:none;padding:5px 11px;font-size:13px;font-weight:700;cursor:pointer;line-height:1 }
@@ -294,6 +295,14 @@
 
 .res-action-btn--undo    { color:#9b8a6e;border-color:#9b8a6e }
 .res-action-btn--undo:hover { background:#9b8a6e;color:#fff }
+
+/* ── Top nav — mobile ── */
+@media (max-width: 540px) {
+  .staff-nav       { padding:0 10px;gap:6px }
+  .nav-link        { font-size:12px;padding:6px 8px }
+  .locale-btn      { font-size:11px;padding:4px 6px }
+  .signout-btn     { font-size:12px;padding:5px 10px }
+}
 
 /* ── Reservation grid — mobile ── */
 @media (max-width: 540px) {

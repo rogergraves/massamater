@@ -12,9 +12,9 @@
 <body>
   <nav class="staff-nav">
     <div class="staff-nav-links">
-      <%= link_to t("staff.nav.today"),     staff_root_path,              class: "nav-link" %>
-      <%= link_to t("staff.nav.inventory"), staff_inventory_index_path,   class: "nav-link" %>
-      <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path,  class: "nav-link" %>
+      <%= link_to t("staff.nav.today"),     staff_root_path,              class: "nav-link #{'nav-link--active' if current_page?(staff_root_path) || controller_name == 'dashboard'}" %>
+      <%= link_to t("staff.nav.inventory"), staff_inventory_index_path,   class: "nav-link #{'nav-link--active' if controller_name == 'inventory'}" %>
+      <%= link_to t("staff.nav.settings"),  edit_staff_store_hours_path,  class: "nav-link #{'nav-link--active' if controller_name == 'store_hours' || controller_name == 'store_exceptions'}" %>
     </div>
     <div class="staff-nav-right">
       <div class="locale-toggle">
