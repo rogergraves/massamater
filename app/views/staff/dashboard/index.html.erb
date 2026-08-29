@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <% if @day.reservations.any? %>
+      <% if @day.reservations.size > 4 %>
         <div class="res-search-wrap">
           <input type="search" placeholder="<%= t('staff.dashboard.search_placeholder') %>"
                  class="res-search-input"

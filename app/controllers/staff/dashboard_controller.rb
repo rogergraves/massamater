@@ -4,8 +4,8 @@ module Staff
       today = Date.current
       @selected_date = params[:date].present? ? Date.parse(params[:date]) : today
 
-      week_start = today - today.wday
-      week_end   = week_start + 6
+      week_start = today
+      week_end   = today + 6
       res_counts = Reservation.active
                               .where(date: week_start..week_end)
                               .group(:date)
