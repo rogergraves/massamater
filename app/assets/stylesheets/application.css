@@ -286,3 +286,11 @@
 
 .res-action-btn--undo    { color:#9b8a6e;border-color:#9b8a6e }
 .res-action-btn--undo:hover { background:#9b8a6e;color:#fff }
+
+/* ── Inventory product row — mobile ── */
+@media (max-width: 540px) {
+  .prod-main        { flex-wrap:wrap;gap:10px 14px }
+  .prod-name        { flex:1 1 auto;min-width:0 }
+  .day-pills        { flex:1 1 100%;order:3 }
+  .row-actions      { order:2;flex:0 0 auto }
+}
