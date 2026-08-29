@@ -294,3 +294,10 @@
   .day-pills        { flex:1 1 100%;order:3 }
   .row-actions      { order:2;flex:0 0 auto }
 }
+
+/* ── Store Hours weekly schedule — mobile ── */
+@media (max-width: 540px) {
+  .day-row        { flex-wrap:wrap;gap:8px 14px }
+  .day-name       { flex:1 }
+  .time-range     { flex:1 1 100% }
+}
