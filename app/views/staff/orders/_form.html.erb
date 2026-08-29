@@ -114,6 +114,7 @@
             data-update-label="<%= t("staff.orders.update") %>">
       <%= t("staff.orders.confirm") %>
     </button>
+    <%= link_to t("staff.orders.cancel_edit"), staff_root_path(date: @default_date), class: "btn btn--secondary" %>
   </div>
 
 <% end %>

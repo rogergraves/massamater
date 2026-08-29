@@ -200,6 +200,8 @@
 .btn--primary     { background:#7a4f2b;color:#fff }
 .btn--primary:hover { background:#5c3a1f }
 .btn--primary:disabled { background:#c4a882;cursor:not-allowed }
+.btn--secondary     { background:transparent;color:#7a4f2b;border:1px solid #7a4f2b }
+.btn--secondary:hover { background:#f4efe7 }
 .btn--sm          { font-size:13px;padding:8px 14px;border-radius:7px }
 
 /* ── New Order Form ── */

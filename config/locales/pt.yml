@@ -69,6 +69,7 @@ pt:
       new_title: "Nova Reserva"
       confirm: "Confirmar Reserva"
       update: "Atualizar Reserva"
+      cancel_edit: "Cancelar"
       customer_section: "Cliente"
       phone_label: "Número de telefone"
       name_label: "Nome"

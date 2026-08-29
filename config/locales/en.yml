@@ -69,6 +69,7 @@ en:
       new_title: "New Reservation"
       confirm: "Confirm Reservation"
       update: "Update Reservation"
+      cancel_edit: "Cancel"
       customer_section: "Customer"
       phone_label: "Phone number"
       name_label: "Name"
