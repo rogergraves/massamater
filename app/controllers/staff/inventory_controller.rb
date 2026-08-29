@@ -50,10 +50,6 @@ class Staff::InventoryController < Staff::BaseController
     @products    = Product.ordered.with_attached_photo.includes(:product_schedule_days)
     @open_days   = StoreHour.where(open: true).pluck(:day_of_week).map { |d| StoreHour.day_of_weeks[d] }
     @new_product = Product.new(default_ready_time: "09:00:00")
-    @exceptions  = ProductException.where("date >= ?", Date.current)
-                                   .order(:date)
-                                   .includes(:product)
-    @new_exception = ProductException.new(date: Date.current)
   end
 
   def product_params

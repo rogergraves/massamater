@@ -2,39 +2,23 @@ class DayPresenter
   attr_reader :date
 
   def initialize(date)
-    @date       = date
-    @exceptions = ProductException.where(date: date).index_by(&:product_id)
-    @counts     = reservation_counts
+    @date   = date
+    @counts = reservation_counts
   end
 
   def available_products
-    @available_products ||= begin
-      skipped_ids = @exceptions.values.select(&:skipped?).map(&:product_id)
-      added_ids   = @exceptions.values.select(&:added?).map(&:product_id)
-
-      scheduled = Product.active
-                         .ordered
-                         .joins(:product_schedule_days)
-                         .where(product_schedule_days: { day_of_week: @date.wday })
-                         .where.not(id: skipped_ids)
-
-      added = Product.active
-                     .ordered
-                     .where(id: added_ids)
-
-      (scheduled + added).uniq.sort_by(&:order)
-    end
+    @available_products ||= Product.active
+                                   .ordered
+                                   .joins(:product_schedule_days)
+                                   .where(product_schedule_days: { day_of_week: @date.wday })
   end
 
   def effective_batch_size(product)
-    exc = @exceptions[product.id]
-    return exc.batch_size if exc&.batch_size.present?
     product.default_daily_batch_size
   end
 
   def effective_ready_time(product)
-    exc = @exceptions[product.id]
-    exc&.ready_time_override || product.default_ready_time
+    product.default_ready_time
   end
 
   def reserved_count(product)
@@ -104,13 +88,7 @@ class DayPresenter
   def reservation_counts
     ReservationItem
       .joins(:reservation)
-      .where(
-        reservations: {
-          date: @date,
-          cancelled: false,
-          collected_at: nil
-        }
-      )
+      .where(reservations: { date: @date, cancelled: false, collected_at: nil })
       .group(:product_id)
       .sum(:quantity)
   end
