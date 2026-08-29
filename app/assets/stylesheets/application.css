@@ -322,6 +322,7 @@
   .res-list .res-action-btn  { width:28px;height:28px;padding:0;border-radius:50%;font-size:14px;display:inline-flex;align-items:center;justify-content:center }
   .res-list .day-res-items   { display:none }
   .res-list .day-res-items-grid { display:flex;flex-wrap:wrap;gap:4px;margin-top:3px;justify-content:flex-start }
+  .day-res-name-row          { flex-direction:column;gap:1px }
 }
 
 /* ── Inventory product row — mobile ── */
