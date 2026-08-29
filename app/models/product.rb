@@ -1,6 +1,5 @@
 class Product < ApplicationRecord
   has_many :product_schedule_days, dependent: :destroy
-  has_many :product_exceptions,    dependent: :destroy
   has_many :reservation_items
 
   has_one_attached :photo
