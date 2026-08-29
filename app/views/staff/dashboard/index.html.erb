@@ -98,8 +98,10 @@
                 <%= reservation.pickup_time ? reservation.pickup_time.strftime("%H:%M") : "–" %>
               </div>
               <div class="day-res-info">
-                <div class="day-res-name"><%= reservation.user.name %></div>
-                <div class="day-res-phone"><%= reservation.user.phone %></div>
+                <div class="day-res-name-row">
+                  <div class="day-res-name"><%= reservation.user.name %></div>
+                  <div class="day-res-phone"><%= reservation.user.phone %></div>
+                </div>
                 <div class="day-res-items">
                   <% reservation.reservation_items.each do |item| %>
                     <span class="day-res-item">
@@ -107,21 +109,47 @@
                     </span>
                   <% end %>
                 </div>
+                <div class="day-res-items-grid">
+                  <% reservation.reservation_items.first(3).each do |item| %>
+                    <span class="day-res-item">
+                      <%= item.product.display_name %> ×<%= item.quantity %>
+                    </span>
+                  <% end %>
+                  <% if reservation.reservation_items.size > 3 %>
+                    <span class="day-res-item-more">…</span>
+                  <% end %>
+                </div>
               </div>
               <div class="day-res-actions">
                 <% if reservation.collected? %>
                   <span class="day-res-collected-mark">✓</span>
-                  <%= button_to t("staff.orders.uncollect_btn"), uncollect_staff_order_path(reservation),
-                        method: :patch, class: "res-action-btn res-action-btn--undo" %>
+                  <%= button_to uncollect_staff_order_path(reservation), method: :patch,
+                        class: "res-action-btn res-action-btn--undo",
+                        title: t("staff.orders.uncollect_btn") do %>
+                    <span class="btn-icon">↩</span>
+                    <span class="btn-label"><%= t("staff.orders.uncollect_btn") %></span>
+                  <% end %>
                 <% else %>
-                  <%= button_to t("staff.orders.collect_btn"), collect_staff_order_path(reservation),
-                        method: :patch, class: "res-action-btn res-action-btn--collect" %>
-                  <%= link_to t("staff.orders.edit_btn"), edit_staff_order_path(reservation),
-                        class: "res-action-btn res-action-btn--edit" %>
-                  <%= button_to t("staff.orders.cancel_btn"), staff_order_path(reservation),
-                        method: :delete, class: "res-action-btn res-action-btn--cancel",
+                  <%= button_to collect_staff_order_path(reservation), method: :patch,
+                        class: "res-action-btn res-action-btn--collect",
+                        title: t("staff.orders.collect_btn") do %>
+                    <span class="btn-icon">✓</span>
+                    <span class="btn-label"><%= t("staff.orders.collect_btn") %></span>
+                  <% end %>
+                  <%= link_to edit_staff_order_path(reservation),
+                        class: "res-action-btn res-action-btn--edit",
+                        title: t("staff.orders.edit_btn") do %>
+                    <span class="btn-icon">✏</span>
+                    <span class="btn-label"><%= t("staff.orders.edit_btn") %></span>
+                  <% end %>
+                  <%= button_to staff_order_path(reservation), method: :delete,
+                        class: "res-action-btn res-action-btn--cancel",
+                        title: t("staff.orders.cancel_btn"),
                         form: { data: { turbo_confirm: t("staff.orders.cancel_confirm",
-                                          name: reservation.user.name) } } %>
+                                          name: reservation.user.name) } } do %>
+                    <span class="btn-icon">✕</span>
+                    <span class="btn-label"><%= t("staff.orders.cancel_btn") %></span>
+                  <% end %>
                 <% end %>
               </div>
             </div>
