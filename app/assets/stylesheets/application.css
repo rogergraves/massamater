@@ -138,7 +138,8 @@
 
 /* ── Reservation grid layout ── */
 .res-grid           { display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:12px 12px 16px }
-@media (orientation:landscape) { .res-grid { grid-template-columns:repeat(8,1fr) } }
+@media (orientation:landscape) { .res-grid { grid-template-columns:repeat(5,1fr) } }
+@media (min-width:900px) and (orientation:landscape) { .res-grid { grid-template-columns:repeat(6,1fr) } }
 
 .res-grid .day-res-row:last-child { border-bottom:1px solid #e3d9c8 }
 .res-grid .day-res-row {
